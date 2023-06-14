@@ -1,0 +1,9 @@
+# Ignore artifacts:
+build
+coverage
+
+# Default
+**/.git
+**/.svn
+**/.hg
+**/node_modules
