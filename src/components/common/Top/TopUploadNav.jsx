@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import arrowLeft from '../../../assets/img/icon-arrow-left.svg';
-import MsButton from '../Button/MsButton';
+import { MsButton } from '../Button/MsButton';
 
 const TopDiv = styled.div`
   width: 39rem;
