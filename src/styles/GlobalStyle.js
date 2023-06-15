@@ -12,6 +12,11 @@ export const GlobalStyle = createGlobalStyle`
   ${reset}
 
   :root {
+    --main-purple: #AA6EC9;
+    --sub-purple: #8332AC;
+    --main-grey: #767676;
+    --sub-grey: #dbdbdb;
+    --error: #EB5757;
     font-size: 62.5%;
   }
   
