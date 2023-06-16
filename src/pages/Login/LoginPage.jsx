@@ -15,6 +15,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const user = JSON.stringify({
         user: {
@@ -23,7 +24,7 @@ export default function LoginPage() {
         },
       });
 
-      // 비동기통신
+      // 비동기 통신
       const res = await instance.post('/user/login', user, {
         headers: { 'Content-type': 'application/json' },
       });
@@ -36,7 +37,9 @@ export default function LoginPage() {
       console.log('로그인 성공!');
     } catch (error) {
       console.error(error);
-      alert('로그인 실패!');
+
+      // TODO: email, password가 입력되지 않거나 일치하지 않을 때 input 하단에 알림문구 띄우기 작업 필요
+      console.log(error.response.data);
     }
   };
 

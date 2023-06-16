@@ -11,7 +11,6 @@ export default function TextActiveInput(props) {
           placeholder={props.placeholder}
           value={props.value}
           onChange={props.onChange}
-          required
         />
       </InputEmail>
     </div>
