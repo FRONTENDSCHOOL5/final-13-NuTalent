@@ -4,10 +4,9 @@ import arrowLeft from '../../../assets/img/icon-arrow-left.svg';
 import optionImg from '../../../assets/img/icon-more-vertical.svg';
 
 const TopDiv = styled.div`
-  width: 39rem;
+  width: 100%;
   height: 4.8rem;
   display: flex;
-  box-sizing: border-box;
   justify-content: space-between;
   align-items: center;
   padding: 0 1.6rem;
@@ -24,7 +23,7 @@ const OptionBtn = styled.button`
   border: none;
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${optionImg});
+  background: url(${optionImg}) no-repeat center / contain;
 `;
 export default function TopBasicNav() {
   return (
