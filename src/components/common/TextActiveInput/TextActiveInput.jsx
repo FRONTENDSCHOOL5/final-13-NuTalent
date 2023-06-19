@@ -1,13 +1,13 @@
 import React from 'react';
 import { InputEmail } from './TextActiveInput.styled';
 
-export default function TextActiveInput(props) {
+export default function TextActiveInput({ children, ...props }) {
   return (
-    <div>
+    <>
       <InputEmail>
-        <label>{props.children}</label>
-        <input type={props.type} placeholder="ip-time@gmail.com" required />
+        <label>{children}</label>
+        <input {...props} />
       </InputEmail>
-    </div>
+    </>
   );
 }
