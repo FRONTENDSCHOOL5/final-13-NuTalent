@@ -12,6 +12,39 @@ import { instance } from '../../util/api/axiosInstance';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailAlertMessage, setEmailAlertMessage] = useState('');
+  const [passwordAlertMessage, setPasswordAlertMessage] = useState('');
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const emailRegEx = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    if (e.target.value == '') {
+      setIsPasswordValid(false);
+      setPasswordAlertMessage('*비밀번호를 입력해주세요.');
+    } else if (password.length < 6) {
+      setIsPasswordValid(false);
+      setPasswordAlertMessage('*비밀번호는 6자 이상이어야 합니다.');
+    } else {
+      setIsPasswordValid(true);
+      setPasswordAlertMessage('');
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    if (e.target.value === '') {
+      setIsEmailValid(false);
+      setEmailAlertMessage('*이메일을 입력해주세요');
+    } else if (!emailRegEx.test(email)) {
+      setIsEmailValid(false);
+      setEmailAlertMessage('*유효하지 않은 이메일입니다.');
+    } else {
+      setIsEmailValid(true);
+      setEmailAlertMessage('');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,12 +67,12 @@ export default function LoginPage() {
       const token = res.data.user['token'];
       localStorage.setItem('token', token);
 
-      console.log('로그인 성공!');
+        console.log('로그인 성공!');
+      } else {
+        setPasswordAlertMessage(`*${res.data.message}`);
+      }
     } catch (error) {
       console.error(error);
-
-      // TODO: email, password가 입력되지 않거나 일치하지 않을 때 input 하단에 알림문구 띄우기 작업 필요
-      console.log(error.response.data);
     }
   };
 
@@ -51,7 +84,7 @@ export default function LoginPage() {
           type="email"
           placeholder="이메일을 입력해주세요"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
         >
           이메일
         </TextActiveInput>
@@ -59,11 +92,20 @@ export default function LoginPage() {
           type="password"
           placeholder="비밀번호를 입력해주세요"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handlePasswordChange}
         >
           비밀번호
         </TextActiveInput>
-        <StyleLBtn type="submit">로그인</StyleLBtn>
+        {passwordAlertMessage && (
+          <ErrorMessage>{passwordAlertMessage}</ErrorMessage>
+        )}
+        <StyleLBtn
+          type="submit"
+          // TODO: disabled 일 때 버튼 색 연하게/진하게 변경할 것
+          disabled={isEmailValid && isPasswordValid}
+        >
+          로그인
+        </StyleLBtn>
       </TextInputBox>
       <LoginCreateAccount href="#">이메일로 회원가입</LoginCreateAccount>
     </LoginPageWrap>
