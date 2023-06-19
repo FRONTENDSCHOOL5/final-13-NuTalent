@@ -31,6 +31,9 @@ export const GlobalStyle = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   button, input {
