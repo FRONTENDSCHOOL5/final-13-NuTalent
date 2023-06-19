@@ -8,7 +8,7 @@ const PageH2 = styled.h2`
   text-align: center;
 `;
 
-const TextInputBox = styled.div`
+const TextInputBox = styled.form`
   margin-top: 4rem;
   margin-bottom: 3rem;
 `;
