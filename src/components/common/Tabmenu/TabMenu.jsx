@@ -4,34 +4,35 @@ import messageCircle from '../../../assets/img/icon-message-circle.svg';
 import addPost from '../../../assets/img/icon-edit.svg';
 import user from '../../../assets/img/icon-user.svg';
 import { TabMenuUl, TabMenuLi } from './TabMenu.styled';
+import { Link } from 'react-router-dom';
 
 export default function TabMenu() {
   return (
     <>
       <TabMenuUl>
         <TabMenuLi>
-          <a>
+          <Link to="/home">
             <img src={home} />
             <p>홈</p>
-          </a>
+          </Link>
         </TabMenuLi>
         <TabMenuLi>
-          <a>
+          <Link to="/chat">
             <img src={messageCircle} />
             <p>채팅</p>
-          </a>
+          </Link>
         </TabMenuLi>
         <TabMenuLi>
-          <a>
+          <Link to="/post">
             <img src={addPost} />
             <p>게시물 작성</p>
-          </a>
+          </Link>
         </TabMenuLi>
         <TabMenuLi>
-          <a>
+          <Link to="/profile">
             <img src={user} />
             <p>프로필</p>
-          </a>
+          </Link>
         </TabMenuLi>
       </TabMenuUl>
     </>

@@ -4,14 +4,13 @@ import arrowLeft from '../../../assets/img/icon-arrow-left.svg';
 import optionImg from '../../../assets/img/icon-more-vertical.svg';
 
 const TopDiv = styled.div`
-  width: 39rem;
+  width: 100%;
   height: 4.8rem;
   display: flex;
-  box-sizing: border-box;
   justify-content: flex-start;
   align-items: center;
   padding: 0 1.6rem;
-  gap: 1rem;
+  gap: 2rem;
 `;
 const ArrowLeftBtn = styled.button`
   width: 2.2rem;
@@ -27,14 +26,14 @@ const MainTitle = styled.h1`
 const OptionBtn = styled.button`
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${optionImg});
+  background-image: url(${optionImg}) no-repeat 0 0 / contain;
   margin-left: auto;
 `;
-export default function TopChatNav() {
+export default function TopChatNav({ children }) {
   return (
     <TopDiv>
       <ArrowLeftBtn />
-      <MainTitle>채팅 타이틀</MainTitle>
+      <MainTitle>{children}</MainTitle>
       <OptionBtn />
     </TopDiv>
   );
