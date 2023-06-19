@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TextActiveInput from '../../components/common/TextActiveInput/TextActiveInput';
-import { StyleLBtn } from '../../components/common/Button/LButton';
-import { instance } from './util';
+import StyledBtn from '../../components/common/Button/Button';
+import { instance } from '../../util/api/axiosInstance';
 import {
   JoinMembersWrap,
   PageH2,
@@ -91,12 +91,12 @@ export default function JoinMembersPage() {
         )}
       </TextInputBox>
 
-      <StyleLBtn
+      <StyledBtn
         onClick={handleSubmit}
         disabled={isPasswordError || emailResponseMessage}
       >
         다음
-      </StyleLBtn>
+      </StyledBtn>
     </JoinMembersWrap>
   );
 }
