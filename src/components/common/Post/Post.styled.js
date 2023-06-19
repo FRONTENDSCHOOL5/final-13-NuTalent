@@ -5,7 +5,6 @@ import likeImg from '../../../assets/img/icon-heart.svg';
 import messageImg from '../../../assets/img/icon-message-circle.svg';
 
 export const PostArticle = styled.article`
-  width: 35.8rem;
   position: relative;
 `;
 
