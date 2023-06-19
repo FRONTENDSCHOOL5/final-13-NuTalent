@@ -17,12 +17,12 @@ const ArrowLeftBtn = styled.button`
   margin: 1.3rem 0;
   background-image: url(${arrowLeft});
 `;
-export default function TopUploadNav({ disabled }) {
+export default function TopUploadNav({ to, disabled, onClick }) {
   return (
     <TopDiv>
       <ArrowLeftBtn />
 
-      <Button disabled={disabled} size="ms">
+      <Button to={to} disabled={disabled} onClick={onClick} size="ms">
         저장
       </Button>
     </TopDiv>

@@ -10,6 +10,7 @@ export default function Upload({ userImg }) {
 
   const textareaRef = useRef(null);
 
+  // TODO: 토큰 받는 로직 추가
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZhYjJjYjIwNTY2MzJjZmZkOCIsImV4cCI6MTY5MjAzNjcwMCwiaWF0IjoxNjg2ODUyNzAwfQ.UVaGzelSUsPykhwO4dw9fSE5A9Hdcy0tueRsAGdv-O0';
 
@@ -53,8 +54,8 @@ export default function Upload({ userImg }) {
     setImage(uploadedImage);
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
+  const submitHandler = async () => {
+    console.log('post');
     try {
       const data = JSON.stringify({
         post: {
@@ -76,6 +77,7 @@ export default function Upload({ userImg }) {
     }
   };
 
+  // TODO: to 속성 설정하기
   return (
     <>
       <TopUploadNav
