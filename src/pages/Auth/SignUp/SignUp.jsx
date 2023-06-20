@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import StyledBtn from '../../../components/common/Button/Button';
 import { instance } from '../../../util/api/axiosInstance';
@@ -9,36 +10,49 @@ import {
   ErrorMessage,
 } from './SignUp.styled';
 
-export default function JoinMembersPage() {
+export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmailError, setIsEmailError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
   const [emailResponseMessage, setEmailResponseMessage] = useState('');
+  const [passwordResponseMessage, setPasswordResponseMessage] = useState('');
+  const navigate = useNavigate();
   const emailPattern = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
 
-  // 이메일 유효성 검사
   const validateEmail = (e) => {
-    setEmail(e.target.value);
-    if (emailPattern.test(email)) {
-      setEmailResponseMessage('');
-    } else {
-      setEmailResponseMessage('이메일 형식이 맞지 않습니다.');
-    }
+    const currentEmail = e.currentTarget.value;
+    setEmail(currentEmail);
   };
 
-  // 비밀번호 유효성 검사
   const validatePassword = (e) => {
-    setPassword(e.target.value);
+    const currentPassword = e.currentTarget.value;
+    setPassword(currentPassword);
+  };
 
-    if (e.target.value.length < 6) {
+  // focus 잃으면 이메일 유효성 검사
+  const onEmailBlur = () => {
+    if (emailPattern.test(email)) {
+      setIsEmailError(false);
+      setEmailResponseMessage('');
+    } else {
+      setIsEmailError(true);
+      setEmailResponseMessage('*이메일 형식이 맞지 않습니다.');
+    }
+  };
+  // focus 잃으면 비밀번호 유효성 검사
+  const onPasswordBlur = () => {
+    if (password.length < 6) {
       setIsPasswordError(true);
+      setPasswordResponseMessage('*비밀번호는 6자 이상이어야 합니다.');
     } else {
       setIsPasswordError(false);
+      setPasswordResponseMessage('');
     }
   };
 
   const handleSubmit = async () => {
-    if (emailResponseMessage !== '' && isPasswordError !== true) return;
+    if (isEmailError || isPasswordError) return;
 
     try {
       // console.log(email);
@@ -53,9 +67,19 @@ export default function JoinMembersPage() {
         headers: { 'Content-type': 'application/json' },
       });
       console.log('res', res);
-      console.log(res.data);
-      setEmailResponseMessage(res.data.message);
-      console.log('성공');
+
+      if (res.data.message === '이미 가입된 이메일 주소 입니다.') {
+        setIsEmailError(true);
+        setEmailResponseMessage(`*${res.data.message}`);
+      } else {
+        console.log('이메일 중복 여부 통신 성공');
+        navigate('/signUp/profile', {
+          state: {
+            email: email,
+            password: password,
+          },
+        });
+      }
     } catch (error) {
       console.error(error);
     }
@@ -70,30 +94,29 @@ export default function JoinMembersPage() {
           placeholder="이메일을 입력해주세요."
           value={email}
           onChange={validateEmail}
-          onBlur={validateEmail}
+          onBlur={onEmailBlur}
         >
           이메일
         </TextActiveInput>
         {/* emailResponseMessage 들어가는 값: res.data.message */}
-        {emailResponseMessage && (
-          <ErrorMessage>{emailResponseMessage}</ErrorMessage>
-        )}
+        {isEmailError && <ErrorMessage>{emailResponseMessage}</ErrorMessage>}
         <TextActiveInput
           type="password"
           placeholder="비밀번호를 입력해주세요."
           value={password}
           onChange={validatePassword}
+          onBlur={onPasswordBlur}
         >
           비밀번호
         </TextActiveInput>
         {isPasswordError && (
-          <ErrorMessage>비밀번호는 6자 이상이어야 합니다.</ErrorMessage>
+          <ErrorMessage>{passwordResponseMessage}</ErrorMessage>
         )}
       </TextInputBox>
-
       <StyledBtn
+        // to="/signUp/profile"
         onClick={handleSubmit}
-        disabled={isPasswordError || emailResponseMessage}
+        disabled={isEmailError || isPasswordError}
       >
         다음
       </StyledBtn>
