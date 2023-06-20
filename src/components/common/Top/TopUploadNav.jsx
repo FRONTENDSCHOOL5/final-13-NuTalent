@@ -1,37 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
-import arrowLeft from '../../../assets/img/icon-arrow-left.svg';
 import Button from '../Button/Button';
-
-const TopDiv = styled.div`
-  width: 100%;
-  height: 4.8rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1.6rem;
-  border-bottom: 0.05rem solid var(--sub-grey);
-`;
-const ArrowLeftBtn = styled.button`
-  width: 2.2rem;
-  height: 2.2rem;
-  margin: 1.3rem 0;
-  background-image: url(${arrowLeft});
-`;
-
-
+import { TopDiv, ArrowLeftBtn } from './TopBasicNav.styled';
 export default function TopUploadNav({ to, disabled, onClick }) {
-
   return (
     <TopDiv>
       <ArrowLeftBtn />
-
-
-    
       <Button to={to} disabled={disabled} onClick={onClick} size="ms">
         저장
       </Button>
-
     </TopDiv>
   );
 }
