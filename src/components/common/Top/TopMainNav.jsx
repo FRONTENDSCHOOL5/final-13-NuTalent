@@ -10,6 +10,7 @@ const TopDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 1.6rem;
+  border-bottom: 0.05rem solid var(--sub-grey);
 `;
 const MainTitle = styled.h1`
   font-weight: 500;

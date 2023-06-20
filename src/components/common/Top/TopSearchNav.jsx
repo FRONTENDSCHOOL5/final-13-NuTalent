@@ -7,8 +7,10 @@ const TopDiv = styled.div`
   height: 4.8rem;
   display: flex;
   align-items: center;
+
   padding: 0 1.6rem;
   gap: 2rem;
+  border-bottom: 0.05rem solid var(--sub-grey);
 `;
 const ArrowLeftBtn = styled.button`
   width: 2.2rem;

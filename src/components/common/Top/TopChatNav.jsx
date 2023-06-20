@@ -11,6 +11,7 @@ const TopDiv = styled.div`
   align-items: center;
   padding: 0 1.6rem;
   gap: 2rem;
+
 `;
 const ArrowLeftBtn = styled.button`
   width: 2.2rem;

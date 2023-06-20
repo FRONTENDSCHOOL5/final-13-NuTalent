@@ -10,6 +10,7 @@ const TopDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 1.6rem;
+  border-bottom: 0.05rem solid var(--sub-grey);
 `;
 const ArrowLeftBtn = styled.button`
   width: 2.2rem;
@@ -17,14 +18,20 @@ const ArrowLeftBtn = styled.button`
   margin: 1.3rem 0;
   background-image: url(${arrowLeft});
 `;
+
+
 export default function TopUploadNav({ to, disabled, onClick }) {
+
   return (
     <TopDiv>
       <ArrowLeftBtn />
 
+
+    
       <Button to={to} disabled={disabled} onClick={onClick} size="ms">
         저장
       </Button>
+
     </TopDiv>
   );
 }
