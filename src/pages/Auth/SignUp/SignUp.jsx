@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import TextActiveInput from '../../components/common/TextActiveInput/TextActiveInput';
-import StyledBtn from '../../components/common/Button/Button';
-import { instance } from '../../util/api/axiosInstance';
+import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
+import StyledBtn from '../../../components/common/Button/Button';
+import { instance } from '../../../util/api/axiosInstance';
 import {
   JoinMembersWrap,
   PageH2,
   TextInputBox,
   ErrorMessage,
-} from './JoinMembers.styled';
+} from './SignUp.styled';
 
 export default function JoinMembersPage() {
   const [email, setEmail] = useState('');

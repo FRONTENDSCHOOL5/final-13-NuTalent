@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import TextActiveInput from '../../components/common/TextActiveInput/TextActiveInput';
-import { StyleLBtn } from '../../components/common/Button/LButton';
+import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
+import StyledBtn from '../../../components/common/Button/Button';
 import {
   LoginPageWrap,
   PageH2,
   TextInputBox,
   LoginCreateAccount,
-} from './LoginPage.styled';
-import { instance } from '../../util/api/axiosInstance';
+  ErrorMessage,
+} from './Login.styled';
+import { instance } from '../../../util/api/axiosInstance';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -63,9 +64,10 @@ export default function LoginPage() {
       });
       console.log(res);
 
-      //localStorage 저장
-      const token = res.data.user['token'];
-      localStorage.setItem('token', token);
+      if (!res.data.message) {
+        //localStorage 저장
+        const token = res.data.user['token'];
+        localStorage.setItem('token', token);
 
         console.log('로그인 성공!');
       } else {
@@ -88,6 +90,7 @@ export default function LoginPage() {
         >
           이메일
         </TextActiveInput>
+        {emailAlertMessage && <ErrorMessage>{emailAlertMessage}</ErrorMessage>}
         <TextActiveInput
           type="password"
           placeholder="비밀번호를 입력해주세요"
@@ -99,13 +102,13 @@ export default function LoginPage() {
         {passwordAlertMessage && (
           <ErrorMessage>{passwordAlertMessage}</ErrorMessage>
         )}
-        <StyleLBtn
+        <StyledBtn
           type="submit"
           // TODO: disabled 일 때 버튼 색 연하게/진하게 변경할 것
           disabled={isEmailValid && isPasswordValid}
         >
           로그인
-        </StyleLBtn>
+        </StyledBtn>
       </TextInputBox>
       <LoginCreateAccount href="#">이메일로 회원가입</LoginCreateAccount>
     </LoginPageWrap>
