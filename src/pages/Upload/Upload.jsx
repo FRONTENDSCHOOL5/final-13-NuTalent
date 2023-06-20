@@ -3,6 +3,7 @@ import TopUploadNav from '../../components/common/Top/TopUploadNav';
 import * as S from './Upload.styled';
 import defaultProfileImg from '../../assets/img/basic-profile.svg';
 import { instance } from '../../util/api/axiosInstance';
+import imageValidation from '../../util/imageValidation';
 
 export default function Upload({ userImg }) {
   const [content, setContent] = useState('');
@@ -26,19 +27,6 @@ export default function Upload({ userImg }) {
     textareaHeightControl();
   };
 
-  // 파일의 크기, 형식 유효성 검사
-  const imageValidation = (image) => {
-    if (image.size > 10 * 1024 * 1024) {
-      alert('10MB를 초과하는 이미지는 업로드 할 수 없습니다.');
-    } else if (!image.name.match(/(.*)\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i)) {
-      alert(
-        '이미지 파일(*.jpg, *.gif, *.png, *.jpeg, *.bmp, *.tif, *.heic)만 업로드 할 수 있습니다.',
-      );
-    } else {
-      return true;
-    }
-  };
-
   const uploadHanlder = async (e) => {
     const selectedImage = e.target.files[0];
 
@@ -49,8 +37,7 @@ export default function Upload({ userImg }) {
     formdata.append('image', selectedImage);
 
     const res = await instance.post('/image/uploadfile', formdata);
-    const uploadedImage =
-      'https://api.mandarin.weniv.co.kr/' + res.data.filename;
+    const uploadedImage = `${res.config.baseURL}/${res.data.filename}`;
     setImage(uploadedImage);
   };
 
