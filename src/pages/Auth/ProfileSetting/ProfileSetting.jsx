@@ -13,6 +13,7 @@ import {
   JoinMembersNextButton,
   ErrorMessage,
 } from './ProfileSetting.styled';
+import imageValidation from '../../../util/imageValidation';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import profileDefault from '../../../assets/img/basic-profile-img-.svg';
 import { instance } from '../../../util/api/axiosInstance';
@@ -116,19 +117,6 @@ export default function ProfileSetting() {
 
     const uploadImage = `${res.config.baseURL}/${res.data.filename}`;
     setProfileImage(uploadImage);
-  };
-
-  // 파일의 크기, 형식 유효성 검사
-  const imageValidation = (image) => {
-    if (image.size > 10 * 1024 * 1024) {
-      alert('10MB를 초과하는 이미지는 업로드 할 수 없습니다.');
-    } else if (!image.name.match(/(.*)\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i)) {
-      alert(
-        '이미지 파일(*.jpg, *.gif, *.png, *.jpeg, *.bmp, *.tif, *.heic)만 업로드 할 수 있습니다.',
-      );
-    } else {
-      return true;
-    }
   };
 
   const handleSubmit = async (e) => {
