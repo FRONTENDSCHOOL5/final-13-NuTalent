@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import errorImg from '../../assets/img/404.svg';
-import { StyleLBtn } from '../../components/common/Button/LButton.jsx';
+import StyledBtn from '../../components/common/Button/Button';
 
 const NotFoundPageWrap = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ export default function NotFound() {
       <NotFoundPageWrap>
         <img src={errorImg} alt="404이미지" />
         <p>페이지를 찾을 수 없습니다. &#58;&#40; </p>
-        <StyleLBtn width="10rem">이전 페이지</StyleLBtn>
+        <StyledBtn width="10rem">이전 페이지</StyledBtn>
       </NotFoundPageWrap>
     </div>
   );

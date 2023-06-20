@@ -1,6 +1,5 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import ItemImg from '../../../assets/img/facebook.svg';
 
 const ItemBox = styled.article`
   width: 14rem;
@@ -29,12 +28,14 @@ const ItemBox = styled.article`
   }
 `;
 
-export default function ProductItem() {
+  export default function ProductItem({itemName,price,itemImg}) {
   return (
     <ItemBox>
-      <img src={ItemImg} alt="상품 사진" />
-      <h1>상품명</h1>
-      <p>4000원</p>
+
+      <img src={itemImg} alt="상품 사진" />
+      <h1>{itemName}</h1>
+      <p>{price}</p>
     </ItemBox>
   );
 }
+

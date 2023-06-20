@@ -1,10 +1,18 @@
 import React from 'react';
-import Button from './Button.styled';
+import * as S from './Button.styled';
 
-export default function StyleLBtn({ contents, size, onClick, disabled }) {
-  return (
-    <Button size={size} onClick={onClick} disabled={disabled}>
-      {contents}
-    </Button>
-  );
+export default function StyledBtn({ children, size, width, to, ...props }) {
+  if (to) {
+    return (
+      <S.StyledLink to={to} size={size} width={width} {...props}>
+        {children}
+      </S.StyledLink>
+    );
+  } else {
+    return (
+      <S.StyledButton size={size} width={width} {...props}>
+        {children}
+      </S.StyledButton>
+    );
+  }
 }

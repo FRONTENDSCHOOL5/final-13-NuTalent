@@ -8,7 +8,7 @@ const PageH2 = styled.h2`
   text-align: center;
 `;
 
-const TextInputBox = styled.div`
+const TextInputBox = styled.form`
   margin-top: 4rem;
   margin-bottom: 3rem;
 `;
@@ -20,4 +20,16 @@ const LoginCreateAccount = styled.a`
   text-align: center;
 `;
 
-export { LoginPageWrap, PageH2, TextInputBox, LoginCreateAccount };
+const ErrorMessage = styled.p`
+  color: #eb5757;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+`;
+
+export {
+  LoginPageWrap,
+  PageH2,
+  TextInputBox,
+  LoginCreateAccount,
+  ErrorMessage,
+};

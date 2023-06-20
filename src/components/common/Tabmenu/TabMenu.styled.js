@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const TabMenuUl = styled.ul`
-  width: 39rem;
+  width: 100%;
   height: 60px;
   display: flex;
   align-items: center;

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 const sizes = {
@@ -24,13 +25,17 @@ const sizes = {
   `,
 };
 
-const Button = styled.button`
+
+const StyledBtn = css`
   font-size: 1.4rem;
   background-color: var(--main-purple);
   color: white;
   cursor: pointer;
 
   ${(props) => sizes[props.size || 'l']}
+
+  ${(props) => props.width && `width: ${props.width};`}
+
 
   &:disabled {
     background: #ffffff;
@@ -39,4 +44,11 @@ const Button = styled.button`
   }
 `;
 
-export default Button;
+
+export const StyledButton = styled.button`
+  ${StyledBtn}
+`
+export const StyledLink = styled(Link)`
+  ${StyledBtn}
+`
+
