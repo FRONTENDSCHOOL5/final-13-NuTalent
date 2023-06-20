@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './Post.styled';
+import * as S from './PostItem.styled';
 
 import User from '../User/User';
 

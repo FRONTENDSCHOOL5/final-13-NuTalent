@@ -25,7 +25,6 @@ const sizes = {
   `,
 };
 
-
 const StyledBtn = css`
   font-size: 1.4rem;
   background-color: var(--main-purple);
@@ -44,11 +43,9 @@ const StyledBtn = css`
   }
 `;
 
-
 export const StyledButton = styled.button`
   ${StyledBtn}
-`
+`;
 export const StyledLink = styled(Link)`
   ${StyledBtn}
-`
-
+`;
