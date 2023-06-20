@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const TabMenuUl = styled.ul`
   width: 100%;
@@ -6,16 +7,25 @@ const TabMenuUl = styled.ul`
   display: flex;
   align-items: center;
   gap: 1.4rem;
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+  border-top: 0.05rem solid var(--sub-grey);
 `;
 
 const TabMenuLi = styled.li`
-  width: 8.4rem;
-  display: inline-block;
+  flex: 1 0 0;
   text-align: center;
+`;
+
+const TabMenuLiLink = styled(Link)`
+  display: block;
+
   & > img {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-bottom: 0.4rem;
   }
 `;
 
-export { TabMenuUl, TabMenuLi };
+export { TabMenuUl, TabMenuLi, TabMenuLiLink };

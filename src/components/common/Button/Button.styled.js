@@ -25,21 +25,34 @@ const sizes = {
   `,
 };
 
+const colors = {
+  fill: css`
+    background-color: var(--main-purple);
+    color: white;
+  `,
+  outline: css`
+    background: white;
+    border: 0.1rem solid var(--main-purple);
+    color: var(--main-purple);
+  `,
+  outlineGrey: css`
+    background: white;
+    border: 0.1rem solid var(--sub-grey);
+    color: var(--main-grey);
+  `,
+};
+
 const StyledBtn = css`
   font-size: 1.4rem;
-  background-color: var(--main-purple);
-  color: white;
+
   cursor: pointer;
 
   ${(props) => sizes[props.size || 'l']}
-
   ${(props) => props.width && `width: ${props.width};`}
-
+  ${(props) => colors[props.color || 'fill']}
 
   &:disabled {
-    background: #ffffff;
-    border: 0.1rem solid var(--main-purple);
-    color: var(--main-purple);
+    background-color: #c2a9ce;
   }
 `;
 
