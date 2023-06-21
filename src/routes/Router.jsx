@@ -41,7 +41,7 @@ export default function Router() {
         <Route path="productedit" element={<ProductEdit />} />
         <Route path="follower" element={<Follower />} />
         <Route path="/profile">
-          <Route index element={<Profile />} />
+          <Route path=":id" element={<Profile />} />
           <Route path="edit" element={<ProfileEdit />} />
         </Route>
         <Route path="*" element={<NotFound />} />
