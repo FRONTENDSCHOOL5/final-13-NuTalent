@@ -64,6 +64,7 @@ export default function ProfileSetting() {
     }
   };
 
+  // focus를 잃으면 실행
   const handleUserIdBlur = () => {
     // 유효성 검사
     // 계정ID: 영문, 숫자, 특수문자(.), (_)만 사용가능합니다.
@@ -79,6 +80,7 @@ export default function ProfileSetting() {
     }
   };
 
+  // focus를 잃으면 실행
   const handleDescriptionBlur = () => {
     // 유효성 검사
     // 소개: 글이 비어있지 않으면 유효성검사 통과
@@ -116,6 +118,7 @@ export default function ProfileSetting() {
     console.log(res);
 
     const uploadImage = `${res.config.baseURL}/${res.data.filename}`;
+    console.log('uploadImage', uploadImage);
     setProfileImage(uploadImage);
   };
 
@@ -133,7 +136,7 @@ export default function ProfileSetting() {
           intro: description,
           image: profileImage
             ? profileImage
-            : 'https://api.mandarin.weniv.co.kr/1641906557953.png',
+            : 'https://api.mandarin.weniv.co.kr/1687295086842.png',
         },
       });
       const res = await instance.post('/user', user, {
