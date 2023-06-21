@@ -13,6 +13,7 @@ const TopDiv = styled.div`
   border-bottom: 0.05rem solid var(--sub-grey);
   position: fixed;
   background-color: white;
+  z-index: 10;
 `;
 const ArrowLeftBtn = styled.button`
   width: 2.2rem;
