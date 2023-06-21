@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import StyledBtn from '../../../components/common/Button/Button';
 import {
@@ -11,46 +12,56 @@ import {
 import { instance } from '../../../util/api/axiosInstance';
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailAlertMessage, setEmailAlertMessage] = useState('');
   const [passwordAlertMessage, setPasswordAlertMessage] = useState('');
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordInvalid, setIsPasswordInvalid] = useState(true);
+  const [isEmailInvalid, setEmailInvalid] = useState(true);
   const emailRegEx = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    if (e.target.value == '') {
-      setIsPasswordValid(false);
-      setPasswordAlertMessage('*비밀번호를 입력해주세요.');
-    } else if (password.length < 6) {
-      setIsPasswordValid(false);
-      setPasswordAlertMessage('*비밀번호는 6자 이상이어야 합니다.');
-    } else {
-      setIsPasswordValid(true);
-      setPasswordAlertMessage('');
-    }
+  const handleEmailChange = (e) => {
+    const currentEmail = e.target.value.trim();
+    setEmail(currentEmail);
   };
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    if (e.target.value === '') {
-      setIsEmailValid(false);
-      setEmailAlertMessage('*이메일을 입력해주세요');
-    } else if (!emailRegEx.test(email)) {
-      setIsEmailValid(false);
-      setEmailAlertMessage('*유효하지 않은 이메일입니다.');
-    } else {
-      setIsEmailValid(true);
-      setEmailAlertMessage('');
-    }
+  const handlePasswordChange = (e) => {
+    const currentPassword = e.target.value.trim();
+    setPassword(currentPassword);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+      // 이메일 유효성 검사
+      if (email === '') {
+        setEmailInvalid(true);
+        setEmailAlertMessage('*이메일을 입력해주세요');
+      } else if (!emailRegEx.test(email)) {
+        setEmailInvalid(true);
+        setEmailAlertMessage('*유효하지 않은 이메일입니다.');
+      } else {
+        setEmailInvalid(false);
+        setEmailAlertMessage('');
+      }
+
+      // 패스워드 유효성 검사
+      if (password == '') {
+        setIsPasswordInvalid(true);
+        setPasswordAlertMessage('*비밀번호를 입력해주세요.');
+      } else if (password.length < 6) {
+        setIsPasswordInvalid(true);
+        setPasswordAlertMessage('*비밀번호는 6자 이상이어야 합니다.');
+      } else {
+        setIsPasswordInvalid(false);
+        setPasswordAlertMessage('');
+      }
+
+      if (isEmailInvalid || isPasswordInvalid) return;
+
+      // api 통신
       const user = JSON.stringify({
         user: {
           email: email,
@@ -70,6 +81,8 @@ export default function LoginPage() {
         localStorage.setItem('token', token);
 
         console.log('로그인 성공!');
+
+        navigate('/home');
       } else {
         setPasswordAlertMessage(`*${res.data.message}`);
       }
@@ -83,14 +96,14 @@ export default function LoginPage() {
       <PageH2>로그인</PageH2>
       <TextInputBox onSubmit={handleSubmit}>
         <TextActiveInput
-          type="email"
+          // type="email"
           placeholder="이메일을 입력해주세요"
           value={email}
           onChange={handleEmailChange}
         >
           이메일
         </TextActiveInput>
-        {emailAlertMessage && <ErrorMessage>{emailAlertMessage}</ErrorMessage>}
+        {isEmailInvalid && <ErrorMessage>{emailAlertMessage}</ErrorMessage>}
         <TextActiveInput
           type="password"
           placeholder="비밀번호를 입력해주세요"
@@ -99,13 +112,13 @@ export default function LoginPage() {
         >
           비밀번호
         </TextActiveInput>
-        {passwordAlertMessage && (
+        {isPasswordInvalid && (
           <ErrorMessage>{passwordAlertMessage}</ErrorMessage>
         )}
         <StyledBtn
           type="submit"
           // TODO: disabled 일 때 버튼 색 연하게/진하게 변경할 것
-          disabled={isEmailValid && isPasswordValid}
+          // disabled={isEmailInvalid || isPasswordInvalid}
         >
           로그인
         </StyledBtn>
