@@ -35,7 +35,7 @@ export default function ProfileSetting() {
 
   const handleUserNameChange = (e) => {
     console.log(e);
-    const currentUserName = e.currentTarget.value.trim();
+    const currentUserName = e.currentTarget.value;
     setUserName(currentUserName);
   };
 
@@ -47,7 +47,7 @@ export default function ProfileSetting() {
 
   const handleDescriptionChange = (e) => {
     console.log(e);
-    const currentUserId = e.currentTarget.value.trim();
+    const currentUserId = e.currentTarget.value;
     setDescription(currentUserId);
   };
 

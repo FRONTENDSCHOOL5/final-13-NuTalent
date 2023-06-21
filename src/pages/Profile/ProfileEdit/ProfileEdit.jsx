@@ -72,7 +72,7 @@ export default function ProfileEdit() {
   };
 
   const handleUserIdChange = (e) => {
-    const currentUserId = e.target.value;
+    const currentUserId = e.target.value.trim();
     setUserId(currentUserId);
   };
 
