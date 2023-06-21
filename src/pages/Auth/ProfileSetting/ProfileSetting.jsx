@@ -145,7 +145,10 @@ export default function ProfileSetting() {
 
       console.log(res);
 
-      navigate('/home');
+      //TODO: 추후 모달창으로 변경 필요
+      alert('회원가입에 성공하였습니다!');
+
+      navigate('/login');
     } catch (error) {
       console.error(error);
 
