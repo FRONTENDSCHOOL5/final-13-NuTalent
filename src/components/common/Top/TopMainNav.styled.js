@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-// import searchImg from '../../../assets/img/icon-search.svg';
-// import { Link } from 'react-router-dom';
+import searchImg from '../../../assets/img/icon-search.svg';
+import { Link } from 'react-router-dom';
 
 const TopDiv = styled.div`
   width: 100%;
@@ -20,9 +20,9 @@ const MainTitle = styled.h1`
   line-height: 22px;
   font-weight: bolder;
 `;
-// const SearchLink = styled(Link)`
-//   width: 2.4rem;
-//   height: 2.4rem;
-//   background-image: url(${searchImg});
-// `;
-export { TopDiv, MainTitle };
+const SearchLink = styled(Link)`
+  width: 2.4rem;
+  height: 2.4rem;
+  background-image: url(${searchImg});
+`;
+export { TopDiv, MainTitle, SearchLink };
