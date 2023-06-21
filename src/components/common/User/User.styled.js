@@ -14,7 +14,7 @@ export const UserImage = styled.img`
 `;
 
 export const UserDetails = styled.div`
-  flex-grow: 1;
+  /* flex-grow: 1; */
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

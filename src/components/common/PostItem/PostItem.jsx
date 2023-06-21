@@ -3,7 +3,7 @@ import * as S from './PostItem.styled';
 
 import User from '../User/User';
 
-export default function Post({
+export default function PostItem({
   userName,
   userId,
   userImg,
@@ -24,6 +24,7 @@ export default function Post({
       <S.PostContainer stContainer>
         <S.PostText>{postText}</S.PostText>
         {postImg && <S.PostImage src={postImg} alt="게시물 이미지" />}
+
         <S.PostButtons>
           <S.PostLike />
           <S.PostSpan>{postLike}</S.PostSpan>

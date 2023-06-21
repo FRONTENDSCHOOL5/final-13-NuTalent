@@ -5,6 +5,7 @@ export default function User({ size, userName, userId, userImg, type }) {
   return (
     <S.UserStyled>
       <S.UserImage size={size} src={userImg} alt="사용자 이미지" />
+
       <S.UserDetails>
         <S.UserName>{userName}</S.UserName>
         <S.UserId>@ {userId}</S.UserId>
