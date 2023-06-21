@@ -24,11 +24,29 @@ export default function LoginPage() {
   const handleEmailChange = (e) => {
     const currentEmail = e.target.value.trim();
     setEmail(currentEmail);
+
+    // 이메일 유효성 검사
+    if (email.length < 1) {
+      setEmailInvalid(true);
+      setEmailAlertMessage('*이메일을 입력해주세요');
+    } else {
+      setEmailInvalid(false);
+      setEmailAlertMessage('');
+    }
   };
 
   const handlePasswordChange = (e) => {
     const currentPassword = e.target.value.trim();
     setPassword(currentPassword);
+
+    // 패스워드 유효성 검사
+    if (password.length == '') {
+      setIsPasswordInvalid(true);
+      setPasswordAlertMessage('*비밀번호를 입력해주세요.');
+    } else {
+      setIsPasswordInvalid(false);
+      setPasswordAlertMessage('');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -36,10 +54,7 @@ export default function LoginPage() {
 
     try {
       // 이메일 유효성 검사
-      if (email === '') {
-        setEmailInvalid(true);
-        setEmailAlertMessage('*이메일을 입력해주세요');
-      } else if (!emailRegEx.test(email)) {
+      if (!emailRegEx.test(email)) {
         setEmailInvalid(true);
         setEmailAlertMessage('*유효하지 않은 이메일입니다.');
       } else {
@@ -48,10 +63,7 @@ export default function LoginPage() {
       }
 
       // 패스워드 유효성 검사
-      if (password == '') {
-        setIsPasswordInvalid(true);
-        setPasswordAlertMessage('*비밀번호를 입력해주세요.');
-      } else if (password.length < 6) {
+      if (password.length < 6) {
         setIsPasswordInvalid(true);
         setPasswordAlertMessage('*비밀번호는 6자 이상이어야 합니다.');
       } else {
@@ -84,6 +96,7 @@ export default function LoginPage() {
 
         navigate('/home');
       } else {
+        setIsPasswordInvalid(true);
         setPasswordAlertMessage(`*${res.data.message}`);
       }
     } catch (error) {
@@ -115,11 +128,7 @@ export default function LoginPage() {
         {isPasswordInvalid && (
           <ErrorMessage>{passwordAlertMessage}</ErrorMessage>
         )}
-        <StyledBtn
-          type="submit"
-          // TODO: disabled 일 때 버튼 색 연하게/진하게 변경할 것
-          // disabled={isEmailInvalid || isPasswordInvalid}
-        >
+        <StyledBtn type="submit" disabled={isEmailInvalid || isPasswordInvalid}>
           로그인
         </StyledBtn>
       </TextInputBox>

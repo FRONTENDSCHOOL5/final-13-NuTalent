@@ -35,7 +35,7 @@ export default function ProfileSetting() {
 
   const handleUserNameChange = (e) => {
     console.log(e);
-    const currentUserName = e.currentTarget.value.trim();
+    const currentUserName = e.currentTarget.value;
     setUserName(currentUserName);
   };
 
@@ -47,7 +47,7 @@ export default function ProfileSetting() {
 
   const handleDescriptionChange = (e) => {
     console.log(e);
-    const currentUserId = e.currentTarget.value.trim();
+    const currentUserId = e.currentTarget.value;
     setDescription(currentUserId);
   };
 
@@ -145,7 +145,10 @@ export default function ProfileSetting() {
 
       console.log(res);
 
-      navigate('/home');
+      //TODO: 추후 모달창으로 변경 필요
+      alert('회원가입에 성공하였습니다!');
+
+      navigate('/login');
     } catch (error) {
       console.error(error);
 
