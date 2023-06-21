@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { instance } from '../../../util/api/axiosInstance';
 import {
+  // ProfileEditWrap,
   JoinMembersWrap,
   // PageH2,
   // PageDescription,
@@ -14,8 +15,8 @@ import {
   // ErrorMessage,
 } from './ProfileEdit.styled';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
+import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 // import StyledBtn from '../../../components/common/Button/Button';
-import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 // import profileDefault from '../../../assets/img/basic-profile-img-.svg';
 import uploadImage from '../../../assets/img/upload-file.svg';
 
@@ -27,9 +28,6 @@ export default function ProfileEdit() {
 
   const dummyUserId = process.env.REACT_APP_USER_ID;
   const dummyUserToken = process.env.REACT_APP_USER_TOKEN;
-
-  console.log('dummyUserId', dummyUserId);
-  console.log('dummyUserToken', dummyUserToken);
 
   useEffect(() => {
     async function getProfile() {
@@ -62,14 +60,14 @@ export default function ProfileEdit() {
   }, []);
   return (
     <>
-      <TopBasicNav />
+      <TopUploadNav />
       <JoinMembersWrap>
         <TextInputBox
         // onSubmit={handleSubmit}
         >
           <ImageWrapper>
             <DefaultProfileImg
-              src=""
+              src={profileImage}
               // src={profileImage ? profileImage : profileDefault}
             />
             <ProfileUploadLabel htmlFor="upload-button">
