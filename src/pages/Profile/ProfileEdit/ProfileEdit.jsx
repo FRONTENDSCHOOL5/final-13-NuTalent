@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { instance } from '../../../util/api/axiosInstance';
+import imageValidation from '../../../util/imageValidation';
 import {
   // ProfileEditWrap,
   JoinMembersWrap,
@@ -18,7 +20,6 @@ import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 // import StyledBtn from '../../../components/common/Button/Button';
 // import profileDefault from '../../../assets/img/basic-profile-img-.svg';
 import uploadImage from '../../../assets/img/upload-file.svg';
-import { useNavigate } from 'react-router-dom';
 
 export default function ProfileEdit() {
   const [profileImage, setProfileImage] = useState('');
@@ -66,17 +67,17 @@ export default function ProfileEdit() {
   }, []);
 
   const handleUserNameChange = (e) => {
-    const currentUserName = e.target.value.trim();
+    const currentUserName = e.target.value;
     setUserName(currentUserName);
   };
 
   const handleUserIdChange = (e) => {
-    const currentUserId = e.target.value.trim();
+    const currentUserId = e.target.value;
     setUserId(currentUserId);
   };
 
   const handleDescriptionChange = (e) => {
-    const currentDescription = e.target.value.trim();
+    const currentDescription = e.target.value;
     setDescription(currentDescription);
   };
 
@@ -150,6 +151,35 @@ export default function ProfileEdit() {
     }
   }
 
+  const handleImageUploadChange = async (e) => {
+    console.log(e.target.files[0]);
+    const selectedImage = e.target.files[0];
+
+    if (!selectedImage) {
+      console.log('선택이미지없음');
+      return;
+    }
+    if (!imageValidation(selectedImage)) {
+      console.log('validation안됨');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', selectedImage);
+
+    const res = await instance.post('/image/uploadfile', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    console.log(res);
+
+    const uploadImage = `${res.config.baseURL}/${res.data.filename}`;
+    console.log('uploadImage', uploadImage);
+    setProfileImage(uploadImage);
+  };
+
   return (
     <>
       <TopUploadNav
@@ -157,9 +187,7 @@ export default function ProfileEdit() {
         disabled={isUserIdInvalid || isUserNameInvalid || isDescriptionInvalid}
       />
       <JoinMembersWrap>
-        <TextInputBox
-        // onSubmit={handleSubmit}
-        >
+        <TextInputBox>
           <ImageWrapper>
             <DefaultProfileImg
               src={profileImage}
@@ -174,7 +202,7 @@ export default function ProfileEdit() {
               type="file"
               className="user-profile"
               id="upload-button"
-              // onChange={handleUpload}
+              onChange={handleImageUploadChange}
             />
           </ImageWrapper>
           <TextActiveInput
