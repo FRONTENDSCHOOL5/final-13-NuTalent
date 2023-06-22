@@ -4,7 +4,7 @@ import { SplashDiv } from './Splash.styled';
 import { useNavigate } from 'react-router-dom';
 
 export default function Splash() {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(function () {
