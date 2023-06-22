@@ -3,10 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { instance } from '../../../util/api/axiosInstance';
 import imageValidation from '../../../util/imageValidation';
 import {
-  // ProfileEditWrap,
-  JoinMembersWrap,
-  // PageH2,
-  // PageDescription,
+  ProfileEditWrap,
   ImageWrapper,
   DefaultProfileImg,
   ProfileUploadInput,
@@ -17,8 +14,6 @@ import {
 } from './ProfileEdit.styled';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
-// import StyledBtn from '../../../components/common/Button/Button';
-// import profileDefault from '../../../assets/img/basic-profile-img-.svg';
 import uploadImage from '../../../assets/img/upload-file.svg';
 
 export default function ProfileEdit() {
@@ -186,7 +181,7 @@ export default function ProfileEdit() {
         onClick={handleClick}
         disabled={isUserIdInvalid || isUserNameInvalid || isDescriptionInvalid}
       />
-      <JoinMembersWrap>
+      <ProfileEditWrap>
         <TextInputBox>
           <ImageWrapper>
             <DefaultProfileImg
@@ -243,7 +238,7 @@ export default function ProfileEdit() {
           <ErrorMessage>*내용을 입력해주세요</ErrorMessage>
         )} */}
         </TextInputBox>
-      </JoinMembersWrap>
+      </ProfileEditWrap>
     </>
   );
 }

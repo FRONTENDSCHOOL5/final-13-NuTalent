@@ -1,8 +1,6 @@
 import { styled } from 'styled-components';
-import StyledBtn from '../../../components/common/Button/Button';
 
-
-const JoinMembersWrap = styled.div`
+const ProfileEditWrap = styled.div`
   margin: 3rem 3.4rem;
   padding-top: 4.8rem;
 `;
@@ -17,6 +15,7 @@ const DefaultProfileImg = styled.img`
   width: 100%;
   object-fit: cover;
   aspect-ratio: 1/1;
+  border-radius: 50%;
 `;
 
 const ProfileUploadInput = styled.input`
@@ -41,10 +40,6 @@ const ProfileUploadDiv = styled.div`
   }
 `;
 
-const JoinMembersNextButton = styled(StyledBtn)`
-  margin-top: 1.4rem;
-`;
-
 const TextInputBox = styled.form`
   margin-top: 3rem;
   margin-bottom: 3rem;
@@ -56,4 +51,4 @@ const ErrorMessage = styled.p`
   margin-bottom: 2rem;
 `;
 
-export { JoinMembersWrap, ImageWrapper, DefaultProfileImg, ProfileUploadInput, ProfileUploadLabel, ProfileUploadDiv, JoinMembersNextButton, TextInputBox, ErrorMessage };
+export { ProfileEditWrap, ImageWrapper, DefaultProfileImg, ProfileUploadInput, ProfileUploadLabel, ProfileUploadDiv, TextInputBox, ErrorMessage };
