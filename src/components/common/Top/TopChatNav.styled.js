@@ -29,7 +29,7 @@ const MainTitle = styled.h1`
 const OptionBtn = styled.button`
   width: 2.4rem;
   height: 2.4rem;
-  background-image: url(${optionImg}) no-repeat 0 0 / contain;
+  background: url(${optionImg}) no-repeat 0 0 / contain;
   margin-left: auto;
 `;
 
