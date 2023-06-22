@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
-import StyledBtn from '../../../components/common/Button/Button';
+import { useRecoilState } from 'recoil';
+import { currentUserToken } from '../../../recoil/atoms/currentUserIdToken';
+
+import { instance } from '../../../util/api/axiosInstance';
+
 import {
   LoginPageWrap,
   PageH2,
@@ -9,10 +12,12 @@ import {
   LoginCreateAccount,
   ErrorMessage,
 } from './Login.styled';
-import { instance } from '../../../util/api/axiosInstance';
+import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
+import StyledBtn from '../../../components/common/Button/Button';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [token, setToken] = useRecoilState(currentUserToken);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailAlertMessage, setEmailAlertMessage] = useState('');
@@ -89,8 +94,10 @@ export default function LoginPage() {
 
       if (!res.data.message) {
         //localStorage 저장
-        const token = res.data.user['token'];
-        localStorage.setItem('token', token);
+        const currentUserToken = res.data.user['token'];
+        setToken(currentUserToken);
+        console.log(token);
+        // localStorage.setItem('token', token);
 
         console.log('로그인 성공!');
 
