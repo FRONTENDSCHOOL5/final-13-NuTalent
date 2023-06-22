@@ -5,6 +5,7 @@ import ProductItem from '../../../components/common/ProductItem/ProductItem';
 import PostItem from '../../../components/common/PostItem/PostItem';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 import StyledBtn from '../../../components/common/Button/Button';
+import { Link } from 'react-router-dom';
 
 import * as S from './ProfileDetail.styled';
 
@@ -37,16 +38,18 @@ export default function Profile() {
     itemImg: 'https://picsum.photos/200',
   };
 
+  const accountname = 'mong';
+
   return (
     <>
       <TopBasicNav />
       <S.Container>
         <S.ProfileSection>
           <S.ProfileWrap>
-            <S.followWrap>
+            <Link to="/follower" state={accountname}>
               <p>{Dummy.followers}</p>
               <p>followers</p>
-            </S.followWrap>
+            </Link>
             <S.ProfileImg src={Dummy.userImg} alt="프로필 사진" />
             <S.followWrap>
               <p>{Dummy.followings}</p>
