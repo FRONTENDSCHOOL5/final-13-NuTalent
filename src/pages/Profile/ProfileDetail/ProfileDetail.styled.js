@@ -1,13 +1,12 @@
 import { css, styled } from 'styled-components';
 
-/* eslint-disable */
 import messageIcon from '../../../assets/img/icon-message-circle.svg';
 import shareIcon from '../../../assets/img/icon-share.svg';
 import listViewOn from '../../../assets/img/icon-post-list-on.svg';
 import listViewOff from '../../../assets/img/icon-post-list-off.svg';
 import AlbumViewOn from '../../../assets/img/icon-post-album-on.svg';
 import AlbumViewOff from '../../../assets/img/icon-post-album-off.svg';
-/* eslint-enable */
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   background-color: #f2f2f2;
@@ -94,7 +93,7 @@ const circleBtn = css`
   border: 0.1rem solid var(--sub-grey);
 `;
 
-export const messageButton = styled.button`
+export const messageButton = styled(Link)`
   ${circleBtn}
   background: url(${messageIcon}) no-repeat center;
 `;
@@ -124,9 +123,7 @@ export const ProductList = styled.ul`
 `;
 
 // Post section
-export const PostSection = styled.section`
-  ${(props) => props.view}
-`;
+export const PostSection = styled.section``;
 
 export const PostTop = styled.div`
   height: 4.4rem;
@@ -140,14 +137,17 @@ export const viewButton = styled.button`
   width: 2.6rem;
   height: 2.6rem;
 
+  /* TODO: ts-styled-plugin(9999)에러 수정하기, 작동은 잘 됨 */
   &:first-child {
     margin-left: auto;
-    background: url(${(props) => props.view === 'list' ? listViewOn : listViewOff})
+    background: url(${(props) =>
+        props.view === 'list' ? listViewOn : listViewOff})
       no-repeat center;
   }
 
   &:last-child {
-    background: url(${(props) => props.view === 'album' ? AlbumViewOn : AlbumViewOff})
+    background: url(${(props) =>
+        props.view === 'album' ? AlbumViewOn : AlbumViewOff})
       no-repeat center;
   }
 `;
@@ -170,9 +170,10 @@ export const PostList = styled.ul`
   max-width: 64rem;
   margin: 0 auto;
 
-  & > li > img {
-    width: 100%;
-  }
-
   ${(props) => (props.view === 'list' ? listView : albumView)}
+`;
+
+export const AlbumImg = styled.img`
+  width: 100%;
+  aspect-ratio: 1/1;
 `;
