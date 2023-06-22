@@ -9,6 +9,7 @@ import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 import StyledBtn from '../../../components/common/Button/Button';
 
 import { instance } from '../../../util/api/axiosInstance';
+import useScrollBottom from '../../../hooks/useScrollBottom';
 
 import * as S from './ProfileDetail.styled';
 
@@ -21,6 +22,7 @@ export default function Profile() {
   // TODO: 초기값 받는 로직 추가하기
   const [follow, setFollow] = useState(false);
   const { id } = useParams();
+  const [skip, setSkip] = useState(0);
 
   const accountName = process.env.REACT_APP_ACCOUNT_NAME;
   const myId = process.env.REACT_APP_USER_ID;
@@ -56,23 +58,33 @@ export default function Profile() {
 
   const loadPost = async (accName) => {
     try {
-      const res = await instance.get(`/post/${accName}/userpost`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
+      const res = await instance.get(
+        `/post/${accName}/userpost/?limit=5&skip=${skip}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
         },
-      });
-      setPosts(res.data.post);
+      );
+      setPosts([...posts, ...res.data.post]);
+      console.log(posts);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(async () => {
+  useEffect(() => {
     loadProfile(accountName);
     loadProduct(accountName);
     loadPost(accountName);
   }, []);
+
+  // 무한 스크롤
+  const isBottom = useScrollBottom();
+  useEffect(() => {
+    setSkip((prevSkip) => prevSkip + 5);
+    loadPost(accountName);
+  }, [isBottom]);
 
   return (
     <>
@@ -149,26 +161,26 @@ export default function Profile() {
               ></S.viewButton>
             </S.PostTop>
             <S.PostList view={view}>
-              {posts.map((post, index) => {
-                return (
-                  <li key={index}>
-                    <Link to={`/post/${post.id}`}>
-                      {view === 'list' ? (
-                        <PostItem
-                          postDate={post.createdAt}
-                          postImg={post.image}
-                          postLike={post.heartCount}
-                          postMessage={post.commentCount}
-                          postText={post.content}
-                          userId={post.author.accountname}
-                          userImg={profile.image}
-                          userName={post.author.username}
-                        />
-                      ) : (
-                        <S.AlbumImg src={post.image} alt="" />
-                      )}
-                    </Link>
+              {posts.map((post) => {
+                return view === 'list' ? (
+                  <li key={post.id}>
+                    <PostItem
+                      postDate={post.createdAt}
+                      postImg={post.image}
+                      postLike={post.heartCount}
+                      postMessage={post.commentCount}
+                      postText={post.content}
+                      userId={post.author.accountname}
+                      userImg={profile.image}
+                      userName={post.author.username}
+                    />
                   </li>
+                ) : (
+                  post.image && (
+                    <li key={post.id}>
+                      <S.AlbumImg src={post.image} alt="" />
+                    </li>
+                  )
                 );
               })}
             </S.PostList>

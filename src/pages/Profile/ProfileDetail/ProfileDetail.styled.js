@@ -175,4 +175,5 @@ export const PostList = styled.ul`
 
 export const AlbumImg = styled.img`
   width: 100%;
+  aspect-ratio: 1/1;
 `;
