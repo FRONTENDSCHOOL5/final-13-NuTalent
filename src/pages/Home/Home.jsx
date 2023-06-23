@@ -76,7 +76,9 @@ export default function Home() {
               <NoFollowerWrap>
                 <img src={NoFollowerImg} alt="팔로워가 없습니다 이미지" />
                 <p>유저를 검색해 팔로우 해보세요! </p>
-                <StyledBtn width="10rem">검색하기</StyledBtn>
+                <StyledBtn width="10rem" to="/search">
+                  검색하기
+                </StyledBtn>
               </NoFollowerWrap>
             )}
           </>
