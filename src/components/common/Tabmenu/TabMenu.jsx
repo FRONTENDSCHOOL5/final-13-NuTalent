@@ -4,8 +4,11 @@ import messageCircle from '../../../assets/img/icon-message-circle.svg';
 import addPost from '../../../assets/img/icon-edit.svg';
 import user from '../../../assets/img/icon-user.svg';
 import { TabMenuUl, TabMenuLi, TabMenuLiLink } from './TabMenu.styled';
+import { useRecoilValue } from 'recoil';
+import { recoilData } from '../../../recoil/atoms/dataState';
 
 export default function TabMenu() {
+  const currentUserData = useRecoilValue(recoilData);
   return (
     <>
       <TabMenuUl>
@@ -22,7 +25,7 @@ export default function TabMenu() {
           </TabMenuLiLink>
         </TabMenuLi>
         <TabMenuLi>
-          <TabMenuLiLink to="/post">
+          <TabMenuLiLink to={`/post/${currentUserData._id}`}>
             <img src={addPost} alt="게시물 작성" />
             <p>게시물 작성</p>
           </TabMenuLiLink>
