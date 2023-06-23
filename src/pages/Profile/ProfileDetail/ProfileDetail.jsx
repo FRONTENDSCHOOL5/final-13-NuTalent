@@ -26,6 +26,7 @@ export default function Profile() {
 
   const currentUserData = useRecoilValue(recoilData);
   const location = useLocation();
+  console.log(currentUserData);
 
   // console.log('location.state', location);
 
@@ -36,7 +37,7 @@ export default function Profile() {
       ? location.state.userId
       : currentUserData.accountname;
   const myId =
-    location.state !== null ? location.state.user_id : currentUserData;
+    location.state !== null ? location.state.user_id : currentUserData._id;
 
   const token = JSON.parse(localStorage.getItem('token'));
 
