@@ -36,8 +36,9 @@ export default function Profile() {
     location.state !== null
       ? location.state.userId
       : currentUserData.accountname;
-  const myId =
-    location.state !== null ? location.state.user_id : currentUserData._id;
+
+  console.log(accountName);
+  const myId = currentUserData.accountname;
 
   const token = JSON.parse(localStorage.getItem('token'));
 
