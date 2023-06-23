@@ -7,6 +7,6 @@ export const dataAccountNameSelector = selector({
         const recoilAccountName = get(recoilData.user.accountname);
         const recoilUserId = get(recoilData.user.userid);
 
-        return recoilAccountName, recoilUserId;
+        return { recoilAccountName, recoilUserId };
     }
 })
