@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { loginState } from '../../../recoil/atoms/loginState';
-
+import { recoilData } from '../../../recoil/atoms/dataState';
 import { instance } from '../../../util/api/axiosInstance';
-
 import {
   LoginPageWrap,
   PageH2,
@@ -17,7 +16,7 @@ import StyledBtn from '../../../components/common/Button/Button';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [token, setToken] = useRecoilState(loginState);
+  const setCurrentUSerToken = useSetRecoilState(loginState);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailAlertMessage, setEmailAlertMessage] = useState('');
@@ -25,6 +24,7 @@ export default function LoginPage() {
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(true);
   const [isEmailInvalid, setEmailInvalid] = useState(true);
   const [responseAlertMessage, setResponseAlertMessage] = useState('');
+  const setCurrentUserData = useSetRecoilState(recoilData);
   const emailRegEx = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
 
   const handleEmailChange = (e) => {
@@ -103,8 +103,10 @@ export default function LoginPage() {
       if (!res.data.message) {
         //localStorage 저장
         const userToken = res.data.user['token'];
-        setToken(userToken);
-        console.log(token);
+        setCurrentUSerToken(userToken);
+
+        // recoil state
+        setCurrentUserData(res.data.user);
 
         console.log('로그인 성공!');
 
