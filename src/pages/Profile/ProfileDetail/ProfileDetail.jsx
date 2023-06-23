@@ -1,6 +1,6 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import ProductItem from '../../../components/common/ProductItem/ProductItem';
@@ -25,9 +25,19 @@ export default function Profile() {
   const { id } = useParams();
 
   const currentUserData = useRecoilValue(recoilData);
+  const location = useLocation();
 
-  const accountName = currentUserData.accountname;
-  const myId = currentUserData._id;
+  // console.log('location.state', location);
+
+  // 왜 location.state.랑 currentUserData.은 되는데 삼항연산자를 쓰면 안되는걸까?
+  // 조건에 상관없이 무조건 location.state.가 들어가서 탭메뉴로들어가면 오류가 나는 것 같다.
+  const accountName =
+    location.state !== null
+      ? location.state.userId
+      : currentUserData.accountname;
+  const myId =
+    location.state !== null ? location.state.user_id : currentUserData;
+
   const token = JSON.parse(localStorage.getItem('token'));
 
   const loadProfile = async (accName) => {
@@ -106,8 +116,9 @@ export default function Profile() {
   useEffect(() => {
     loadProfile(accountName);
     loadProduct(accountName);
+    setPosts([]);
     loadPost(accountName);
-  }, []);
+  }, [accountName]);
 
   // 무한 스크롤
   const isBottom = useScrollBottom();

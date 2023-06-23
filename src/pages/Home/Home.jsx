@@ -65,6 +65,7 @@ export default function Home() {
                           postText={post.content}
                           userId={post.author.accountname}
                           userImg={post.author.image}
+                          user_id={post.author._id}
                           userName={post.author.username}
                         />
                       }
