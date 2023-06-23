@@ -17,6 +17,7 @@ import useScrollBottom from '../../hooks/useScrollBottom';
 export default function Home() {
   const [data, setData] = useState([]);
   const [skip, setSkip] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const isBottom = useScrollBottom();
 
@@ -24,7 +25,6 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      //로딩중
       instance
         .get(`/post/feed/?limit=5&skip=${skip}`, {
           headers: {
@@ -32,9 +32,10 @@ export default function Home() {
             'Content-type': 'application/json',
           },
         })
-        .then((response) =>
-          setData((prevData) => [...prevData, ...response.data.posts]),
-        );
+        .then((response) => {
+          setData((prevData) => [...prevData, ...response.data.posts]);
+          setIsLoading(false);
+        });
     } catch (e) {
       console.log(e);
     }
@@ -46,33 +47,39 @@ export default function Home() {
     <>
       <TopMainNav />
       <Container>
-        {data.length > 0 ? (
-          <ContainerUl>
-            {data.map((post, index) => {
-              return (
-                <ContainerLi key={index}>
-                  {
-                    <PostItem
-                      postDate={post.createdAt}
-                      postImg={post.image}
-                      postLike={post.heartCount}
-                      postMessage={post.commentCount}
-                      postText={post.content}
-                      userId={post.author.accountname}
-                      userImg={post.author.image}
-                      userName={post.author.username}
-                    />
-                  }
-                </ContainerLi>
-              );
-            })}
-          </ContainerUl>
+        {isLoading ? (
+          <h1 style={{ textAlign: 'center', marginTop: '5rem' }}>로딩중</h1>
         ) : (
-          <NoFollowerWrap>
-            <img src={NoFollowerImg} alt="팔로워가 없습니다 이미지" />
-            <p>유저를 검색해 팔로우 해보세요! </p>
-            <StyledBtn width="10rem">검색하기</StyledBtn>
-          </NoFollowerWrap>
+          <>
+            {data.length > 0 ? (
+              <ContainerUl>
+                {data.map((post, index) => {
+                  return (
+                    <ContainerLi key={index}>
+                      {
+                        <PostItem
+                          postDate={post.createdAt}
+                          postImg={post.image}
+                          postLike={post.heartCount}
+                          postMessage={post.commentCount}
+                          postText={post.content}
+                          userId={post.author.accountname}
+                          userImg={post.author.image}
+                          userName={post.author.username}
+                        />
+                      }
+                    </ContainerLi>
+                  );
+                })}
+              </ContainerUl>
+            ) : (
+              <NoFollowerWrap>
+                <img src={NoFollowerImg} alt="팔로워가 없습니다 이미지" />
+                <p>유저를 검색해 팔로우 해보세요! </p>
+                <StyledBtn width="10rem">검색하기</StyledBtn>
+              </NoFollowerWrap>
+            )}
+          </>
         )}
       </Container>
       <TabMenu />
