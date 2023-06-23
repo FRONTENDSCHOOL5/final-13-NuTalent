@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import ProductItem from '../../../components/common/ProductItem/ProductItem';
@@ -18,12 +18,10 @@ export default function Profile() {
   const [products, setProducts] = useState([]);
   const [posts, setPosts] = useState([]);
   const [view, setView] = useState('list');
-  // * follow 상태 - 버튼 분기처리에 사용
-  // TODO: 초기값 받는 로직 추가하기
-  const [follow, setFollow] = useState(false);
-  const { id } = useParams();
   const [skip, setSkip] = useState(0);
+  const { id } = useParams();
 
+  // TODO: 변경해야함
   const accountName = process.env.REACT_APP_ACCOUNT_NAME;
   const myId = process.env.REACT_APP_USER_ID;
   const token = process.env.REACT_APP_USER_TOKEN;
@@ -38,7 +36,7 @@ export default function Profile() {
       });
       setProfile(res.data.profile);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -52,7 +50,7 @@ export default function Profile() {
       });
       setProducts(res.data.product);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -68,11 +66,39 @@ export default function Profile() {
         },
       );
       setPosts([...posts, ...res.data.post]);
-      console.log(posts);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+
+  const followHandler = async () => {
+    try {
+      if (profile.isfollow) {
+        const res = await instance.delete(`/profile/${accountName}/unfollow`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
+        });
+        setProfile(res.data.profile);
+      } else {
+        const res = await instance.post(
+          `/profile/${accountName}/follow`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-type': 'application/json',
+            },
+          },
+        );
+        setProfile(res.data.profile);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     loadProfile(accountName);
     loadProduct(accountName);
@@ -92,15 +118,15 @@ export default function Profile() {
       <S.Container>
         <S.ProfileSection>
           <S.ProfileWrap>
-            <S.followWrap>
+            <S.followLink to="/follower" state={profile.accountname}>
               <p>{profile.followerCount}</p>
               <p>followers</p>
-            </S.followWrap>
+            </S.followLink>
             <S.ProfileImg src={profile.image} alt="프로필 사진" />
-            <S.followWrap>
+            <S.followLink to="/following" state={profile.accountname}>
               <p>{profile.followingCount}</p>
               <p>followings</p>
-            </S.followWrap>
+            </S.followLink>
           </S.ProfileWrap>
           <S.UserName>{profile.username}</S.UserName>
           <S.UserId>@ {profile.accountname}</S.UserId>
@@ -117,13 +143,13 @@ export default function Profile() {
           ) : (
             <S.UserBtnWrap>
               <S.messageButton to={`/chatlist/${id}`} />
-              {follow ? (
-                <StyledBtn size="m">팔로우</StyledBtn>
-              ) : (
-                <StyledBtn size="m" color="outlineGrey">
-                  언팔로우
-                </StyledBtn>
-              )}
+              <StyledBtn
+                size="m"
+                color={profile.isfollow ? 'outlineGrey' : 'fill'}
+                onClick={followHandler}
+              >
+                {profile.isfollow ? '언팔로우' : '팔로우'}
+              </StyledBtn>
               <S.shareButton />
             </S.UserBtnWrap>
           )}

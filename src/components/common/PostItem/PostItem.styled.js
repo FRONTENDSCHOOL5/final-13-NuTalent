@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import moreImg from '../../../assets/img/s-icon-more-vertical.svg';
 import likeImg from '../../../assets/img/icon-heart.svg';
@@ -64,4 +65,8 @@ export const PostMore = styled.button`
   right: 0;
   top: 0.4rem;
   background: url(${moreImg}) no-repeat center / cover;
+`;
+
+export const PostLink = styled(Link)`
+  display: block;
 `;

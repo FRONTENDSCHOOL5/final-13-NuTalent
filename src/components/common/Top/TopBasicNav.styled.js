@@ -13,6 +13,8 @@ const TopDiv = styled.div`
   position: fixed;
   background-color: white;
   z-index: 10;
+  left: 0;
+  top: 0;
 `;
 const ArrowLeftBtn = styled.button`
   background-color: inherit;
@@ -29,4 +31,10 @@ const OptionBtn = styled.button`
   background: url(${optionImg}) no-repeat center / contain;
 `;
 
-export { TopDiv, ArrowLeftBtn, OptionBtn };
+const ArrowLeftBtnText = styled.span`
+  margin-right: auto;
+  padding-left: 1rem;
+  font-size: 1.4rem;
+`;
+
+export { TopDiv, ArrowLeftBtn, OptionBtn, ArrowLeftBtnText };
