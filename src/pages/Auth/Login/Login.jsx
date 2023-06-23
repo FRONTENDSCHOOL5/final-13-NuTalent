@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { currentUserToken } from '../../../recoil/atoms/currentUserIdToken';
+import { loginState } from '../../../recoil/atoms/loginState';
 
 import { instance } from '../../../util/api/axiosInstance';
 
@@ -17,7 +17,7 @@ import StyledBtn from '../../../components/common/Button/Button';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [token, setToken] = useRecoilState(currentUserToken);
+  const [token, setToken] = useRecoilState(loginState);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailAlertMessage, setEmailAlertMessage] = useState('');
@@ -97,7 +97,6 @@ export default function LoginPage() {
         const currentUserToken = res.data.user['token'];
         setToken(currentUserToken);
         console.log(token);
-        // localStorage.setItem('token', token);
 
         console.log('로그인 성공!');
 

@@ -1,4 +1,4 @@
-export const localStorageEffect = key => ({ setSelf, onSet }) => {
+export const loginStateEffect = key => ({ setSelf, onSet }) => {
     const savedValue = localStorage.getItem(key);
     if (savedValue != null) {
         setSelf(JSON.parse(savedValue));
