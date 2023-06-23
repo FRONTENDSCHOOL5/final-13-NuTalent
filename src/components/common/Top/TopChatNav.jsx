@@ -1,4 +1,6 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import {
   TopDiv,
   ArrowLeftBtn,
@@ -6,12 +8,14 @@ import {
   OptionBtn,
 } from './TopChatNav.styled';
 
-export default function TopChatNav({ children }) {
+export default function TopChatNav({ children, onClick }) {
+  const navigate = useNavigate();
+
   return (
     <TopDiv>
-      <ArrowLeftBtn />
+      <ArrowLeftBtn onClick={() => navigate(-1)} />
       <MainTitle>{children}</MainTitle>
-      <OptionBtn />
+      <OptionBtn onClick={onClick} />
     </TopDiv>
   );
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   TopDiv,
   ArrowLeftBtn,
@@ -6,12 +7,18 @@ import {
   ArrowLeftBtnText,
 } from '../Top/TopBasicNav.styled';
 
-export default function TopBasicNav({ children }) {
+export default function TopBasicNav({ children, onClick }) {
+  const navigate = useNavigate();
+
   return (
     <TopDiv>
-      <ArrowLeftBtn />
+      <ArrowLeftBtn
+        onClick={() => {
+          navigate(-1);
+        }}
+      />
       <ArrowLeftBtnText>{children}</ArrowLeftBtnText>
-      <OptionBtn />
+      <OptionBtn onClick={onClick} />
     </TopDiv>
   );
 }
