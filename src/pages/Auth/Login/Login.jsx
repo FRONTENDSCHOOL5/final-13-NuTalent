@@ -24,6 +24,7 @@ export default function LoginPage() {
   const [passwordAlertMessage, setPasswordAlertMessage] = useState('');
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(true);
   const [isEmailInvalid, setEmailInvalid] = useState(true);
+  const [responseAlertMessage, setResponseAlertMessage] = useState('');
   const emailRegEx = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
 
   const handleEmailChange = (e) => {
@@ -31,12 +32,16 @@ export default function LoginPage() {
     setEmail(currentEmail);
 
     // 이메일 유효성 검사
-    if (email.length < 1) {
+    if (email === '') {
       setEmailInvalid(true);
       setEmailAlertMessage('*이메일을 입력해주세요');
     } else {
+      passwordAlertMessage !== ''
+        ? setIsPasswordInvalid(false)
+        : setIsPasswordInvalid(true);
       setEmailInvalid(false);
       setEmailAlertMessage('');
+      console.log(11);
     }
   };
 
@@ -45,12 +50,13 @@ export default function LoginPage() {
     setPassword(currentPassword);
 
     // 패스워드 유효성 검사
-    if (password.length == '') {
+    if (password.length < 1) {
       setIsPasswordInvalid(true);
       setPasswordAlertMessage('*비밀번호를 입력해주세요.');
     } else {
       setIsPasswordInvalid(false);
       setPasswordAlertMessage('');
+      console.log(22);
     }
   };
 
@@ -62,9 +68,11 @@ export default function LoginPage() {
       if (!emailRegEx.test(email)) {
         setEmailInvalid(true);
         setEmailAlertMessage('*유효하지 않은 이메일입니다.');
+        console.log(33);
       } else {
         setEmailInvalid(false);
         setEmailAlertMessage('');
+        console.log(44);
       }
 
       // 패스워드 유효성 검사
@@ -94,8 +102,8 @@ export default function LoginPage() {
 
       if (!res.data.message) {
         //localStorage 저장
-        const currentUserToken = res.data.user['token'];
-        setToken(currentUserToken);
+        const userToken = res.data.user['token'];
+        setToken(userToken);
         console.log(token);
 
         console.log('로그인 성공!');
@@ -103,7 +111,7 @@ export default function LoginPage() {
         navigate('/home');
       } else {
         setIsPasswordInvalid(true);
-        setPasswordAlertMessage(`*${res.data.message}`);
+        setResponseAlertMessage(`*${res.data.message}`);
       }
     } catch (error) {
       console.error(error);
@@ -133,6 +141,9 @@ export default function LoginPage() {
         </TextActiveInput>
         {isPasswordInvalid && (
           <ErrorMessage>{passwordAlertMessage}</ErrorMessage>
+        )}
+        {isPasswordInvalid && (
+          <ErrorMessage>{responseAlertMessage}</ErrorMessage>
         )}
         <StyledBtn type="submit" disabled={isEmailInvalid || isPasswordInvalid}>
           로그인
