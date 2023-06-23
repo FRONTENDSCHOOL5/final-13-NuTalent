@@ -11,6 +11,7 @@ const TopDiv = styled.div`
   padding: 0 1.6rem;
   border-bottom: 0.05rem solid var(--sub-grey);
   position: fixed;
+  top: 0;
   background-color: white;
   z-index: 10;
 `;
