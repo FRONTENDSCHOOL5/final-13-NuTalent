@@ -27,6 +27,7 @@ const DefaultProfileImg = styled.img`
   width: 100%;
   object-fit: cover;
   aspect-ratio: 1/1;
+  border-radius: 50%;
 `;
 
 const ProfileUploadInput = styled.input`

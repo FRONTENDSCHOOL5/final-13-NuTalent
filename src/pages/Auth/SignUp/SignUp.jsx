@@ -13,8 +13,8 @@ import {
 export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isEmailError, setIsEmailError] = useState(false);
-  const [isPasswordError, setIsPasswordError] = useState(false);
+  const [isEmailError, setIsEmailError] = useState(true);
+  const [isPasswordError, setIsPasswordError] = useState(true);
   const [emailResponseMessage, setEmailResponseMessage] = useState('');
   const [passwordResponseMessage, setPasswordResponseMessage] = useState('');
   const navigate = useNavigate();

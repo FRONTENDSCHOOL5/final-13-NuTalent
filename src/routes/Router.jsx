@@ -17,12 +17,14 @@ import Profile from '../pages/Profile/ProfileDetail/ProfileDetail';
 import ProfileEdit from '../pages/Profile/ProfileEdit/ProfileEdit';
 import Search from '../pages/Search/Search';
 import Splash from '../pages/Splash/Splash';
+import Intro from '../pages/Auth/Intro/intro';
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Splash />} />
+        <Route path="/intro" element={<Intro />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signUp">
           <Route index element={<SignUp />} />
@@ -41,7 +43,7 @@ export default function Router() {
         <Route path="productedit" element={<ProductEdit />} />
         <Route path="follower" element={<Follower />} />
         <Route path="/profile">
-          <Route index element={<Profile />} />
+          <Route path=":id" element={<Profile />} />
           <Route path="edit" element={<ProfileEdit />} />
         </Route>
         <Route path="*" element={<NotFound />} />
