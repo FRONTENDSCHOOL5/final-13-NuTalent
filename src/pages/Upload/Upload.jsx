@@ -11,9 +11,7 @@ export default function Upload({ userImg }) {
 
   const textareaRef = useRef(null);
 
-  // TODO: 토큰 받는 로직 추가
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzZkNzZhYjJjYjIwNTY2MzJjZmZkOCIsImV4cCI6MTY5MjAzNjcwMCwiaWF0IjoxNjg2ODUyNzAwfQ.UVaGzelSUsPykhwO4dw9fSE5A9Hdcy0tueRsAGdv-O0';
+  const token = JSON.parse(localStorage.getItem('token'));
 
   // 텍스트에 따라 textarea의 높이 동적으로 조절
   const textareaHeightControl = () => {
