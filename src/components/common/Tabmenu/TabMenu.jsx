@@ -16,7 +16,7 @@ export default function TabMenu() {
           </TabMenuLiLink>
         </TabMenuLi>
         <TabMenuLi>
-          <TabMenuLiLink to="/chat">
+          <TabMenuLiLink to="/chatlist">
             <img src={messageCircle} alt="채팅" />
             <p>채팅</p>
           </TabMenuLiLink>
