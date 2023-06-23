@@ -6,6 +6,9 @@ import user from '../../../assets/img/icon-user.svg';
 import { TabMenuUl, TabMenuLi, TabMenuLiLink } from './TabMenu.styled';
 
 export default function TabMenu() {
+  // TODO: userId 받는 로직 추가하기
+  const userId = process.env.REACT_APP_USER_ID;
+
   return (
     <>
       <TabMenuUl>
@@ -16,19 +19,19 @@ export default function TabMenu() {
           </TabMenuLiLink>
         </TabMenuLi>
         <TabMenuLi>
-          <TabMenuLiLink to="/chat">
+          <TabMenuLiLink to="/chatlist">
             <img src={messageCircle} alt="채팅" />
             <p>채팅</p>
           </TabMenuLiLink>
         </TabMenuLi>
         <TabMenuLi>
-          <TabMenuLiLink to="/post">
+          <TabMenuLiLink to="/post/upload">
             <img src={addPost} alt="게시물 작성" />
             <p>게시물 작성</p>
           </TabMenuLiLink>
         </TabMenuLi>
         <TabMenuLi>
-          <TabMenuLiLink to="/profile">
+          <TabMenuLiLink to={`/profile/${userId}`}>
             <img src={user} alt="프로필" />
             <p>프로필</p>
           </TabMenuLiLink>
