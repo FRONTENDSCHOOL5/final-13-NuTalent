@@ -9,7 +9,8 @@ import { recoilData } from '../../../recoil/atoms/dataState';
 
 export default function TabMenu() {
   const currentUserData = useRecoilValue(recoilData);
-  console.log(currentUserData);
+  // console.log(currentUserData);
+  // console.log(currentUserData.accountname);
   return (
     <>
       <TabMenuUl>
@@ -26,13 +27,13 @@ export default function TabMenu() {
           </TabMenuLiLink>
         </TabMenuLi>
         <TabMenuLi>
-          <TabMenuLiLink to={`/post/${currentUserData._id}`}>
+          <TabMenuLiLink to={`/post/${currentUserData.accountname}`}>
             <img src={addPost} alt="게시물 작성" />
             <p>게시물 작성</p>
           </TabMenuLiLink>
         </TabMenuLi>
         <TabMenuLi>
-          <TabMenuLiLink to={`/profile/${currentUserData._id}`}>
+          <TabMenuLiLink to={`/profile/${currentUserData.accountname}`}>
             <img src={user} alt="프로필" />
             <p>프로필</p>
           </TabMenuLiLink>
