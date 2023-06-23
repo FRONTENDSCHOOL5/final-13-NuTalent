@@ -13,6 +13,9 @@ import useScrollBottom from '../../../hooks/useScrollBottom';
 
 import * as S from './ProfileDetail.styled';
 
+import { useRecoilValue } from 'recoil';
+import { recoilData } from '../../../recoil/atoms/dataState';
+
 export default function Profile() {
   const [profile, setProfile] = useState({});
   const [products, setProducts] = useState([]);
@@ -21,10 +24,11 @@ export default function Profile() {
   const [skip, setSkip] = useState(0);
   const { id } = useParams();
 
-  // TODO: 변경해야함
-  const accountName = process.env.REACT_APP_ACCOUNT_NAME;
-  const myId = process.env.REACT_APP_USER_ID;
-  const token = process.env.REACT_APP_USER_TOKEN;
+  const currentUserData = useRecoilValue(recoilData);
+
+  const accountName = currentUserData.accountname;
+  const myId = currentUserData._id;
+  const token = JSON.parse(localStorage.getItem('token'));
 
   const loadProfile = async (accName) => {
     try {
