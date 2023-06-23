@@ -18,6 +18,7 @@ import ProfileEdit from '../pages/Profile/ProfileEdit/ProfileEdit';
 import Search from '../pages/Search/Search';
 import Splash from '../pages/Splash/Splash';
 import Intro from '../pages/Auth/Intro/intro';
+import Following from '../pages/Profile/Following/Following';
 
 export default function Router() {
   return (
@@ -41,7 +42,8 @@ export default function Router() {
         </Route>
         <Route path="productupload" element={<ProductUpload />} />
         <Route path="productedit" element={<ProductEdit />} />
-        <Route path="follower" element={<Follower />} />
+        <Route path="/follower" element={<Follower />} />
+        <Route path="/following" element={<Following />} />
         <Route path="/profile">
           <Route path=":id" element={<Profile />} />
           <Route path="edit" element={<ProfileEdit />} />
