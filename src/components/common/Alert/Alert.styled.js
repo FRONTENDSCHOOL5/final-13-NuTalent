@@ -1,5 +1,17 @@
 import { styled } from 'styled-components';
 
+export const Overlay = styled.div`
+  position: fixed;
+  content: '';
+  inset: 0;
+  z-index: 100;
+  background-color: rgb(0, 0, 0, 0.3);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Alert = styled.div`
   width: 25.2rem;
   height: 11rem;
@@ -7,6 +19,8 @@ export const Alert = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  background-color: #fff;
+  transition: all 0.3s;
 
   p {
     padding-top: 2.2rem;
