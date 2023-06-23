@@ -21,7 +21,7 @@ export default function Home() {
 
   const isBottom = useScrollBottom();
 
-  const token = localStorage.getItem('token');
+  const token = JSON.parse(localStorage.getItem('token'));
 
   useEffect(() => {
     try {
