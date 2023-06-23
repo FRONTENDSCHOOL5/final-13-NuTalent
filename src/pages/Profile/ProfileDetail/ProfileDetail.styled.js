@@ -1,4 +1,5 @@
 import { css, styled } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import messageIcon from '../../../assets/img/icon-message-circle.svg';
 import shareIcon from '../../../assets/img/icon-share.svg';
@@ -6,7 +7,6 @@ import listViewOn from '../../../assets/img/icon-post-list-on.svg';
 import listViewOff from '../../../assets/img/icon-post-list-off.svg';
 import AlbumViewOn from '../../../assets/img/icon-post-album-on.svg';
 import AlbumViewOff from '../../../assets/img/icon-post-album-off.svg';
-import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   background-color: #f2f2f2;
@@ -47,7 +47,7 @@ export const ProfileImg = styled.img`
   border-radius: 50%;
 `;
 
-export const followWrap = styled.div`
+export const followLink = styled(Link)`
   display: inline-block;
 
   & > p:first-child {
@@ -137,17 +137,16 @@ export const viewButton = styled.button`
   width: 2.6rem;
   height: 2.6rem;
 
-  /* TODO: ts-styled-plugin(9999)에러 수정하기, 작동은 잘 됨 */
   &:first-child {
     margin-left: auto;
-    background: url(${(props) =>
-        props.view === 'list' ? listViewOn : listViewOff})
+    background: ${(props) =>
+        props.view === 'list' ? `url(${listViewOn})` : `url(${listViewOff})`}
       no-repeat center;
   }
 
   &:last-child {
-    background: url(${(props) =>
-        props.view === 'album' ? AlbumViewOn : AlbumViewOff})
+    background: ${(props) =>
+        props.view === 'album' ? `url(${AlbumViewOn})` : `url(${AlbumViewOff})`}
       no-repeat center;
   }
 `;

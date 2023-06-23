@@ -1,44 +1,116 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import ProductItem from '../../../components/common/ProductItem/ProductItem';
 import PostItem from '../../../components/common/PostItem/PostItem';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 import StyledBtn from '../../../components/common/Button/Button';
-import { Link } from 'react-router-dom';
+
+import { instance } from '../../../util/api/axiosInstance';
+import useScrollBottom from '../../../hooks/useScrollBottom';
 
 import * as S from './ProfileDetail.styled';
 
 export default function Profile() {
+  const [profile, setProfile] = useState({});
+  const [products, setProducts] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [view, setView] = useState('list');
-  const viewHandler = () => {
-    view === 'list' ? setView('album') : setView('list');
+  const [skip, setSkip] = useState(0);
+  const { id } = useParams();
+
+  // TODO: 변경해야함
+  const accountName = process.env.REACT_APP_ACCOUNT_NAME;
+  const myId = process.env.REACT_APP_USER_ID;
+  const token = process.env.REACT_APP_USER_TOKEN;
+
+  const loadProfile = async (accName) => {
+    try {
+      const res = await instance.get(`/profile/${accName}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      setProfile(res.data.profile);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const Dummy = {
-    followers: '100',
-    followings: '100',
-    userName: '사용자 이름',
-    userId: 'user-id',
-    userIntro: 'XXXXXXXX',
-    userImg: 'https://picsum.photos/200',
+  const loadProduct = async (accName) => {
+    try {
+      const res = await instance.get(`/product/${accName}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      setProducts(res.data.product);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const postDummy = {
-    postDate: '2022-01-01',
-    postImg: 'https://picsum.photos/200',
-    postLike: '100',
-    postMessage: '30',
-    postText: 'XXXXXXXX',
+  const loadPost = async (accName) => {
+    try {
+      const res = await instance.get(
+        `/post/${accName}/userpost/?limit=5&skip=${skip}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
+        },
+      );
+      setPosts([...posts, ...res.data.post]);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const productDummy = {
-    itemName: 'XXXXXXXX',
-    price: '100',
-    itemImg: 'https://picsum.photos/200',
+  const followHandler = async () => {
+    try {
+      if (profile.isfollow) {
+        const res = await instance.delete(`/profile/${accountName}/unfollow`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
+        });
+        setProfile(res.data.profile);
+      } else {
+        const res = await instance.post(
+          `/profile/${accountName}/follow`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-type': 'application/json',
+            },
+          },
+        );
+        setProfile(res.data.profile);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const accountname = 'mong';
+  useEffect(() => {
+    loadProfile(accountName);
+    loadProduct(accountName);
+    loadPost(accountName);
+  }, []);
+
+  // 무한 스크롤
+  const isBottom = useScrollBottom();
+  useEffect(() => {
+    setSkip((prevSkip) => prevSkip + 5);
+    loadPost(accountName);
+  }, [isBottom]);
 
   return (
     <>
@@ -46,73 +118,100 @@ export default function Profile() {
       <S.Container>
         <S.ProfileSection>
           <S.ProfileWrap>
-            <Link to="/follower" state={accountname}>
-              <p>{Dummy.followers}</p>
+            <S.followLink to="/follower" state={profile.accountname}>
+              <p>{profile.followerCount}</p>
               <p>followers</p>
-            </Link>
-            <S.ProfileImg src={Dummy.userImg} alt="프로필 사진" />
-            <S.followWrap>
-              <p>{Dummy.followings}</p>
+            </S.followLink>
+            <S.ProfileImg src={profile.image} alt="프로필 사진" />
+            <S.followLink to="/following" state={profile.accountname}>
+              <p>{profile.followingCount}</p>
               <p>followings</p>
-            </S.followWrap>
+            </S.followLink>
           </S.ProfileWrap>
-          <S.UserName>{Dummy.userName}</S.UserName>
-          <S.UserId>@ {Dummy.userId}</S.UserId>
-          <S.UserIntro>{Dummy.userIntro}</S.UserIntro>
-          <S.UserBtnWrap>
-            <S.messageButton></S.messageButton>
-            <StyledBtn size="m">팔로우</StyledBtn>
-            <S.shareButton></S.shareButton>
-          </S.UserBtnWrap>
-          {/* 언팔로우일 때, 내 페이지 일 때
-          <S.UserBtnWrap>
-            <S.messageButton></S.messageButton>
-            <StyledBtn size="m" color='outlineGrey'>언팔로우</StyledBtn>
-            <S.shareButton></S.shareButton>
-          </S.UserBtnWrap>
-          <S.UserBtnWrap>
-            <StyledBtn size="m" color='outline'>프로필 수정</StyledBtn>
-            <StyledBtn size="m" color='outline'>상품 등록</StyledBtn>
-          </S.UserBtnWrap> 
-          */}
+          <S.UserName>{profile.username}</S.UserName>
+          <S.UserId>@ {profile.accountname}</S.UserId>
+          <S.UserIntro>{profile.intro}</S.UserIntro>
+          {myId === id ? (
+            <S.UserBtnWrap>
+              <StyledBtn to="/profile/edit" size="m" color="outline">
+                프로필 수정
+              </StyledBtn>
+              <StyledBtn to="/productupload" size="m" color="outline">
+                상품 등록
+              </StyledBtn>
+            </S.UserBtnWrap>
+          ) : (
+            <S.UserBtnWrap>
+              <S.messageButton to={`/chatlist/${id}`} />
+              <StyledBtn
+                size="m"
+                color={profile.isfollow ? 'outlineGrey' : 'fill'}
+                onClick={followHandler}
+              >
+                {profile.isfollow ? '언팔로우' : '팔로우'}
+              </StyledBtn>
+              <S.shareButton />
+            </S.UserBtnWrap>
+          )}
         </S.ProfileSection>
-        <S.ProductSection>
-          <S.StyledH2>판매 중인 상품</S.StyledH2>
-          <S.ProductList>
-            <li>
-              <ProductItem
-                itemName={productDummy.itemName}
-                price={productDummy.price}
-                itemImg={productDummy.itemImg}
-              />
-            </li>
-          </S.ProductList>
-        </S.ProductSection>
-        <S.PostSection>
-          <S.PostTop>
-            <S.viewButton view={view} type="button"></S.viewButton>
-            <S.viewButton view={view} type="button"></S.viewButton>
-          </S.PostTop>
-          <S.PostList view={view}>
-            <li>
-              <PostItem
-                postDate={postDummy.postDate}
-                postImg={postDummy.postImg}
-                postLike={postDummy.postLike}
-                postMessage={postDummy.postMessage}
-                postText={postDummy.postText}
-                userId={Dummy.userId}
-                userImg={Dummy.userImg}
-                userName={Dummy.userName}
-              />
-            </li>
-            {/* album view일 때
-             <li>
-              <img src={postDummy.postImg} alt="" />
-            </li> 
-            */}
-          </S.PostList>
-        </S.PostSection>
+        {products.length > 0 && (
+          <S.ProductSection>
+            <S.StyledH2>판매 중인 상품</S.StyledH2>
+            <S.ProductList>
+              {products.map((product, index) => {
+                return (
+                  <li key={index}>
+                    <ProductItem
+                      itemName={product.itemName}
+                      price={product.price}
+                      itemImg={product.itemImage}
+                    />
+                  </li>
+                );
+              })}
+            </S.ProductList>
+          </S.ProductSection>
+        )}
+        {posts.length > 0 && (
+          <S.PostSection>
+            <S.PostTop>
+              <S.viewButton
+                view={view}
+                type="button"
+                onClick={() => setView('list')}
+              ></S.viewButton>
+              <S.viewButton
+                view={view}
+                type="button"
+                onClick={() => setView('album')}
+              ></S.viewButton>
+            </S.PostTop>
+            <S.PostList view={view}>
+              {posts.map((post) => {
+                return view === 'list' ? (
+                  <li key={post.id}>
+                    <PostItem
+                      postDate={post.createdAt}
+                      postImg={post.image}
+                      postLike={post.heartCount}
+                      postMessage={post.commentCount}
+                      postText={post.content}
+                      userId={post.author.accountname}
+                      userImg={profile.image}
+                      userName={post.author.username}
+                    />
+                  </li>
+                ) : (
+                  post.image && (
+                    <li key={post.id}>
+                      <S.AlbumImg src={post.image} alt="" />
+                    </li>
+                  )
+                );
+              })}
+            </S.PostList>
+          </S.PostSection>
+        )}
       </S.Container>
       <TabMenu />
     </>
