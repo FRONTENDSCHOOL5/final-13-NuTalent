@@ -1,4 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { recoilData } from '../../../recoil/atoms/dataState';
+
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import {
@@ -12,12 +16,14 @@ import { instance } from '../../../util/api/axiosInstance';
 import { useState } from 'react';
 
 export default function AddProduct() {
+  const currentUSerData = useRecoilValue(recoilData);
+  const navigate = useNavigate();
   const [image, setImage] = useState('');
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
 
-  const token = localStorage.getItem('token');
+  const token = JSON.parse(localStorage.getItem('token'));
 
   const handleSubmit = async () => {
     if (productName.length < 2) {
@@ -43,6 +49,8 @@ export default function AddProduct() {
       });
 
       console.log(res);
+
+      navigate(`/profile/${currentUSerData._id}`);
     } catch (error) {
       console.error(error);
       alert('상품 등록 실패');
