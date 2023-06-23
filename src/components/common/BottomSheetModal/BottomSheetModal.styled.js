@@ -3,12 +3,15 @@ import { styled } from 'styled-components';
 const Modal = styled.div`
   border-radius: 1rem 1rem 0 0;
   width: 100vw;
+
   span {
+    height: 10px;
     height: 0.4rem;
-    width: 5rem;
+    width: 7rem;
     background-color: #dbdbdb;
     border-radius: 5rem;
-    margin: 1.6rem auto;
+    margin: 2rem auto;
+
     display: block;
   }
 
@@ -26,4 +29,23 @@ const Modal = styled.div`
   }
 `;
 
-export default Modal;
+const Overlay = styled.div`
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border: solid 0.1rem #c4c4c4;
+  /* height: 25%; */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  content: '';
+  /* inset: 0; */
+  z-index: 100;
+  /* background-color: rgb(0, 0, 0, 0.3); */
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export { Modal, Overlay };

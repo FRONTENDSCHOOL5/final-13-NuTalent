@@ -1,15 +1,21 @@
 import React from 'react';
-import Modal from './BottomSheetModal.styled';
+import { Modal, Overlay } from './BottomSheetModal.styled';
+import { createPortal } from 'react-dom';
 
-const BottomSheetModal = ({ children }) => {
-  console.log(children);
+const BottomSheetModal = ({ isOpen, children }) => {
   return (
-    <Modal>
-      <span></span>
-      {children.map((child, index) => (
-        <li key={index}>{child}</li>
-      ))}
-    </Modal>
+    isOpen &&
+    createPortal(
+      <Overlay>
+        <Modal>
+          <span></span>
+          {children.map((child, index) => (
+            <li key={index}>{child.name}</li>
+          ))}
+        </Modal>
+      </Overlay>,
+      document.body,
+    )
   );
 };
 

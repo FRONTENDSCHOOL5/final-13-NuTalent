@@ -6,12 +6,12 @@ import {
   ArrowLeftBtnText,
 } from '../Top/TopBasicNav.styled';
 
-export default function TopBasicNav({ children }) {
+export default function TopBasicNav({ children, openModal }) {
   return (
     <TopDiv>
       <ArrowLeftBtn />
       <ArrowLeftBtnText>{children}</ArrowLeftBtnText>
-      <OptionBtn />
+      <OptionBtn onClick={() => openModal()} />
     </TopDiv>
   );
 }
