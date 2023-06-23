@@ -7,9 +7,10 @@ import {
   ArrowLeftBtnText,
 } from '../Top/TopBasicNav.styled';
 
-export default function TopBasicNav({ children, onClick }) {
-  const navigate = useNavigate();
 
+export default function TopBasicNav({ children, openModal }) {
+  const navigate = useNavigate();
+  
   return (
     <TopDiv>
       <ArrowLeftBtn
@@ -18,7 +19,7 @@ export default function TopBasicNav({ children, onClick }) {
         }}
       />
       <ArrowLeftBtnText>{children}</ArrowLeftBtnText>
-      <OptionBtn onClick={onClick} />
+      <OptionBtn onClick={() => openModal()} />
     </TopDiv>
   );
 }

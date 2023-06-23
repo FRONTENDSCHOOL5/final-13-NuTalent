@@ -1,7 +1,5 @@
-import { useLocation } from 'react-router-dom';
-/* eslint-disable */
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import ProductItem from '../../../components/common/ProductItem/ProductItem';
@@ -11,6 +9,7 @@ import StyledBtn from '../../../components/common/Button/Button';
 
 import { instance } from '../../../util/api/axiosInstance';
 import useScrollBottom from '../../../hooks/useScrollBottom';
+import BottomSheetModal from '../../../components/common/BottomSheetModal/BottomSheetModal';
 
 import * as S from './ProfileDetail.styled';
 
@@ -23,9 +22,9 @@ export default function Profile() {
   const { id } = useParams();
 
   // TODO: 변경해야함
-  const accountName = process.env.REACT_APP_ACCOUNT_NAME;
-  const myId = process.env.REACT_APP_USER_ID;
-  const token = process.env.REACT_APP_USER_TOKEN;
+  const accountName = 'kikikik';
+  const myId = '6476d76ab2cb2056632cffd8';
+  const token = localStorage.getItem('token');
 
   const loadProfile = async (accName) => {
     try {
@@ -113,11 +112,37 @@ export default function Profile() {
     loadPost(accountName);
   }, [isBottom]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const modal = useRef(null);
+
+  const openModal = () => {
+    setIsModalOpen(!isModalOpen);
+    //누를때마다 setModalOpen의 상태가 true,false로 변하면서 모달창이 생겼다 없어졌다
+  };
+
+  const ModalArr = [
+    { name: '삭제' },
+    { name: '수정' },
+    { name: '한수정' },
+    { name: '숮엉' },
+  ];
+
   return (
     <>
-      <TopBasicNav />
+      <TopBasicNav openModal={openModal} />
       <S.Container>
         <S.ProfileSection>
+          <BottomSheetModal
+            ref={modal}
+            isOpen={isModalOpen}
+            title="로그아웃 하시겠어요?"
+            cancel={() => setIsModalOpen(false)}
+            actionText="로그아웃"
+            action={() => console.log('로그아웃')}
+          >
+            {ModalArr}
+          </BottomSheetModal>
           <S.ProfileWrap>
             <S.followLink to="/follower" state={profile.accountname}>
               <p>{profile.followerCount}</p>
