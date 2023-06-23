@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import imageValidation from '../../../util/imageValidation';
@@ -10,6 +11,7 @@ import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
 export default function Upload({ userImg }) {
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
+  const navigate = useNavigate();
 
   const textareaRef = useRef(null);
 
@@ -60,13 +62,12 @@ export default function Upload({ userImg }) {
         },
       });
 
-      console.log(res.data.post);
+      navigate(`/post/${res.data.post.id}`);
     } catch (error) {
       console.error(error);
     }
   };
 
-  // TODO: to 속성 설정하기
   return (
     <>
       <TopUploadNav
