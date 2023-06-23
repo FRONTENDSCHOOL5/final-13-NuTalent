@@ -1,10 +1,12 @@
 import { selector } from 'recoil';
-import { dataAccountName } from '../atoms/dataState';
+import { recoilData } from '../atoms/dataState';
 
 export const dataAccountNameSelector = selector({
     key: 'currentAccountData',
     get: ({ get }) => {
-        const recoilAccountName = get(dataAccountName);
-        return recoilAccountName;
+        const recoilAccountName = get(recoilData.user.accountname);
+        const recoilUserId = get(recoilData.user.userid);
+
+        return recoilAccountName, recoilUserId;
     }
 })
