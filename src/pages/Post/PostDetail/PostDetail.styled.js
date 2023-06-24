@@ -84,9 +84,9 @@ export const CommentBox = styled.div`
     }
   }
   button {
-    width: 3.6rem;
-    height: 1.8rem;
-    text-align: center;
+    width: 4.4rem;
+    height: 4.4rem;
+    text-align: right;
     color: var(--main-purple);
 
     &:disabled {
