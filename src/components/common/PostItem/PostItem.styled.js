@@ -19,6 +19,7 @@ export const PostText = styled.p`
   font-size: 1.4rem;
   line-height: 1.8rem;
   font-weight: 400;
+  word-break: break-all;
 `;
 
 export const PostImage = styled.img`
