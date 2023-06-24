@@ -56,18 +56,7 @@ export default function Home() {
                 {data.map((post, index) => {
                   return (
                     <ContainerLi key={index}>
-                      {
-                        <PostItem
-                          postDate={post.createdAt}
-                          postImg={post.image}
-                          postLike={post.heartCount}
-                          postMessage={post.commentCount}
-                          postText={post.content}
-                          userId={post.author.accountname}
-                          userImg={post.author.image}
-                          userName={post.author.username}
-                        />
-                      }
+                      {<PostItem post={post} isLink={true} />}
                     </ContainerLi>
                   );
                 })}

@@ -4,40 +4,42 @@ import { Link } from 'react-router-dom';
 
 import User from '../User/User';
 
-export default function PostItem({
-  userName,
-  userId,
-  userImg,
-  postText,
-  postImg,
-  postDate,
-  postLike,
-  postMessage,
-}) {
+export default function PostItem(props) {
+  const post = props.post;
   return (
     <S.PostArticle>
       <User
         size="small"
-        userName={userName}
-        userId={userId}
-        userImg={userImg}
+        userName={post.author.username}
+        userId={post.author.accountname}
+        userImg={post.author.image}
         to="/profile"
       />
       <S.PostContainer>
-        <S.PostLink to="/post/id" state={userId}>
-          <S.PostText>{postText}</S.PostText>
-          {postImg && <S.PostImage src={postImg} alt="게시물 이미지" />}
+        <S.PostLink
+          to={`/post/${post.id}`}
+          onClick={(e) => {
+            if (!props.isLink) e.preventDefault();
+          }}
+        >
+          <S.PostText>{post.content}</S.PostText>
+          {post.image && <S.PostImage src={post.image} alt="게시물 이미지" />}
         </S.PostLink>
 
         <S.PostButtons>
           <S.PostLike />
-          <S.PostSpan>{postLike}</S.PostSpan>
-          <Link to="/post/id" state={userId}>
+          <S.PostSpan>{post.hearted}</S.PostSpan>
+          <Link
+            to={`/post/${post.id}`}
+            // onClick={(e) => {
+            //   if (!props.isLink) e.preventDefault();
+            // }}
+          >
             <S.PostMessage />
-            <S.PostSpan>{postMessage}</S.PostSpan>
+            <S.PostSpan>{post.commentCount}</S.PostSpan>
           </Link>
         </S.PostButtons>
-        <S.PostDate>{postDate}</S.PostDate>
+        <S.PostDate>{post.createdAt}</S.PostDate>
       </S.PostContainer>
       <S.PostMore />
     </S.PostArticle>
