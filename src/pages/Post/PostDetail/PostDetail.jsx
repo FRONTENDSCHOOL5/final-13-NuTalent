@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import PostItem from '../../../components/common/PostItem/PostItem';
-
 import {
   PostItemWrapper,
   CommentUl,
@@ -10,77 +10,50 @@ import {
   CommentBox,
 } from './PostDetail.styled';
 import basicProfile from '../../../assets/img/basic-profile-img-.svg';
+import { instance } from '../../../util/api/axiosInstance';
 
 export default function PostDetail() {
+  const token = localStorage.getItem('token');
+  // const [post, setPost] = useState([]);
+  const [data, setData] = useState(undefined);
   const { id } = useParams();
-  console.log(id);
-  const postitemdummy = {
-    postDate: '2022-01-01',
-    postTitle: '손수민',
-    postText:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos sapiente officiis aliquid expedita corrupti? Similique at dolor reprehenderit quia deserunt atque natus eius animi aspernatur incidunt. Mollitia aut perspiciatis tenetur.',
-    postImg: 'https://picsum.photos/200/300',
-    postLike: '좋아요',
-    userImg: 'https://picsum.photos/200/300',
-    userName: '손수민',
-    userId: 'suminson',
+
+  const getPost = async () => {
+    try {
+      const res = await instance.get(`/post/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      console.log(res.data);
+      setData(res.data.post);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    getPost();
+  }, []);
+  console.log(data);
+  if (!data) return;
+
   return (
     <>
       <TopBasicNav />
       <PostItemWrapper>
-        <PostItem
-          postDate={postitemdummy.postDate}
-          postTitle={postitemdummy.postTitle}
-          postText={postitemdummy.postText}
-          postImg={postitemdummy.postImg}
-          postLike={postitemdummy.postLike}
-          userImg={postitemdummy.userImg}
-          userName={postitemdummy.userName}
-          userId={postitemdummy.userId}
-        />
+        <PostItem post={data} isLink={false} />
       </PostItemWrapper>
       <CommentUl>
         <CommentLi>
-          <img src={basicProfile} alt="유저 프로필 이미지" />
+          <img src={data.author.image} alt="유저 프로필 이미지" />
           <div>
             <h2>
-              손수민<span>22분전</span>
+              {data.author.username}
+              <span>{data.createdAt}</span>
             </h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Dignissimos sapiente officiis aliquid expedita corrupti? Similique
-              at dolor reprehenderit quia deserunt atque natus eius animi
-              aspernatur incidunt. Mollitia aut perspiciatis tenetur.
-            </p>
-          </div>
-        </CommentLi>
-        <CommentLi>
-          <img src={basicProfile} alt="유저 프로필 이미지" />
-          <div>
-            <h2>
-              손수민<span>22분전</span>
-            </h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Dignissimos sapiente officiis aliquid expedita corrupti? Similique
-              at dolor reprehenderit quia deserunt atque natus eius animi
-              aspernatur incidunt. Mollitia aut perspiciatis tenetur.
-            </p>
-          </div>
-        </CommentLi>
-        <CommentLi>
-          <img src={basicProfile} alt="유저 프로필 이미지" />
-          <div>
-            <h2>
-              손수민<span>22분전</span>
-            </h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Dignissimos sapiente officiis aliquid expedita corrupti? Similique
-              at dolor reprehenderit quia deserunt atque natus eius animi
-              aspernatur incidunt. Mollitia aut perspiciatis tenetur.
-            </p>
+            <p>{data.content}</p>
           </div>
         </CommentLi>
       </CommentUl>

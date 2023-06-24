@@ -57,6 +57,7 @@ export default function Home() {
                 {data.map((post, index) => {
                   return (
                     <ContainerLi key={index}>
+<<<<<<< develop
                       {
                         <PostItem
                           postDate={post.createdAt}
@@ -70,6 +71,9 @@ export default function Home() {
                           userName={post.author.username}
                         />
                       }
+=======
+                      {<PostItem post={post} isLink={true} />}
+>>>>>>> Feat: 게시글 상세페이지 기능 일부 구현(#89)
                     </ContainerLi>
                   );
                 })}
