@@ -6,6 +6,8 @@ import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 import { UserWrapper } from './Follower.styled';
 import { instance } from '../../../util/api/axiosInstance';
 import { useLocation } from 'react-router-dom';
+import { loginState } from '../../../recoil/atoms/loginState';
+import { useRecoilValue } from 'recoil';
 
 export default function Follower() {
   // 나를 follow 하는 사람들의 list를 저장할 state
@@ -13,7 +15,14 @@ export default function Follower() {
 
   const location = useLocation();
   const accountName = location.state;
-  const token = localStorage.getItem('token');
+  // localstorage에 바로 값을 가져오지만 recoil사용할 경우에는 recoil을 사용해서 값을 가져오면 됨
+  // const token = localStorage.getItem('token');
+
+  // recoil에서 atom(초기값)의 값을 읽어오고 바꿀때 :
+  // const [token, setToken] = useState(loginState);
+  const token = useRecoilValue(loginState);
+  // console.log(token);
+  // const setToken = useSetRecoilState(loginState);
 
   // useEffect(콜백함수, 의존성 배열)
   // 의존성 배열의 요소가 변경되면 콜백함수 실행

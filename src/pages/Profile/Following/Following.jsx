@@ -6,6 +6,8 @@ import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 import { UserWrapper } from './Following.styled';
 import { instance } from '../../../util/api/axiosInstance';
 import { useLocation } from 'react-router-dom';
+import { loginState } from '../../../recoil/atoms/loginState';
+import { useRecoilValue } from 'recoil';
 
 export default function Following() {
   // 내가 follow 하는 사람들의 list를 저장할 state
@@ -13,8 +15,10 @@ export default function Following() {
 
   const location = useLocation();
   const accountName = location.state;
-  const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
 
+  const token = useRecoilValue(loginState);
+  console.log(token);
   // useEffect(콜백함수, 의존성 배열)
   // 의존성 배열의 요소가 변경되면 콜백함수 실행
   useEffect(() => {
