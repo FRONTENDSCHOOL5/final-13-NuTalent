@@ -216,16 +216,7 @@ export default function Profile() {
               {posts.map((post) => {
                 return view === 'list' ? (
                   <li key={post.id}>
-                    <PostItem
-                      postDate={post.createdAt}
-                      postImg={post.image}
-                      postLike={post.heartCount}
-                      postMessage={post.commentCount}
-                      postText={post.content}
-                      userId={post.author.accountname}
-                      userImg={profile.image}
-                      userName={post.author.username}
-                    />
+                    <PostItem post={post} />
                   </li>
                 ) : (
                   post.image && (

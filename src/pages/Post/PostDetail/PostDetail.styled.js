@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import optionImg from '../../../assets/img/icon-more-vertical.svg';
 
 export const PostItemWrapper = styled.div`
   min-width: 32rem;
@@ -56,6 +57,14 @@ export const CommentLi = styled.li`
       word-break: break-all;
       line-height: 1.8rem;
     }
+  }
+  button {
+    width: 2rem;
+    height: 2rem;
+    margin-left: auto;
+    background-color: inherit;
+    border: none;
+    background: url(${optionImg}) no-repeat center / contain;
   }
 `;
 
