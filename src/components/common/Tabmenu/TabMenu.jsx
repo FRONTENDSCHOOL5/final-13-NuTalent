@@ -26,7 +26,7 @@ export default function TabMenu() {
           </TabMenuLiLink>
         </TabMenuLi>
         <TabMenuLi>
-          <TabMenuLiLink to={`/post/${currentUserData.accountname}`}>
+          <TabMenuLiLink to="/post/upload">
             <img src={addPost} alt="게시물 작성" />
             <p>게시물 작성</p>
           </TabMenuLiLink>

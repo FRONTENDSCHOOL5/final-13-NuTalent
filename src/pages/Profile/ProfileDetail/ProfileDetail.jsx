@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ import StyledBtn from '../../../components/common/Button/Button';
 
 import { instance } from '../../../util/api/axiosInstance';
 import useScrollBottom from '../../../hooks/useScrollBottom';
+import BottomSheetModal from '../../../components/common/BottomSheetModal/BottomSheetModal';
 
 import * as S from './ProfileDetail.styled';
 
@@ -31,10 +32,6 @@ export default function Profile() {
   const location = useLocation();
   console.log(currentUserData);
 
-  // console.log('location.state', location);
-
-  // 왜 location.state.랑 currentUserData.은 되는데 삼항연산자를 쓰면 안되는걸까?
-  // 조건에 상관없이 무조건 location.state.가 들어가서 탭메뉴로들어가면 오류가 나는 것 같다.
   const accountName =
     location.state !== null
       ? location.state.userId
@@ -130,11 +127,37 @@ export default function Profile() {
     loadPost(accountName);
   }, [isBottom]);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const modal = useRef(null);
+
+  const openModal = () => {
+    setIsModalOpen(!isModalOpen);
+    //누를때마다 setModalOpen의 상태가 true,false로 변하면서 모달창이 생겼다 없어졌다
+  };
+
+  const ModalArr = [
+    { name: '삭제' },
+    { name: '수정' },
+    { name: '한수정' },
+    { name: '숮엉' },
+  ];
+
   return (
     <>
-      <TopBasicNav />
+      <TopBasicNav openModal={openModal} />
       <S.Container>
         <S.ProfileSection>
+          <BottomSheetModal
+            ref={modal}
+            isOpen={isModalOpen}
+            title="로그아웃 하시겠어요?"
+            cancel={() => setIsModalOpen(false)}
+            actionText="로그아웃"
+            action={() => console.log('로그아웃')}
+          >
+            {ModalArr}
+          </BottomSheetModal>
           <S.ProfileWrap>
             <S.followLink to="/follower" state={profile.accountname}>
               <p>{profile.followerCount}</p>
