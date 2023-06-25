@@ -1,11 +1,10 @@
 import { styled } from 'styled-components';
 
-export const FollowerUserWrapper = styled.div``;
-
 export const FollowerUserStyled = styled.div`
   display: flex;
   width: 100%;
   gap: 1.2rem;
+  margin-bottom: 1.6rem;
 `;
 
 export const FollowerUserImage = styled.img`
