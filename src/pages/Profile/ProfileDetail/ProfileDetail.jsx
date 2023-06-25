@@ -230,6 +230,7 @@ export default function Profile() {
             <S.PostList view={view}>
               {posts.map((post) => {
                 return view === 'list' ? (
+<<<<<<< develop
                   <li key={post.accountname}>
                     <PostItem
                       postDate={post.createdAt}
@@ -241,6 +242,10 @@ export default function Profile() {
                       userImg={profile.image}
                       userName={post.author.username}
                     />
+=======
+                  <li key={post.id}>
+                    <PostItem post={post} />
+>>>>>>> Feat:게시글 상세 페이지 기능 일부 구현(#89)
                   </li>
                 ) : (
                   post.image && (
