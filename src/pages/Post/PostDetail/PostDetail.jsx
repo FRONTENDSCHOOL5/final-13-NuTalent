@@ -11,6 +11,7 @@ import {
 } from './PostDetail.styled';
 import basicProfile from '../../../assets/img/basic-profile-img-.svg';
 import { instance } from '../../../util/api/axiosInstance';
+import useScrollBottom from '../../../hooks/useScrollBottom';
 
 export default function PostDetail() {
   const token = localStorage.getItem('token');
@@ -19,6 +20,9 @@ export default function PostDetail() {
   const [data, setData] = useState(undefined);
   const [content, setContent] = useState('');
   const { id } = useParams();
+
+  const [skip, setSkip] = useState(0);
+  const isBottom = useScrollBottom();
 
   const getPost = async () => {
     try {
@@ -34,14 +38,18 @@ export default function PostDetail() {
       console.error(error);
     }
   };
+
   const getComment = async () => {
     try {
-      const res = await instance.get(`/post/${id}/comments/?limit=5&skip=5`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
+      const res = await instance.get(
+        `/post/${id}/comments/?limit=10&skip=${skip}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
         },
-      });
+      );
 
       console.log(res);
       return res.data.comments;
@@ -51,13 +59,21 @@ export default function PostDetail() {
   };
 
   useEffect(() => {
+    //useEffect에 async를 바로 사용할수 없기 때문에 함수를 만들어서 사용해준다.
     async function setComment() {
-      const comment = await getComment();
+      const data = await getComment();
+      console.log(data);
+
       await getPost();
-      setComments(comment);
+      setComments(data);
     }
     setComment();
   }, []);
+
+  useEffect(() => {
+    getComment();
+    setSkip(skip + 5);
+  }, [isBottom]);
 
   // useEffect(() => {}, [comments]);
 
@@ -68,7 +84,7 @@ export default function PostDetail() {
           content: content,
         },
       });
-      console.log(token);
+
       const res = await instance.post(`/post/${id}/comments`, comment, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -77,11 +93,36 @@ export default function PostDetail() {
       });
 
       console.log(res);
-      getComment();
+
+      return res.data.comment;
     } catch (error) {
       console.error(error);
       alert('댓글 등록 실패');
     }
+  };
+  const handleDeleteClick = async (commentId) => {
+    console.log(token);
+    try {
+      const res = await instance.delete(`/post/${id}/comments/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteComment = (commentId) => {
+    setComments(
+      comments.filter((comment) => {
+        if (comment.id === commentId) {
+          return null;
+        }
+        return comment;
+      }),
+    );
   };
 
   return (
@@ -93,21 +134,24 @@ export default function PostDetail() {
             <PostItem post={data} isLink={false} />
           </PostItemWrapper>
           <CommentUl>
-            {comments.map((comment, index) => {
-              return (
-                <CommentLi key={index}>
-                  {/* <img src={comment.author.image} alt="유저 프로필 이미지" /> */}
-                  <div>
-                    <h2>
-                      {comment.author.username}
-                      <span>{comment.createdAt}</span>
-                    </h2>
-                    <p>{comment.content}</p>
-                  </div>
-                  <button />
-                </CommentLi>
-              );
-            })}
+            {comments.map((comment, index) => (
+              <CommentLi key={index}>
+                <img src={comment.author.image} alt="유저 프로필 이미지" />
+                <div>
+                  <h2>
+                    {comment.author.username}
+                    <span>{comment.createdAt}</span>
+                  </h2>
+                  <p>{comment.content}</p>
+                </div>
+                <button
+                  onClick={() => {
+                    handleDeleteClick(comment.id);
+                    deleteComment(comment.id);
+                  }}
+                />
+              </CommentLi>
+            ))}
           </CommentUl>
           <CommentBox>
             <img src={basicProfile} />
@@ -121,9 +165,11 @@ export default function PostDetail() {
               }}
             />
             <button
-              onClick={() => {
-                handleClick();
-                setComments([...comments, content]);
+              onClick={async () => {
+                const newComment = await handleClick();
+                console.log(newComment);
+
+                setComments([...comments, newComment]);
               }}
               disabled={isDisabled}
             >
