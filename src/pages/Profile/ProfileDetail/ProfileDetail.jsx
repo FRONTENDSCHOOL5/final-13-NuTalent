@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
@@ -13,6 +14,10 @@ import BottomSheetModal from '../../../components/common/BottomSheetModal/Bottom
 
 import * as S from './ProfileDetail.styled';
 
+import { useRecoilValue } from 'recoil';
+import { recoilData } from '../../../recoil/atoms/dataState';
+import { loginState } from '../../../recoil/atoms/loginState';
+
 export default function Profile() {
   const [profile, setProfile] = useState({});
   const [products, setProducts] = useState([]);
@@ -21,10 +26,19 @@ export default function Profile() {
   const [skip, setSkip] = useState(0);
   const { id } = useParams();
 
-  // TODO: 변경해야함
-  const accountName = 'kikikik';
-  const myId = '6476d76ab2cb2056632cffd8';
-  const token = localStorage.getItem('token');
+  const currentUserData = useRecoilValue(recoilData);
+  const token = useRecoilValue(loginState);
+
+  const location = useLocation();
+  console.log(currentUserData);
+
+  const accountName =
+    location.state !== null
+      ? location.state.userId
+      : currentUserData.accountname;
+
+  console.log(accountName);
+  const myId = currentUserData.accountname;
 
   const loadProfile = async (accName) => {
     try {
@@ -102,8 +116,9 @@ export default function Profile() {
   useEffect(() => {
     loadProfile(accountName);
     loadProduct(accountName);
+    setPosts([]);
     loadPost(accountName);
-  }, []);
+  }, [accountName]);
 
   // 무한 스크롤
   const isBottom = useScrollBottom();

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
-import StyledBtn from '../../../components/common/Button/Button';
+import { useSetRecoilState } from 'recoil';
+import { loginState } from '../../../recoil/atoms/loginState';
+import { recoilData } from '../../../recoil/atoms/dataState';
+import { instance } from '../../../util/api/axiosInstance';
 import {
   LoginPageWrap,
   PageH2,
@@ -9,16 +11,20 @@ import {
   LoginCreateAccount,
   ErrorMessage,
 } from './Login.styled';
-import { instance } from '../../../util/api/axiosInstance';
+import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
+import StyledBtn from '../../../components/common/Button/Button';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const setCurrentUSerToken = useSetRecoilState(loginState);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailAlertMessage, setEmailAlertMessage] = useState('');
   const [passwordAlertMessage, setPasswordAlertMessage] = useState('');
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(true);
   const [isEmailInvalid, setEmailInvalid] = useState(true);
+  const [responseAlertMessage, setResponseAlertMessage] = useState('');
+  const setCurrentUserData = useSetRecoilState(recoilData);
   const emailRegEx = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
 
   const handleEmailChange = (e) => {
@@ -26,12 +32,16 @@ export default function LoginPage() {
     setEmail(currentEmail);
 
     // 이메일 유효성 검사
-    if (email.length < 1) {
+    if (email === '') {
       setEmailInvalid(true);
       setEmailAlertMessage('*이메일을 입력해주세요');
     } else {
+      passwordAlertMessage !== ''
+        ? setIsPasswordInvalid(false)
+        : setIsPasswordInvalid(true);
       setEmailInvalid(false);
       setEmailAlertMessage('');
+      console.log(11);
     }
   };
 
@@ -40,12 +50,13 @@ export default function LoginPage() {
     setPassword(currentPassword);
 
     // 패스워드 유효성 검사
-    if (password.length == '') {
+    if (password.length < 1) {
       setIsPasswordInvalid(true);
       setPasswordAlertMessage('*비밀번호를 입력해주세요.');
     } else {
       setIsPasswordInvalid(false);
       setPasswordAlertMessage('');
+      console.log(22);
     }
   };
 
@@ -57,9 +68,11 @@ export default function LoginPage() {
       if (!emailRegEx.test(email)) {
         setEmailInvalid(true);
         setEmailAlertMessage('*유효하지 않은 이메일입니다.');
+        console.log(33);
       } else {
         setEmailInvalid(false);
         setEmailAlertMessage('');
+        console.log(44);
       }
 
       // 패스워드 유효성 검사
@@ -89,15 +102,18 @@ export default function LoginPage() {
 
       if (!res.data.message) {
         //localStorage 저장
-        const token = res.data.user['token'];
-        localStorage.setItem('token', token);
+        const userToken = res.data.user['token'];
+        setCurrentUSerToken(userToken);
+
+        // recoil state
+        setCurrentUserData(res.data.user);
 
         console.log('로그인 성공!');
 
         navigate('/home');
       } else {
         setIsPasswordInvalid(true);
-        setPasswordAlertMessage(`*${res.data.message}`);
+        setResponseAlertMessage(`*${res.data.message}`);
       }
     } catch (error) {
       console.error(error);
@@ -127,6 +143,9 @@ export default function LoginPage() {
         </TextActiveInput>
         {isPasswordInvalid && (
           <ErrorMessage>{passwordAlertMessage}</ErrorMessage>
+        )}
+        {isPasswordInvalid && (
+          <ErrorMessage>{responseAlertMessage}</ErrorMessage>
         )}
         <StyledBtn type="submit" disabled={isEmailInvalid || isPasswordInvalid}>
           로그인

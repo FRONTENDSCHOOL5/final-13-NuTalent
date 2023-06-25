@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import TopMainNav from '../../components/common/Top/TopMainNav';
 import PostItem from '../../components/common/PostItem/PostItem';
 import TabMenu from '../../components/common/Tabmenu/TabMenu';
 import { instance } from '../../util/api/axiosInstance';
-import { useEffect, useState } from 'react';
 import {
   Container,
   ContainerUl,
@@ -13,15 +13,16 @@ import {
 import StyledBtn from '../../components/common/Button/Button';
 import NoFollowerImg from '../../assets/img/smile.svg';
 import useScrollBottom from '../../hooks/useScrollBottom';
+import { loginState } from '../../recoil/atoms/loginState';
 
 export default function Home() {
   const [data, setData] = useState([]);
   const [skip, setSkip] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  const isBottom = useScrollBottom();
+  const token = useRecoilValue(loginState);
 
-  const token = localStorage.getItem('token');
+  const isBottom = useScrollBottom();
 
   useEffect(() => {
     try {
@@ -65,6 +66,7 @@ export default function Home() {
                           postText={post.content}
                           userId={post.author.accountname}
                           userImg={post.author.image}
+                          user_id={post.author._id}
                           userName={post.author.username}
                         />
                       }
@@ -76,7 +78,9 @@ export default function Home() {
               <NoFollowerWrap>
                 <img src={NoFollowerImg} alt="팔로워가 없습니다 이미지" />
                 <p>유저를 검색해 팔로우 해보세요! </p>
-                <StyledBtn width="10rem">검색하기</StyledBtn>
+                <StyledBtn width="10rem" to="/search">
+                  검색하기
+                </StyledBtn>
               </NoFollowerWrap>
             )}
           </>

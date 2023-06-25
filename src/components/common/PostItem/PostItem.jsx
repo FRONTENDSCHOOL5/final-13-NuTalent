@@ -13,7 +13,10 @@ export default function PostItem({
   postDate,
   postLike,
   postMessage,
+  user_id,
 }) {
+  // console.log('userId userName user_id', userId, userName, user_id);
+
   return (
     <S.PostArticle>
       <User
@@ -21,10 +24,13 @@ export default function PostItem({
         userName={userName}
         userId={userId}
         userImg={userImg}
-        to="/profile"
+        user_id={user_id}
+        to={`/profile/${userId}`}
+        state={{ userId, user_id }}
+        // state={(userId, user_id)}
       />
       <S.PostContainer>
-        <S.PostLink to="/post/id" state={userId}>
+        <S.PostLink to={`/profile/${userId}`} state={{ userId, user_id }}>
           <S.PostText>{postText}</S.PostText>
           {postImg && <S.PostImage src={postImg} alt="게시물 이미지" />}
         </S.PostLink>
@@ -32,7 +38,11 @@ export default function PostItem({
         <S.PostButtons>
           <S.PostLike />
           <S.PostSpan>{postLike}</S.PostSpan>
-          <Link to="/post/id" state={userId}>
+          <Link
+            to={`/profile/${userId}`}
+            state={{ userId, user_id }}
+            // state={(userId, user_id)}
+          >
             <S.PostMessage />
             <S.PostSpan>{postMessage}</S.PostSpan>
           </Link>

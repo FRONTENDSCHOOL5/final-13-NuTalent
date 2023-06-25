@@ -4,10 +4,11 @@ import messageCircle from '../../../assets/img/icon-message-circle.svg';
 import addPost from '../../../assets/img/icon-edit.svg';
 import user from '../../../assets/img/icon-user.svg';
 import { TabMenuUl, TabMenuLi, TabMenuLiLink } from './TabMenu.styled';
+import { useRecoilValue } from 'recoil';
+import { recoilData } from '../../../recoil/atoms/dataState';
 
 export default function TabMenu() {
-  // TODO: userId 받는 로직 추가하기
-  const userId = process.env.REACT_APP_USER_ID;
+  const currentUserData = useRecoilValue(recoilData);
 
   return (
     <>
@@ -31,7 +32,7 @@ export default function TabMenu() {
           </TabMenuLiLink>
         </TabMenuLi>
         <TabMenuLi>
-          <TabMenuLiLink to={`/profile/${userId}`}>
+          <TabMenuLiLink to={`/profile/${currentUserData.accountname}`}>
             <img src={user} alt="프로필" />
             <p>프로필</p>
           </TabMenuLiLink>

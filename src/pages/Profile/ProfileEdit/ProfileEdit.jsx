@@ -16,6 +16,10 @@ import TextActiveInput from '../../../components/common/TextActiveInput/TextActi
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import uploadImage from '../../../assets/img/upload-file.svg';
 
+import { useRecoilValue } from 'recoil';
+import { recoilData } from '../../../recoil/atoms/dataState';
+import { loginState } from '../../../recoil/atoms/loginState';
+
 export default function ProfileEdit() {
   const [profileImage, setProfileImage] = useState('');
   const [userName, setUserName] = useState('');
@@ -28,28 +32,27 @@ export default function ProfileEdit() {
   const navigate = useNavigate();
   const idRegExp = /^[a-zA-Z0-9_.]+$/;
 
-  const dummyUserId = process.env.REACT_APP_USER_ID;
-  const dummyUserToken = process.env.REACT_APP_USER_TOKEN;
+  const currentUserData = useRecoilValue(recoilData);
+  console.log(currentUserData);
+
+  const gotAccountName = currentUserData.accountname;
+  const gotUserId = currentUserData._id;
+  const token = useRecoilValue(loginState);
 
   useEffect(() => {
     async function getProfile() {
-      const getProfileRes = await instance.get(
-        // TODO: id 동적으로 값을 받아오도록 변경 필요
-        `/profile/${dummyUserId}`,
-        {
-          params: {
-            image: profileImage,
-            userName: userName,
-            userId: userId,
-            description: description,
-          },
-          headers: {
-            // TODO: token값 동적으로 받아오도록 변경 필요
-            Authorization: `Bearer ${dummyUserToken}`,
-            'Content-type': 'application/json',
-          },
+      const getProfileRes = await instance.get(`/profile/${gotAccountName}`, {
+        params: {
+          image: profileImage,
+          userName: userName,
+          userId: userId,
+          description: description,
         },
-      );
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
       console.log(getProfileRes);
 
       setProfileImage(getProfileRes.data.profile.image);
@@ -130,14 +133,14 @@ export default function ProfileEdit() {
       });
       const res = await instance.put('/user', user, {
         headers: {
-          Authorization: `Bearer ${dummyUserToken}`,
+          Authorization: `Bearer ${token}`,
           'Content-type': 'application/json',
         },
       });
 
       console.log(res);
 
-      navigate('/profile');
+      navigate(`/profile/${gotUserId}`);
     } catch (error) {
       console.error(error);
 

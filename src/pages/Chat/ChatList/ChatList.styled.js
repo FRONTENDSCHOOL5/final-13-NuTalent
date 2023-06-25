@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   padding: 4.8rem 0;
@@ -12,7 +13,7 @@ export const ChatList = styled.ul`
   }
 `;
 
-export const ChatItem = styled.div`
+export const ChatItem = styled(Link)`
   display: flex;
   gap: 1.2rem;
 `;

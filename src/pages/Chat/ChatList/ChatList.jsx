@@ -1,7 +1,7 @@
 import React from 'react';
+
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
-import { useLocation } from 'react-router-dom';
 
 import * as S from './ChatList.styled';
 
@@ -26,9 +26,6 @@ export default function ChatList() {
       ChatTime: '2023.06.22',
     },
   ];
-  const location = useLocation();
-  const data = location.state;
-  console.log(data);
 
   return (
     <>
@@ -38,7 +35,7 @@ export default function ChatList() {
           {ChatDummy.map((item, index) => {
             return (
               <li key={index}>
-                <S.ChatItem>
+                <S.ChatItem to="/chatlist/:id">
                   <S.UserImg src={item.userImg} alt="프로필 사진" />
                   <S.ChatWrapper>
                     <S.UserName>{item.UserName}</S.UserName>
