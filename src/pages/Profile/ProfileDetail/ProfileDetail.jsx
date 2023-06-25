@@ -15,6 +15,7 @@ import * as S from './ProfileDetail.styled';
 
 import { useRecoilValue } from 'recoil';
 import { recoilData } from '../../../recoil/atoms/dataState';
+import { loginState } from '../../../recoil/atoms/loginState';
 
 export default function Profile() {
   const [profile, setProfile] = useState({});
@@ -25,6 +26,8 @@ export default function Profile() {
   const { id } = useParams();
 
   const currentUserData = useRecoilValue(recoilData);
+  const token = useRecoilValue(loginState);
+
   const location = useLocation();
   console.log(currentUserData);
 
@@ -39,8 +42,6 @@ export default function Profile() {
 
   console.log(accountName);
   const myId = currentUserData.accountname;
-
-  const token = JSON.parse(localStorage.getItem('token'));
 
   const loadProfile = async (accName) => {
     try {

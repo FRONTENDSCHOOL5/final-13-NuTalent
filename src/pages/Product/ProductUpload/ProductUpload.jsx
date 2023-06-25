@@ -14,16 +14,17 @@ import {
 
 import { instance } from '../../../util/api/axiosInstance';
 import { useState } from 'react';
+import { loginState } from '../../../recoil/atoms/loginState';
 
 export default function AddProduct() {
   const currentUSerData = useRecoilValue(recoilData);
+  const token = useRecoilValue(loginState);
+
   const navigate = useNavigate();
   const [image, setImage] = useState('');
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
-
-  const token = JSON.parse(localStorage.getItem('token'));
 
   const handleSubmit = async () => {
     if (productName.length < 2) {

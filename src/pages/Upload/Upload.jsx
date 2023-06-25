@@ -1,9 +1,11 @@
 import React, { useState, useRef } from 'react';
+import { useRecoilValue } from 'recoil';
 import TopUploadNav from '../../components/common/Top/TopUploadNav';
 import * as S from './Upload.styled';
 import defaultProfileImg from '../../assets/img/basic-profile.svg';
 import { instance } from '../../util/api/axiosInstance';
 import imageValidation from '../../util/imageValidation';
+import { loginState } from '../../recoil/atoms/loginState';
 
 export default function Upload({ userImg }) {
   const [content, setContent] = useState('');
@@ -11,7 +13,7 @@ export default function Upload({ userImg }) {
 
   const textareaRef = useRef(null);
 
-  const token = JSON.parse(localStorage.getItem('token'));
+  const token = useRecoilValue(loginState);
 
   // 텍스트에 따라 textarea의 높이 동적으로 조절
   const textareaHeightControl = () => {

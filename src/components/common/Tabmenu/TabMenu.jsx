@@ -9,8 +9,7 @@ import { recoilData } from '../../../recoil/atoms/dataState';
 
 export default function TabMenu() {
   const currentUserData = useRecoilValue(recoilData);
-  // console.log(currentUserData);
-  // console.log(currentUserData.accountname);
+
   return (
     <>
       <TabMenuUl>
