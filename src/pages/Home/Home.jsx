@@ -53,9 +53,9 @@ export default function Home() {
           <>
             {data.length > 0 ? (
               <ContainerUl>
-                {data.map((post, index) => {
+                {data.map((post) => {
                   return (
-                    <ContainerLi key={index}>
+                    <ContainerLi key={post.id}>
                       {<PostItem post={post} isLink={true} />}
                     </ContainerLi>
                   );
