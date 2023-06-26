@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
 import { SearchWrap, UserListLi } from './Search.styled';
 
@@ -42,6 +42,10 @@ export default function Search() {
   const handleImageError = (e) => {
     e.target.src = defaultProfileImage;
   };
+
+  useEffect(() => {
+    sendQuery(keywordForSearchUser);
+  }, [keywordForSearchUser]);
 
   return (
     <>
