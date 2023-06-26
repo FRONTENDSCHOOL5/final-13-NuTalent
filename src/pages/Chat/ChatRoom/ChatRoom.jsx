@@ -1,19 +1,22 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import TopChatNav from '../../../components/common/Top/TopChatNav';
 import * as S from './ChatRoom.styled';
 
 export default function ChatRoom() {
-  const data = {
-    userName: 'XXXX',
-    id: '123123',
-  };
+  const location = useLocation();
+
+  const userName = location.state;
 
   return (
     <>
-      <TopChatNav>{data.userName}</TopChatNav>
+      <TopChatNav>{userName}</TopChatNav>
       <S.Container>
         <S.ChatArticle>
-          <img src="" alt="" />
+          <img
+            src={'https://api.mandarin.weniv.co.kr/1687295086842.png'}
+            alt="유저 프로필 사진"
+          />
           <p>Lorem, ipsum dolor.</p>
         </S.ChatArticle>
         <S.ChatArticle className="me">
@@ -24,7 +27,10 @@ export default function ChatRoom() {
           </p>
         </S.ChatArticle>
         <S.ChatArticle>
-          <img src="" alt="" />
+          <img
+            src={'https://api.mandarin.weniv.co.kr/1687295086842.png'}
+            alt=""
+          />
           <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis,
             debitis.

@@ -8,22 +8,28 @@ import * as S from './ChatList.styled';
 export default function ChatList() {
   const ChatDummy = [
     {
-      userImg: 'https://picsum.photos/200',
-      UserName: 'nutalent',
-      ChatContent: '안녕하세요!',
+      userImg: 'https://api.mandarin.weniv.co.kr/1687295086842.png',
+      UserName: '그림팝니다',
+      UserAccount: 'sellpicture',
+      ChatContent: '어떤 그림 말씀이실까요?',
       ChatTime: '2023.06.22',
+      isRead: false,
     },
     {
       userImg: 'https://picsum.photos/200',
       UserName: 'nutalent',
-      ChatContent: '안녕하세요!',
-      ChatTime: '2023.06.22',
+      UserAccount: 'nutalent',
+      ChatContent: '언제 가능하실까요?',
+      ChatTime: '2023.06.26',
+      isRead: true,
     },
     {
       userImg: 'https://picsum.photos/200',
-      UserName: 'nutalent',
+      UserName: '퇴근후아티스트',
+      UserAccount: 'iamartist',
       ChatContent: '안녕하세요!',
-      ChatTime: '2023.06.22',
+      ChatTime: '2023.06.01',
+      isRead: true,
     },
   ];
 
@@ -35,7 +41,11 @@ export default function ChatList() {
           {ChatDummy.map((item, index) => {
             return (
               <li key={index}>
-                <S.ChatItem to="/chatlist/:id">
+                {!item.isRead ? <S.UnreadMarker /> : <div />}
+                <S.ChatItem
+                  to={`/chatlist/${item.UserAccount}`}
+                  state={item.UserName}
+                >
                   <S.UserImg src={item.userImg} alt="프로필 사진" />
                   <S.ChatWrapper>
                     <S.UserName>{item.UserName}</S.UserName>

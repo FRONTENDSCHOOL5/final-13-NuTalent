@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   padding: 4.8rem 0;
+  position: relative;
 `;
 
 export const ChatList = styled.ul`
@@ -11,6 +12,14 @@ export const ChatList = styled.ul`
   & > li {
     margin-bottom: 2rem;
   }
+`;
+
+export const UnreadMarker = styled.div`
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background-color: var(--sub-purple);
+  position: absolute;
 `;
 
 export const ChatItem = styled(Link)`
