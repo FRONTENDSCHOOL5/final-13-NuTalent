@@ -53,6 +53,7 @@ export default function Search() {
       <SearchWrap>
         <ul>
           {filteredUser.map((data, index) => {
+            console.log(filteredUser);
             return (
               <UserListLi key={index}>
                 <User
@@ -60,6 +61,8 @@ export default function Search() {
                   userImg={data.image}
                   userId={data.accountname}
                   onError={handleImageError}
+                  to={`/profile/${data.accountname}`}
+                  state={{ userId: data.accountname }}
                 />
               </UserListLi>
             );
