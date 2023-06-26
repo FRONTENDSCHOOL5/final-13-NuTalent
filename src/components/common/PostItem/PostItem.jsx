@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './PostItem.styled';
 import { Link } from 'react-router-dom';
-
+import { useState } from 'react';
 import User from '../User/User';
 
 export default function PostItem({
@@ -11,12 +11,15 @@ export default function PostItem({
   postText,
   postImg,
   postLike,
+  postDate,
   postMessage,
   user_id,
 }) {
   // console.log('userId userName user_id', userId, userName, user_id);
 
-  const date = '2022-07-29T16:24:18.682Z'.slice(0, 10).split('-');
+  const date = postDate.slice(0, 10).split('-');
+
+  const [isLiked, setIsLiked] = useState(false);
 
   return (
     <S.PostArticle>
@@ -37,7 +40,7 @@ export default function PostItem({
         </S.PostLink>
 
         <S.PostButtons>
-          <S.PostLike />
+          <S.PostLike onClick={() => setIsLiked(!isLiked)} isLiked={isLiked} />
           <S.PostSpan>{postLike}</S.PostSpan>
           <Link
             to={`/profile/${userId}`}
