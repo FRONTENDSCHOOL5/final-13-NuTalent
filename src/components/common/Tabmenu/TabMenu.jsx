@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 export default function TabMenu() {
   const currentUserData = useRecoilValue(recoilData);
 
-  const lacation = useLocation();
+  const location = useLocation();
 
   return (
     <>
@@ -25,7 +25,7 @@ export default function TabMenu() {
         <TabMenuLi>
           <TabMenuLiLink to="/home">
             <img
-              src={lacation.pathname === '/home' ? ActiveHome : home}
+              src={location.pathname === '/home' ? ActiveHome : home}
               alt="홈"
             />
             <p
