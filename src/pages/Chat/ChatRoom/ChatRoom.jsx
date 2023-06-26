@@ -11,6 +11,7 @@ export default function ChatRoom() {
 
   const userName = location.state.userName;
   const userProfile = location.state.userImg;
+  const chatContents = location.state.chatContents;
 
   console.log(location.state);
 
@@ -51,14 +52,11 @@ export default function ChatRoom() {
         </S.ChatArticle>
         <S.ChatArticle>
           <img src={userProfile} alt="" />
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis,
-            debitis.
-          </p>
+          <p>{chatContents}</p>
         </S.ChatArticle>
-        <S.ChatArticle className="me">
+        {/* <S.ChatArticle className="me">
           <p>Lorem ipsum dolor sit.</p>
-        </S.ChatArticle>
+        </S.ChatArticle> */}
       </S.Container>
       <S.ChatForm>
         <S.FileLabel htmlFor="image"></S.FileLabel>
