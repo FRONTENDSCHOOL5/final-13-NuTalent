@@ -36,7 +36,7 @@ export default function ProfileEdit() {
   console.log(currentUserData);
 
   const gotAccountName = currentUserData.accountname;
-  const gotUserId = currentUserData._id;
+  // const gotUserId = currentUserData._id;
   const token = useRecoilValue(loginState);
 
   useEffect(() => {
@@ -140,7 +140,7 @@ export default function ProfileEdit() {
 
       console.log(res);
 
-      navigate(`/profile/${gotUserId}`);
+      navigate(`/profile/${gotAccountName}`);
     } catch (error) {
       console.error(error);
 
