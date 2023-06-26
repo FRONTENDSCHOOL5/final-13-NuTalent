@@ -101,7 +101,7 @@ export default function PostDetail() {
   };
 
   const handleDeleteClick = async (commentId) => {
-    console.log(token);
+    // console.log(token);
     try {
       const res = await instance.delete(`/post/${id}/comments/${commentId}`, {
         headers: {

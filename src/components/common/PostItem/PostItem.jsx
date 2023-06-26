@@ -17,7 +17,7 @@ export default function PostItem({
   postId,
 }) {
   // console.log('userId userName user_id', userId, userName, user_id);
-  console.log(postDate);
+  // console.log(postDate);
   const date = postDate.slice(0, 10).split('-');
 
   const [isLiked, setIsLiked] = useState(false);
