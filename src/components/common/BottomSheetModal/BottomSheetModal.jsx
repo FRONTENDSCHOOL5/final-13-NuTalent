@@ -9,9 +9,7 @@ const BottomSheetModal = ({ isOpen, children }) => {
       <Overlay>
         <Modal>
           <span></span>
-          {children.map((child, index) => (
-            <li key={index}>{child.name}</li>
-          ))}
+          {children}
         </Modal>
       </Overlay>,
       document.body,
