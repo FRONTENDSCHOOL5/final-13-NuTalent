@@ -55,10 +55,24 @@ export default function Home() {
             {data.length > 0 ? (
               <ContainerUl>
                 {data.map((post) => {
+                  console.log(post);
                   return (
                     <ContainerLi key={post.id}>
-                      {<PostItem post={post} isLink={true} />}
->>>>>>> Feat: 게시글 상세페이지 기능 일부 구현(#89)
+                      {
+                        <PostItem
+                          postDate={post.createdAt}
+                          postImg={post.image}
+                          postLike={post.heartCount}
+                          postMessage={post.commentCount}
+                          postText={post.content}
+                          postId={post.id}
+                          userId={post.author.accountname}
+                          user_id={post.author.id}
+                          userImg={post.author.image}
+                          userName={post.author.username}
+                          isLink={true}
+                        />
+                      }
                     </ContainerLi>
                   );
                 })}
