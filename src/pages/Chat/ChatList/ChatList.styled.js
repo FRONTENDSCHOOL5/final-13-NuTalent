@@ -31,6 +31,8 @@ export const UserImg = styled.img`
   width: 4.2rem;
   height: 4.2rem;
   border-radius: 50%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
 `;
 
 export const ChatWrapper = styled.div`
@@ -56,6 +58,10 @@ export const ChatText = styled.span`
   flex-grow: 1;
   font-size: 1.2rem;
   line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 0;
 `;
 
 export const ChatTime = styled.time`

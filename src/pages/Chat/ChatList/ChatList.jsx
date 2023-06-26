@@ -8,6 +8,14 @@ import * as S from './ChatList.styled';
 export default function ChatList() {
   const ChatDummy = [
     {
+      userImg: 'https://api.mandarin.weniv.co.kr/1687741772524.JPG',
+      UserName: '방구석뮤지션',
+      UserAccount: 'itismusic',
+      ChatContent: '디제잉 레슨 받습니다. 회당 2.5 그룹레슨 네고 가능합니다.',
+      ChatTime: '2023.06.27',
+      isRead: false,
+    },
+    {
       userImg: 'https://api.mandarin.weniv.co.kr/1687295086842.png',
       UserName: '그림팝니다',
       UserAccount: 'sellpicture',
@@ -16,7 +24,7 @@ export default function ChatList() {
       isRead: false,
     },
     {
-      userImg: 'https://picsum.photos/200',
+      userImg: 'https://api.mandarin.weniv.co.kr/1687741795495.jpg',
       UserName: 'nutalent',
       UserAccount: 'nutalent',
       ChatContent: '언제 가능하실까요?',
@@ -24,7 +32,7 @@ export default function ChatList() {
       isRead: true,
     },
     {
-      userImg: 'https://picsum.photos/200',
+      userImg: 'https://api.mandarin.weniv.co.kr/1687741517699.jpg',
       UserName: '퇴근후아티스트',
       UserAccount: 'iamartist',
       ChatContent: '안녕하세요!',
