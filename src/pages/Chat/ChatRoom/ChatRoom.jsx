@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import TopChatNav from '../../../components/common/Top/TopChatNav';
 import * as S from './ChatRoom.styled';
@@ -6,10 +6,33 @@ import * as S from './ChatRoom.styled';
 export default function ChatRoom() {
   const location = useLocation();
 
+  const [isMessageTyped, setIsMessageTyped] = useState(false);
+  const [isImageTyped, setIsImageTyped] = useState(false);
+
   const userName = location.state.userName;
   const userProfile = location.state.userImg;
 
   console.log(location.state);
+
+  const handleImageChange = (e) => {
+    // console.log(e.target.files);
+    // setIsImageTyped(false);
+    const imageTyped = e.target.files[0];
+    if (imageTyped) {
+      setIsImageTyped(true);
+    } else if (!imageTyped) {
+      setIsImageTyped(false);
+    }
+  };
+
+  const handleMessageChange = (e) => {
+    const message = e.target.value;
+    if (message) {
+      setIsMessageTyped(true);
+    } else if (!message) {
+      setIsMessageTyped(false);
+    }
+  };
 
   return (
     <>
@@ -39,9 +62,23 @@ export default function ChatRoom() {
       </S.Container>
       <S.ChatForm>
         <S.FileLabel htmlFor="image"></S.FileLabel>
-        <S.FileInput type="file" name="" id="image" />
-        <S.TextInput type="text" placeholder="메시지 입력하기..." />
-        <S.SendButton disabled>전송</S.SendButton>
+        <S.FileInput
+          type="file"
+          name=""
+          id="image"
+          onChange={handleImageChange}
+        />
+        <S.TextInput
+          type="text"
+          placeholder="메시지 입력하기..."
+          onChange={handleMessageChange}
+        />
+        <S.SendButton
+          disabled={!isMessageTyped && !isImageTyped}
+          // disabled
+        >
+          전송
+        </S.SendButton>
       </S.ChatForm>
     </>
   );
