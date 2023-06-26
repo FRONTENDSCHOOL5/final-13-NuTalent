@@ -54,24 +54,9 @@ export default function Home() {
           <>
             {data.length > 0 ? (
               <ContainerUl>
-                {data.map((post, index) => {
+                {data.map((post) => {
                   return (
-                    <ContainerLi key={index}>
-<<<<<<< develop
-                      {
-                        <PostItem
-                          postDate={post.createdAt}
-                          postImg={post.image}
-                          postLike={post.heartCount}
-                          postMessage={post.commentCount}
-                          postText={post.content}
-                          userId={post.author.accountname}
-                          userImg={post.author.image}
-                          user_id={post.author._id}
-                          userName={post.author.username}
-                        />
-                      }
-=======
+                    <ContainerLi key={post.id}>
                       {<PostItem post={post} isLink={true} />}
 >>>>>>> Feat: 게시글 상세페이지 기능 일부 구현(#89)
                     </ContainerLi>

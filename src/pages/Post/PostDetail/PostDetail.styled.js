@@ -15,6 +15,8 @@ export const PostItemWrapper = styled.div`
   }
 `;
 export const CommentUl = styled.ul`
+  display: block;
+  height: 100%;
   padding: 2rem 1.6rem;
   list-style: none;
   border-top: 0.1rem solid var(--sub-grey);

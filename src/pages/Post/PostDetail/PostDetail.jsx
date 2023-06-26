@@ -12,6 +12,7 @@ import {
 import basicProfile from '../../../assets/img/basic-profile-img-.svg';
 import { instance } from '../../../util/api/axiosInstance';
 import useScrollBottom from '../../../hooks/useScrollBottom';
+//moment 사용권장
 
 export default function PostDetail() {
   const token = localStorage.getItem('token');
@@ -62,16 +63,15 @@ export default function PostDetail() {
     //useEffect에 async를 바로 사용할수 없기 때문에 함수를 만들어서 사용해준다.
     async function setComment() {
       const data = await getComment();
-      console.log(data);
 
       await getPost();
-      setComments(data);
+      setComments(
+        [...comments, ...data].sort((a, b) => {
+          new Date(a.createdAt) - new Date(b.createdAt);
+        }),
+      );
     }
     setComment();
-  }, []);
-
-  useEffect(() => {
-    getComment();
     setSkip(skip + 5);
   }, [isBottom]);
 
@@ -93,7 +93,6 @@ export default function PostDetail() {
       });
 
       console.log(res);
-
       return res.data.comment;
     } catch (error) {
       console.error(error);
@@ -170,6 +169,7 @@ export default function PostDetail() {
                 console.log(newComment);
 
                 setComments([...comments, newComment]);
+                // setContent('');
               }}
               disabled={isDisabled}
             >
