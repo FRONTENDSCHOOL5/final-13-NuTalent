@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { SearchWrap, UserListLi } from './Search.styled';
 
@@ -9,53 +9,52 @@ import User from '../../components/common/User/User';
 import { instance } from '../../util/api/axiosInstance';
 
 import defaultProfileImage from '../../assets/img/basic-profile-img-.svg';
+import { useRecoilValue } from 'recoil';
+import { loginState } from '../../recoil/atoms/loginState';
+import { debounce } from 'lodash';
 
 export default function Search() {
-  const [keywordForSearchUser, setKeywordForSearchUser] = useState('');
+  const [keywordForSearchUser, setKeywordToSearchUser] = useState('');
   const [data, setData] = useState([]);
 
-  const token = process.env.REACT_APP_USER_TOKEN;
+  const token = useRecoilValue(loginState);
 
-  const handleSearchUser = async (e) => {
-    setKeywordForSearchUser(e.target.value.toLowerCase());
-
-    const response = await instance.get(
-      `/user/searchuser/?keyword=${keywordForSearchUser}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
+  const sendQuery = async (keyword) => {
+    const res = await instance.get(`/user/searchuser/?keyword=${keyword}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
       },
-    );
-
-    // console.log(response);
-    setData(response.data);
-    console.log(data);
+    });
+    setData(res.data);
   };
 
-  const filteredUser = data.filter((item) => {
-    return item.username.replace(' ', '').includes(keywordForSearchUser);
-  });
+  const delayedSearch = useCallback(
+    debounce((q) => sendQuery(q), 500),
+    [],
+  );
+
+  const handleSearchUserChange = (e) => {
+    setKeywordToSearchUser(e.target.value.toLowerCase());
+    delayedSearch(e.target.value.toLowerCase());
+  };
 
   const handleImageError = (e) => {
     e.target.src = defaultProfileImage;
   };
 
-  // console.log(filteredUser);
   return (
     <>
       <TopSearchNav
         type="text"
         value={keywordForSearchUser}
-        onChange={handleSearchUser}
+        onChange={handleSearchUserChange}
       />
       <SearchWrap>
         <ul>
-          {filteredUser.map((data, index) => {
-            console.log(filteredUser);
+          {data.map((data) => {
             return (
-              <UserListLi key={index}>
+              <UserListLi key={data._id}>
                 <User
                   userName={data.username}
                   userImg={data.image}
