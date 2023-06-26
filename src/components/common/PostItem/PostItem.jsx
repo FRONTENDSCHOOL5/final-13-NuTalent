@@ -10,12 +10,13 @@ export default function PostItem({
   userImg,
   postText,
   postImg,
-  postDate,
   postLike,
   postMessage,
   user_id,
 }) {
   // console.log('userId userName user_id', userId, userName, user_id);
+
+  const date = '2022-07-29T16:24:18.682Z'.slice(0, 10).split('-');
 
   return (
     <S.PostArticle>
@@ -47,7 +48,7 @@ export default function PostItem({
             <S.PostSpan>{postMessage}</S.PostSpan>
           </Link>
         </S.PostButtons>
-        <S.PostDate>{postDate}</S.PostDate>
+        <S.PostDate>{`${date[0]}년 ${date[1]}월 ${date[2]}일`}</S.PostDate>
       </S.PostContainer>
       <S.PostMore />
     </S.PostArticle>
