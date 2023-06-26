@@ -18,13 +18,16 @@ export const ChatArticle = styled.article`
   gap: 1.2rem;
 
   & > img {
-    display: block;
-    width: 4.2rem;
+    display: inline-block;
+    flex-basis: 4.2rem;
     height: 4.2rem;
     border-radius: 50%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
   }
 
   & > p {
+    flex-grow: 1;
     padding: 1.2rem;
     max-width: 24rem;
     background-color: #fff;
