@@ -15,7 +15,7 @@ export default function Alert({ isOpen, title, cancel, action, actionText }) {
     isOpen &&
     createPortal(
       <S.Overlay>
-        <S.Alert>
+        <S.Alert isOpen={isOpen}>
           <p>{title}</p>
           <div>
             <button type="button" onClick={cancel}>

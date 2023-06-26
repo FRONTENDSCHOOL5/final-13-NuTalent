@@ -32,6 +32,23 @@ const Modal = styled.div`
       margin-bottom: 1rem;
     }
   }
+
+  ${({ isOpen }) =>
+    isOpen &&
+    css`
+      animation: fadeSlide 0.3s ease-in-out;
+    `}
+
+  @keyframes fadeSlide {
+    from {
+      bottom: -3rem;
+      opacity: 0;
+    }
+    to {
+      bottom: 0rem;
+      opacity: 1;
+    }
+  }
 `;
 
 const Overlay = styled.div`

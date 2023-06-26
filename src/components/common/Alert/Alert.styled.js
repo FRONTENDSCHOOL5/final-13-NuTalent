@@ -1,8 +1,7 @@
-import { styled } from 'styled-components';
+import { styled, css } from 'styled-components';
 
 export const Overlay = styled.div`
   position: fixed;
-  content: '';
   inset: 0;
   z-index: 100;
   background-color: rgb(0, 0, 0, 0.3);
@@ -41,6 +40,21 @@ export const Alert = styled.div`
     &:last-child {
       color: var(--main-purple);
       font-weight: 500;
+    }
+  }
+
+  ${({ isOpen }) =>
+    isOpen &&
+    css`
+      animation: fadeIn 0.3s ease-out;
+    `}
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
     }
   }
 `;

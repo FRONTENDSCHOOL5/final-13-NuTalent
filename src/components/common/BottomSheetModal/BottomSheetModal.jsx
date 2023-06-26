@@ -22,7 +22,7 @@ const BottomSheetModal = ({ isOpen, children, bottomSheetHandler }) => {
     isOpen &&
     createPortal(
       <Overlay onClick={overlayClickHandler}>
-        <Modal>
+        <Modal isOpen={isOpen}>
           <span></span>
           {children}
         </Modal>
