@@ -34,18 +34,18 @@ export default function Router() {
         <Route path="/home" element={<Home />} />
         <Route path="/search" element={<Search />} />
         <Route path="/chatlist" element={<ChatList />} />
-        <Route path="/chatlist/:id" element={<ChatRoom />} />
+        <Route path="/chatlist/:accountname" element={<ChatRoom />} />
         <Route path="/post">
           <Route path=":id" element={<PostDetail />} />
           <Route path="upload" element={<PostUpload />} />
           <Route path="edit/:id" element={<PostEdit />} />
         </Route>
         <Route path="productupload" element={<ProductUpload />} />
-        <Route path="productedit" element={<ProductEdit />} />
+        <Route path="product/edit/:id" element={<ProductEdit />} />
         <Route path="/follower" element={<Follower />} />
         <Route path="/following" element={<Following />} />
         <Route path="/profile">
-          <Route path=":id" element={<Profile />} />
+          <Route path=":accountname" element={<Profile />} />
           <Route path="edit" element={<ProfileEdit />} />
         </Route>
         <Route path="*" element={<NotFound />} />

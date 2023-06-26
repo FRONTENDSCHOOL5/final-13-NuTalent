@@ -24,7 +24,7 @@ export default function Profile() {
   const [posts, setPosts] = useState([]);
   const [view, setView] = useState('list');
   const [skip, setSkip] = useState(0);
-  const { id } = useParams();
+  const { accountname } = useParams();
 
   const currentUserData = useRecoilValue(recoilData);
   const token = useRecoilValue(loginState);
@@ -172,7 +172,7 @@ export default function Profile() {
           <S.UserName>{profile.username}</S.UserName>
           <S.UserId>@ {profile.accountname}</S.UserId>
           <S.UserIntro>{profile.intro}</S.UserIntro>
-          {myId === id ? (
+          {myId === accountname ? (
             <S.UserBtnWrap>
               <StyledBtn to="/profile/edit" size="m" color="outline">
                 프로필 수정
@@ -183,7 +183,7 @@ export default function Profile() {
             </S.UserBtnWrap>
           ) : (
             <S.UserBtnWrap>
-              <S.messageButton to={`/chatlist/${id}`} />
+              <S.messageButton to={`/chatlist/${accountname}`} />
               <StyledBtn
                 size="m"
                 color={profile.isfollow ? 'outlineGrey' : 'fill'}
@@ -230,7 +230,7 @@ export default function Profile() {
             <S.PostList view={view}>
               {posts.map((post) => {
                 return view === 'list' ? (
-                  <li key={post.id}>
+                  <li key={post.accountname}>
                     <PostItem
                       postDate={post.createdAt}
                       postImg={post.image}
@@ -244,7 +244,7 @@ export default function Profile() {
                   </li>
                 ) : (
                   post.image && (
-                    <li key={post.id}>
+                    <li key={post.accountname}>
                       <S.AlbumImg src={post.image} alt="" />
                     </li>
                   )
