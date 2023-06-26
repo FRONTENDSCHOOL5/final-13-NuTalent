@@ -9,34 +9,34 @@ export default function ChatList() {
   const ChatDummy = [
     {
       userImg: 'https://api.mandarin.weniv.co.kr/1687741772524.JPG',
-      UserName: '방구석뮤지션',
-      UserAccount: 'itismusic',
-      ChatContent: '디제잉 레슨 받습니다. 회당 2.5 그룹레슨 네고 가능합니다.',
-      ChatTime: '2023.06.27',
+      userName: '방구석뮤지션',
+      userAccount: 'itismusic',
+      chatContent: '디제잉 레슨 받습니다. 회당 2.5 그룹레슨 네고 가능합니다.',
+      chatTime: '2023.06.27',
       isRead: false,
     },
     {
       userImg: 'https://api.mandarin.weniv.co.kr/1687295086842.png',
-      UserName: '그림팝니다',
-      UserAccount: 'sellpicture',
-      ChatContent: '어떤 그림 말씀이실까요?',
-      ChatTime: '2023.06.22',
+      userName: '그림팝니다',
+      userAccount: 'sellpicture',
+      chatContent: '어떤 그림 말씀이실까요?',
+      chatTime: '2023.06.22',
       isRead: false,
     },
     {
       userImg: 'https://api.mandarin.weniv.co.kr/1687741795495.jpg',
-      UserName: 'nutalent',
-      UserAccount: 'nutalent',
-      ChatContent: '언제 가능하실까요?',
-      ChatTime: '2023.06.26',
+      userName: 'nutalent',
+      userAccount: 'nutalent',
+      chatContent: '언제 가능하실까요?',
+      chatTime: '2023.06.26',
       isRead: true,
     },
     {
       userImg: 'https://api.mandarin.weniv.co.kr/1687741517699.jpg',
-      UserName: '퇴근후아티스트',
-      UserAccount: 'iamartist',
-      ChatContent: '안녕하세요!',
-      ChatTime: '2023.06.01',
+      userName: '퇴근후아티스트',
+      userAccount: 'iamartist',
+      chatContent: '안녕하세요!',
+      chatTime: '2023.06.01',
       isRead: true,
     },
   ];
@@ -51,15 +51,15 @@ export default function ChatList() {
               <li key={index}>
                 {!item.isRead ? <S.UnreadMarker /> : <div />}
                 <S.ChatItem
-                  to={`/chatlist/${item.UserAccount}`}
-                  state={item.UserName}
+                  to={`/chatlist/${item.userAccount}`}
+                  state={{ userName: item.userName, userImg: item.userImg }}
                 >
                   <S.UserImg src={item.userImg} alt="프로필 사진" />
                   <S.ChatWrapper>
-                    <S.UserName>{item.UserName}</S.UserName>
+                    <S.UserName>{item.userName}</S.UserName>
                     <S.ChatContent>
-                      <S.ChatText>{item.ChatContent}</S.ChatText>
-                      <S.ChatTime>{item.ChatTime}</S.ChatTime>
+                      <S.ChatText>{item.chatContent}</S.ChatText>
+                      <S.ChatTime>{item.chatTime}</S.ChatTime>
                     </S.ChatContent>
                   </S.ChatWrapper>
                 </S.ChatItem>

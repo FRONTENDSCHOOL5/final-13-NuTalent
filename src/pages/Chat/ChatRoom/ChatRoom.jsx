@@ -6,17 +6,17 @@ import * as S from './ChatRoom.styled';
 export default function ChatRoom() {
   const location = useLocation();
 
-  const userName = location.state;
+  const userName = location.state.userName;
+  const userProfile = location.state.userImg;
+
+  console.log(location.state);
 
   return (
     <>
       <TopChatNav>{userName}</TopChatNav>
       <S.Container>
         <S.ChatArticle>
-          <img
-            src={'https://api.mandarin.weniv.co.kr/1687295086842.png'}
-            alt="유저 프로필 사진"
-          />
+          <img src={userProfile} alt="유저 프로필 사진" />
           <p>Lorem, ipsum dolor.</p>
         </S.ChatArticle>
         <S.ChatArticle className="me">
@@ -27,10 +27,7 @@ export default function ChatRoom() {
           </p>
         </S.ChatArticle>
         <S.ChatArticle>
-          <img
-            src={'https://api.mandarin.weniv.co.kr/1687295086842.png'}
-            alt=""
-          />
+          <img src={userProfile} alt="" />
           <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis,
             debitis.
