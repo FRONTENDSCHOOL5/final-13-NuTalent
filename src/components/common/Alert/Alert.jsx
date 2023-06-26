@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as S from './Alert.styled';
 import { createPortal } from 'react-dom';
 
 export default function Alert({ isOpen, title, cancel, action, actionText }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isOpen]);
+
   return (
     isOpen &&
     createPortal(
