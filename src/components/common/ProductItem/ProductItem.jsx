@@ -41,8 +41,11 @@ export default function ProductItem({
     <>
       <ItemBox onClick={() => setIsBottomSheetOpen(true)}>
         <img src={itemImg} alt="상품 사진" />
-        <h1>{itemName}</h1>
-        <p>{price}</p>
+        <h1>
+          {itemName}
+          <span className="tooltip">{itemName}</span>
+        </h1>
+        <p>{price.toLocaleString()}원</p>
       </ItemBox>
       <BottomSheetModal
         isOpen={isBottomSheetOpen}

@@ -119,7 +119,11 @@ export const ProductList = styled.ul`
   flex-direction: row;
   gap: 1rem;
   padding-bottom: 0.5rem;
-  overflow-x: auto;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 // Post section
@@ -140,13 +144,13 @@ export const viewButton = styled.button`
   &:first-child {
     margin-left: auto;
     background: ${(props) =>
-        props.view === 'list' ? `url(${listViewOn})` : `url(${listViewOff})`}
+    props.view === 'list' ? `url(${listViewOn})` : `url(${listViewOff})`}
       no-repeat center;
   }
 
   &:last-child {
     background: ${(props) =>
-        props.view === 'album' ? `url(${AlbumViewOn})` : `url(${AlbumViewOff})`}
+    props.view === 'album' ? `url(${AlbumViewOn})` : `url(${AlbumViewOff})`}
       no-repeat center;
   }
 `;
