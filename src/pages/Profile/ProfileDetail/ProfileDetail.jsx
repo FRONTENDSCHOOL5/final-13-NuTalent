@@ -216,11 +216,11 @@ export default function Profile() {
                     <ProductItem
                       productId={product.id}
                       accountname={product.author.accountname}
-                      itemId={product.id}
                       itemName={product.itemName}
                       price={product.price}
                       itemImg={product.itemImage}
                       onDelete={() => deleteProduct(product.id)}
+                      link={product.link}
                     />
                   </li>
                 );

@@ -13,6 +13,7 @@ export default function ProductItem({
   accountname,
   itemName,
   price,
+  link,
   itemImg,
   onDelete,
 }) {
@@ -47,7 +48,6 @@ export default function ProductItem({
         isOpen={isBottomSheetOpen}
         bottomSheetHandler={bottomSheetHandler}
       >
-        {/* 프래그먼트로 감싸면 li가 한개만 들어가네... */}
         {isMyProduct ? (
           <>
             <button
@@ -60,10 +60,15 @@ export default function ProductItem({
               삭제
             </button>
             <Link to={`/product/edit/${productId}`}>수정</Link>
-            <button>웹사이트에서 상품 보기</button>
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              웹사이트에서 상품 보기
+            </a>
           </>
         ) : (
-          <button>신고하기</button>
+          <>
+            <a href={link}>웹사이트에서 상품 보기</a>
+            <button>신고하기</button>
+          </>
         )}
       </BottomSheetModal>
       <Alert
