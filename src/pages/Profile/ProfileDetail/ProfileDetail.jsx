@@ -38,7 +38,7 @@ export default function Profile() {
       : currentUserData.accountname;
 
   console.log(accountName);
-  const myId = currentUserData.accountname;
+  const myAccountName = currentUserData.accountname;
 
   const loadProfile = async (accName) => {
     try {
@@ -172,7 +172,7 @@ export default function Profile() {
           <S.UserName>{profile.username}</S.UserName>
           <S.UserId>@ {profile.accountname}</S.UserId>
           <S.UserIntro>{profile.intro}</S.UserIntro>
-          {myId === accountname ? (
+          {myAccountName === accountname ? (
             <S.UserBtnWrap>
               <StyledBtn to="/profile/edit" size="m" color="outline">
                 프로필 수정

@@ -141,8 +141,6 @@ export default function ProfileEdit() {
       console.log(res);
       console.log(currentUserData);
 
-      // TODO: 프로필 에딧 성공하면 리코일에 데이터 업데이트
-
       setCurrentUserData({
         accountname: res.data.user.accountname,
         image: res.data.user.image,
@@ -150,7 +148,7 @@ export default function ProfileEdit() {
         username: res.data.user.username,
       });
 
-      navigate(`/profile/${gotAccountName}`);
+      navigate(`/profile/${res.data.user.accountname}`);
     } catch (error) {
       console.error(error);
 
