@@ -82,6 +82,7 @@ export const TextInput = styled.input`
 
 export const SendButton = styled.button`
   font-size: 1.4rem;
+  cursor: pointer;
 
   &:disabled {
     color: #c4c4c4;
