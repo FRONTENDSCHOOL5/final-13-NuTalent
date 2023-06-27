@@ -27,7 +27,6 @@ export default function TopBasicNav({ children }) {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
     setCurrentUSerToken('');
     setCurrentUserData({});
     navigate('/intro');
