@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import FollowerUser from './FollowerUser';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
-
+import { Link } from 'react-router-dom';
 import { UserWrapper } from './Follower.styled';
 import { instance } from '../../../util/api/axiosInstance';
 import { useLocation } from 'react-router-dom';
@@ -95,13 +95,21 @@ export default function Follower() {
         {/* 3. 이곳에 useState에 채워져있는 배열이 map으로 뿌려지게 되고, 빈 화면이 아니라 유저들의 정보가 화면에 뿌려지게 된다. */}
 
         {followers.map((user) => {
+          console.log(user);
           return (
             <li key={user._id}>
-              <FollowerUser
-                userInfo={user} // 나를 팔로우 하는 사람들 각각의 정보를 넘김
-                followHandler={followHandler} // 팔로우 핸들러 함수
-                size={'small'} // 아이콘 사이즈
-              />
+              <Link
+                to={`/profile/${user.accountname}`}
+                state={{ userId: user.accountname }}
+              >
+                <FollowerUser
+                  to={`/profile/${user.accountname}`}
+                  state={{}}
+                  userInfo={user} // 나를 팔로우 하는 사람들 각각의 정보를 넘김
+                  followHandler={followHandler} // 팔로우 핸들러 함수
+                  size={'small'} // 아이콘 사이즈
+                />
+              </Link>
             </li>
           );
         })}
