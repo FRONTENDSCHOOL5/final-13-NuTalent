@@ -111,7 +111,10 @@ export default function PostItem({
         title="게시글을 삭제할까요?"
         cancel={() => setIsAlertOpen(false)}
         actionText="삭제"
-        action={onDeletePost}
+        action={() => {
+          onDeletePost();
+          setIsAlertOpen(false);
+        }}
       />
     </>
   );

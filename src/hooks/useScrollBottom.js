@@ -6,7 +6,7 @@ export default function useScrollBottom() {
   useEffect(() => {
     window.addEventListener('scroll', () => {
       setIsBottom(
-        document.documentElement.scrollTop + window.innerHeight >=
+        document.documentElement.scrollTop + window.innerHeight + 1 >=
           document.documentElement.scrollHeight,
       );
     });

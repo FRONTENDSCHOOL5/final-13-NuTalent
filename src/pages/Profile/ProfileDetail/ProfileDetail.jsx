@@ -29,14 +29,12 @@ export default function Profile() {
   const token = useRecoilValue(loginState);
 
   const location = useLocation();
-  console.log(currentUserData);
 
   const accountName =
     location.state !== null
       ? location.state.userId
       : currentUserData.accountname;
 
-  console.log(accountName);
   const myId = currentUserData.accountname;
 
   const loadProfile = async (accName) => {
@@ -123,7 +121,6 @@ export default function Profile() {
   const isBottom = useScrollBottom();
   useEffect(() => {
     if (isBottom) {
-      console.log(skip);
       setSkip((prev) => prev + 5);
     }
   }, [isBottom]);
@@ -139,12 +136,16 @@ export default function Profile() {
           'Content-type': 'application/json',
         },
       });
-      setPosts([]);
-      if (skip === 0) {
-        loadPost(accountName);
-      } else {
-        setSkip(0);
-      }
+      const res = await instance.get(
+        `/post/${accountName}/userpost/?limit=${skip}&skip=0`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
+        },
+      );
+      setPosts(res.data.post);
     } catch (error) {
       console.error(error);
     }
