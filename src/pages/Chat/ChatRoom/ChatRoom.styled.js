@@ -88,6 +88,7 @@ export const SendButton = styled.button`
   font-size: 1.4rem;
   color: var(--sub-purple);
   cursor: pointer;
+  
   &:disabled {
     color: #c4c4c4;
   }
