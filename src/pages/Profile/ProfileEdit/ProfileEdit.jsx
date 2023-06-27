@@ -16,7 +16,7 @@ import TextActiveInput from '../../../components/common/TextActiveInput/TextActi
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import uploadImage from '../../../assets/img/upload-file.svg';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { recoilData } from '../../../recoil/atoms/dataState';
 import { loginState } from '../../../recoil/atoms/loginState';
 
@@ -32,7 +32,7 @@ export default function ProfileEdit() {
   const navigate = useNavigate();
   const idRegExp = /^[a-zA-Z0-9_.]+$/;
 
-  const currentUserData = useRecoilValue(recoilData);
+  const [currentUserData, setCurrentUserData] = useRecoilState(recoilData);
   console.log(currentUserData);
 
   const gotAccountName = currentUserData.accountname;
@@ -139,8 +139,16 @@ export default function ProfileEdit() {
       });
 
       console.log(res);
+      console.log(currentUserData);
 
-      navigate(`/profile/${gotAccountName}`);
+      setCurrentUserData({
+        accountname: res.data.user.accountname,
+        image: res.data.user.image,
+        intro: res.data.user.intro,
+        username: res.data.user.username,
+      });
+
+      navigate(`/profile/${res.data.user.accountname}`);
     } catch (error) {
       console.error(error);
 

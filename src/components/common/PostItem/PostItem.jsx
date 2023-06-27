@@ -27,7 +27,6 @@ export default function PostItem({
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const currentUserData = useRecoilValue(recoilData);
-
   const date = postDate.slice(0, 10).split('-');
 
   const [isLiked, setIsLiked] = useState(false);
@@ -62,7 +61,7 @@ export default function PostItem({
           user_id={user_id}
         />
         <S.PostContainer>
-          <S.PostLink to={`/profile/${userId}`} state={{ userId, user_id }}>
+          <S.PostLink to={`/post/${postId}`} state={{ userId, user_id }}>
             <S.PostText>{postText}</S.PostText>
             {postImg && <S.PostImage src={postImg} alt="게시물 이미지" />}
           </S.PostLink>
@@ -116,6 +115,6 @@ export default function PostItem({
           setIsAlertOpen(false);
         }}
       />
-    </>
+   </>
   );
 }

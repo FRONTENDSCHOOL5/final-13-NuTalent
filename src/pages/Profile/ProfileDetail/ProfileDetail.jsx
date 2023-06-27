@@ -35,8 +35,6 @@ export default function Profile() {
       ? location.state.userId
       : currentUserData.accountname;
 
-  const myId = currentUserData.accountname;
-
   const loadProfile = async (accName) => {
     try {
       const res = await instance.get(`/profile/${accName}`, {
@@ -184,7 +182,7 @@ export default function Profile() {
           <S.UserName>{profile.username}</S.UserName>
           <S.UserId>@ {profile.accountname}</S.UserId>
           <S.UserIntro>{profile.intro}</S.UserIntro>
-          {myId === accountname ? (
+          {myAccountName === accountname ? (
             <S.UserBtnWrap>
               <StyledBtn to="/profile/edit" size="m" color="outline">
                 프로필 수정

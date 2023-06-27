@@ -73,6 +73,7 @@ export default function ChatRoom() {
         />
         <S.SendButton
           disabled={!isMessageTyped && !isImageTyped}
+          type="button"
           // disabled
         >
           전송

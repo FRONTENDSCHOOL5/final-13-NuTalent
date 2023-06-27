@@ -54,9 +54,10 @@ export default function Home() {
           <>
             {data.length > 0 ? (
               <ContainerUl>
-                {data.map((post, index) => {
+                {data.map((post) => {
+                  console.log(post);
                   return (
-                    <ContainerLi key={index}>
+                    <ContainerLi key={post.id}>
                       {
                         <PostItem
                           postDate={post.createdAt}
@@ -64,10 +65,12 @@ export default function Home() {
                           postLike={post.heartCount}
                           postMessage={post.commentCount}
                           postText={post.content}
+                          postId={post.id}
                           userId={post.author.accountname}
+                          user_id={post.author.id}
                           userImg={post.author.image}
-                          user_id={post.author._id}
                           userName={post.author.username}
+                          isLink={true}
                         />
                       }
                     </ContainerLi>

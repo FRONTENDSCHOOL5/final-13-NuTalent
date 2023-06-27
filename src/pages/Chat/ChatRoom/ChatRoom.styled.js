@@ -74,6 +74,10 @@ export const FileInput = styled.input`
 export const TextInput = styled.input`
   flex-grow: 1;
   font-size: 1.4rem;
+  &:focus {
+    border-bottom: var(--main-purple) 0.1rem solid;
+    outline: none;
+  }
 
   &::placeholder {
     color: #c4c4c4;
@@ -82,7 +86,9 @@ export const TextInput = styled.input`
 
 export const SendButton = styled.button`
   font-size: 1.4rem;
-
+  color: var(--sub-purple);
+  cursor: pointer;
+  
   &:disabled {
     color: #c4c4c4;
   }
