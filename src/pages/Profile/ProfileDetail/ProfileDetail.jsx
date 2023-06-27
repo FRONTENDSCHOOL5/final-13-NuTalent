@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
@@ -10,7 +10,6 @@ import StyledBtn from '../../../components/common/Button/Button';
 
 import { instance } from '../../../util/api/axiosInstance';
 import useScrollBottom from '../../../hooks/useScrollBottom';
-import BottomSheetModal from '../../../components/common/BottomSheetModal/BottomSheetModal';
 
 import * as S from './ProfileDetail.styled';
 
@@ -30,14 +29,12 @@ export default function Profile() {
   const token = useRecoilValue(loginState);
 
   const location = useLocation();
-  console.log(currentUserData);
 
   const accountName =
     location.state !== null
       ? location.state.userId
       : currentUserData.accountname;
 
-  console.log(accountName);
   const myAccountName = currentUserData.accountname;
 
   const loadProfile = async (accName) => {
@@ -123,41 +120,56 @@ export default function Profile() {
   // 무한 스크롤
   const isBottom = useScrollBottom();
   useEffect(() => {
-    setSkip((prevSkip) => prevSkip + 5);
-    loadPost(accountName);
+    if (isBottom) {
+      setSkip((prev) => prev + 5);
+    }
   }, [isBottom]);
+  useEffect(() => {
+    loadPost(accountName);
+  }, [skip]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const modal = useRef(null);
-
-  const openModal = () => {
-    setIsModalOpen(!isModalOpen);
-    //누를때마다 setModalOpen의 상태가 true,false로 변하면서 모달창이 생겼다 없어졌다
+  const deletePost = async (postId) => {
+    try {
+      await instance.delete(`/post/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      const res = await instance.get(
+        `/post/${accountName}/userpost/?limit=${skip}&skip=0`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
+        },
+      );
+      setPosts(res.data.post);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const ModalArr = [
-    { name: '삭제' },
-    { name: '수정' },
-    { name: '한수정' },
-    { name: '숮엉' },
-  ];
+  const deleteProduct = async (productId) => {
+    try {
+      await instance.delete(`/product/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      loadProduct(accountName);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
-      <TopBasicNav openModal={openModal} />
+      <TopBasicNav />
       <S.Container>
         <S.ProfileSection>
-          <BottomSheetModal
-            ref={modal}
-            isOpen={isModalOpen}
-            title="로그아웃 하시겠어요?"
-            cancel={() => setIsModalOpen(false)}
-            actionText="로그아웃"
-            action={() => console.log('로그아웃')}
-          >
-            {ModalArr}
-          </BottomSheetModal>
           <S.ProfileWrap>
             <S.followLink to="/follower" state={profile.accountname}>
               <p>{profile.followerCount}</p>
@@ -199,13 +211,17 @@ export default function Profile() {
           <S.ProductSection>
             <S.StyledH2>판매 중인 상품</S.StyledH2>
             <S.ProductList>
-              {products.map((product, index) => {
+              {products.map((product) => {
                 return (
-                  <li key={index}>
+                  <li key={product.id}>
                     <ProductItem
+                      productId={product.id}
+                      accountname={product.author.accountname}
                       itemName={product.itemName}
                       price={product.price}
                       itemImg={product.itemImage}
+                      onDelete={() => deleteProduct(product.id)}
+                      link={product.link}
                     />
                   </li>
                 );
@@ -232,6 +248,7 @@ export default function Profile() {
                 return view === 'list' ? (
                   <li key={post.accountname}>
                     <PostItem
+                      postId={post.id}
                       postDate={post.createdAt}
                       postImg={post.image}
                       postLike={post.heartCount}
@@ -240,6 +257,7 @@ export default function Profile() {
                       userId={post.author.accountname}
                       userImg={profile.image}
                       userName={post.author.username}
+                      onDeletePost={() => deletePost(post.id)}
                     />
                   </li>
                 ) : (
