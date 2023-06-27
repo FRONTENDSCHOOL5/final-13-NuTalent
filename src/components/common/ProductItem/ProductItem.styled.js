@@ -27,12 +27,9 @@ export const ItemBox = styled.article`
       top: rem;
       left: 0rem;
       top: 9.6rem;
-      /* padding: 1rem; */
       background-color: white;
       z-index: 100;
       font-size: 1.2;
-      /* border-radius: 10px; */
-      /* color: var(--main-purple) */
       font-weight: 900;
     }
 
