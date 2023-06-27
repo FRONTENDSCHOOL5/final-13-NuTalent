@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import moment from 'moment'; // moment import 추가
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import PostItem from '../../../components/common/PostItem/PostItem';
 import {
@@ -10,12 +12,12 @@ import {
 } from './PostDetail.styled';
 import basicProfile from '../../../assets/img/basic-profile-img-.svg';
 import { instance } from '../../../util/api/axiosInstance';
+import { loginState } from '../../../recoil/atoms/loginState';
 import useScrollBottom from '../../../hooks/useScrollBottom';
-// import moment from 'moment';
 
 export default function PostDetail() {
-  const token = localStorage.getItem('token');
-  const [isDisabled, setIsDisabled] = useState(true); // 수정: 변수 이름 변경
+  const token = useRecoilValue(loginState);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [comments, setComments] = useState([]);
   const [isLastComment, setIsLastComment] = useState(false);
   const [data, setData] = useState(undefined);
@@ -101,7 +103,6 @@ export default function PostDetail() {
   };
 
   const handleDeleteClick = async (commentId) => {
-    // console.log(token);
     try {
       const res = await instance.delete(`/post/${id}/comments/${commentId}`, {
         headers: {
@@ -140,38 +141,37 @@ export default function PostDetail() {
             />
           </PostItemWrapper>
           <CommentUl>
-            {comments.map((comment) => {
-              return (
-                <CommentLi key={comment.id}>
-                  {' '}
-                  {/* 수정: key 속성에 고유한 값인 comment.id 사용 */}
-                  <img src={comment.author.image} alt="유저 프로필 이미지" />
-                  <div>
-                    <h2>
-                      {comment.author.username}
-                      <span>{comment.createdAt}</span>
-                      {/* 수정: moment 라이브러리를 사용하여 날짜 형식 지정 */}
-                    </h2>
-                    <p>{comment.content}</p>
-                  </div>
-                  <button
-                    onClick={() => {
-                      handleDeleteClick(comment.id);
-                      deleteComment(comment.id);
-                    }}
-                  />
-                </CommentLi>
-              );
-            })}
+            {comments
+              .slice()
+              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+              .map((comment) => {
+                return (
+                  <CommentLi key={comment.id}>
+                    <img src={comment.author.image} alt="유저 프로필 이미지" />
+                    <div>
+                      <h2>
+                        {comment.author.username}
+                        <span>{moment(comment.createdAt).fromNow()}</span>
+                      </h2>
+                      <p>{comment.content}</p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        handleDeleteClick(comment.id);
+                        deleteComment(comment.id);
+                      }}
+                    />
+                  </CommentLi>
+                );
+              })}
           </CommentUl>
           <CommentBox>
-            <img src={basicProfile} alt="프로필 이미지" />{' '}
-            {/* 수정: alt 속성 추가 */}
+            <img src={basicProfile} alt="프로필 이미지" />
             <input
               type="text"
               placeholder="댓글 입력하기"
               onChange={(e) => {
-                setIsDisabled(false); // 수정: 변수 이름 변경
+                setIsDisabled(false);
                 setContent(e.target.value);
               }}
               value={content}
@@ -183,7 +183,7 @@ export default function PostDetail() {
 
                 setComments([...comments, newComment]);
                 setContent('');
-                setIsDisabled(true); // 수정: 입력 필드 초기화 후 버튼 비활성화
+                setIsDisabled(true);
               }}
               disabled={isDisabled}
             >
