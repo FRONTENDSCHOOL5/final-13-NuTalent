@@ -51,7 +51,7 @@ export default function AddProduct() {
 
       console.log(res);
 
-      navigate(`/profile/${currentUSerData._id}`);
+      navigate(`/profile/${currentUSerData.accountname}`);
     } catch (error) {
       console.error(error);
       alert('상품 등록 실패');
