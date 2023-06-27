@@ -1,12 +1,22 @@
 import { styled } from 'styled-components';
+import optionImg from '../../../assets/img/icon-more-vertical.svg';
 
 export const PostItemWrapper = styled.div`
   min-width: 32rem;
   max-width: 64rem;
   margin: 0 auto;
   padding: 6.8rem 1.6rem 2rem;
+  & a {
+    cursor: default;
+  }
+  & img,
+  div {
+    cursor: pointer;
+  }
 `;
 export const CommentUl = styled.ul`
+  display: block;
+  height: 100%;
   padding: 2rem 1.6rem;
   list-style: none;
   border-top: 0.1rem solid var(--sub-grey);
@@ -49,6 +59,14 @@ export const CommentLi = styled.li`
       word-break: break-all;
       line-height: 1.8rem;
     }
+  }
+  button {
+    width: 2rem;
+    height: 2rem;
+    margin-left: auto;
+    background-color: inherit;
+    border: none;
+    background: url(${optionImg}) no-repeat center / contain;
   }
 `;
 

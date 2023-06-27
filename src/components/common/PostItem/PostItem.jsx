@@ -14,9 +14,10 @@ export default function PostItem({
   postDate,
   postMessage,
   user_id,
+  postId,
 }) {
   // console.log('userId userName user_id', userId, userName, user_id);
-
+  // console.log(postDate);
   const date = postDate.slice(0, 10).split('-');
 
   const [isLiked, setIsLiked] = useState(false);
@@ -34,7 +35,7 @@ export default function PostItem({
         // state={(userId, user_id)}
       />
       <S.PostContainer>
-        <S.PostLink to={`/profile/${userId}`} state={{ userId, user_id }}>
+        <S.PostLink to={`/post/${postId}`} state={{ userId, user_id }}>
           <S.PostText>{postText}</S.PostText>
           {postImg && <S.PostImage src={postImg} alt="게시물 이미지" />}
         </S.PostLink>
@@ -51,6 +52,7 @@ export default function PostItem({
             <S.PostSpan>{postMessage}</S.PostSpan>
           </Link>
         </S.PostButtons>
+
         <S.PostDate>{`${date[0]}년 ${date[1]}월 ${date[2]}일`}</S.PostDate>
       </S.PostContainer>
       <S.PostMore />
