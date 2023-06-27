@@ -35,6 +35,8 @@ export default function Profile() {
       ? location.state.userId
       : currentUserData.accountname;
 
+  const myAccountName = currentUserData.accountname;
+
   const loadProfile = async (accName) => {
     try {
       const res = await instance.get(`/profile/${accName}`, {
