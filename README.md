@@ -57,15 +57,55 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 ### 🛠 기술 스택
 
-- 리액트
-- 리코일
-- 스타일드 컴포넌트
-- Axios
-- eslint
-- prettier
-- yarn
-- moment
-- lodash
+|   구분   | 설명                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| :------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FrontEnd | <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black"> <img src="https://img.shields.io/badge/styledcomponents-CC6699?style=for-the-badge&logo=styledcomponents&logoColor=white"> <img src="https://img.shields.io/badge/ESLint-E33332?style=for-the-badge&logo=ESLint&logoColor=white"> <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=Prettier&logoColor=white"> |
+| BackEnd  | 제공된 API 사용                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+
+<br>
+
+### 🛠 Package Manager
+
+| 패키지 매니저 | 용도                                    |
+| ------------- | --------------------------------------- |
+| yarn          | node.js환경에서 패키지 관리를 위해 사용 |
+
+<br>
+
+### 🛠 Node Modules
+
+| 모듈명           | 용도                                                                      |
+| ---------------- | ------------------------------------------------------------------------- |
+| recoil           | 전역 상태 관리를 위해 사용                                                |
+| axios            | 서버와 통신을 위해 사용                                                   |
+| react-router-dom | 페이지 라우팅을 위해 사용                                                 |
+| styled-reset     | 스타일 구현의 편의를 위해 사용                                            |
+| lodash           | 검색 페이지에서 함수의 호출을 일정시간 지연하는 debounce 구현을 위해 사용 |
+| moment           | Date 스타일을 변경하여 가독성을 높이기 위해 사용                          |
+
+<br>
+
+### ⚙️ 협업 툴
+
+| 협업 툴명 | 용도                                                                                            |
+| --------- | ----------------------------------------------------------------------------------------------- |
+| Git       | 프로젝트 파일 변경 사항을 추적하고 팀원들 간의 파일 작업 조율을 위해 분산 버전 관리 시스템 사용 |
+| GitHub    | Git저장소 호스팅을 위해 사용                                                                    |
+| GitKraken | Git 히스토리를 시각화하기 위해 사용                                                             |
+| Notion    | 협업에 필요한 전반적인 문서 관리를 위해 사용                                                    |
+| discord   | GitHub과 연동하여 변동사항 추적을 위해 사용                                                     |
+
+<br>
+
+### 🔧 협업 방식
+
+- Git-Flow 사용 <br/>
+  Git-Flow을 본 목적대로 사용하기 위해서는 main, hotfix, release, develop, feature 브랜치를 사용해야 하지만, 3주라는 **짧은 개발 일정**상 **feature, develop, main 브랜치만 우선적으로 사용**하였습니다. 개발 기간 이후 hotfix, release 브랜치를 적극적으로 사용하여 시맨틱한 버전관리를 진행할 예정입니다.
+
+- 컨벤션 소개 <br/>
+  issue <br/>
+  commit <br/>
+  PR <br/>
 
 ### ⚙️ 협업 툴
 
