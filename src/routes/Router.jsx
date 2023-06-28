@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import Login from '../pages/Auth/Login/Login';
 import SignUp from '../pages/Auth/SignUp/SignUp';
 import ProfileSetting from '../pages/Auth/ProfileSetting/ProfileSetting';
@@ -20,6 +21,8 @@ import Splash from '../pages/Splash/Splash';
 import Intro from '../pages/Auth/Intro/intro';
 import Following from '../pages/Profile/Following/Following';
 
+import PrivateRoutes from './PrivateRoute';
+
 export default function Router() {
   return (
     <BrowserRouter>
@@ -31,22 +34,24 @@ export default function Router() {
           <Route index element={<SignUp />} />
           <Route path="profile" element={<ProfileSetting />} />
         </Route>
-        <Route path="/home" element={<Home />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/chatlist" element={<ChatList />} />
-        <Route path="/chatlist/:accountname" element={<ChatRoom />} />
-        <Route path="/post">
-          <Route path=":id" element={<PostDetail />} />
-          <Route path="upload" element={<PostUpload />} />
-          <Route path="edit/:id" element={<PostEdit />} />
-        </Route>
-        <Route path="productupload" element={<ProductUpload />} />
-        <Route path="product/edit/:id" element={<ProductEdit />} />
-        <Route path="/follower" element={<Follower />} />
-        <Route path="/following" element={<Following />} />
-        <Route path="/profile">
-          <Route path=":accountname" element={<Profile />} />
-          <Route path="edit" element={<ProfileEdit />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/chatlist" element={<ChatList />} />
+          <Route path="/chatlist/:accountname" element={<ChatRoom />} />
+          <Route path="/post">
+            <Route path=":id" element={<PostDetail />} />
+            <Route path="upload" element={<PostUpload />} />
+            <Route path="edit/:id" element={<PostEdit />} />
+          </Route>
+          <Route path="productupload" element={<ProductUpload />} />
+          <Route path="product/edit/:id" element={<ProductEdit />} />
+          <Route path="/follower" element={<Follower />} />
+          <Route path="/following" element={<Following />} />
+          <Route path="/profile">
+            <Route path=":accountname" element={<Profile />} />
+            <Route path="edit" element={<ProfileEdit />} />
+          </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
