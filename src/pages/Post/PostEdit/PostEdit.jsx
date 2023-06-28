@@ -40,6 +40,7 @@ export default function Upload({ userImg }) {
       if (loadImage) imgRef.current.src = loadImage;
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 
@@ -93,6 +94,7 @@ export default function Upload({ userImg }) {
       navigate(`/post/${res.data.post.id}`);
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 

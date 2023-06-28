@@ -39,6 +39,7 @@ export default function PostDetail() {
       setData(res.data.post);
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 
@@ -58,6 +59,7 @@ export default function PostDetail() {
       return res.data.comments;
     } catch (error) {
       console.log(error);
+      alert(`${error.response.data.message}`);
     }
   };
 
@@ -113,6 +115,7 @@ export default function PostDetail() {
       console.log(res);
     } catch (error) {
       console.log(error);
+      alert(`${error.response.data.message}`);
     }
   };
 

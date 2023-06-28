@@ -23,7 +23,6 @@ export default function LoginPage() {
   const [passwordAlertMessage, setPasswordAlertMessage] = useState('');
   const [isPasswordInvalid, setIsPasswordInvalid] = useState(true);
   const [isEmailInvalid, setEmailInvalid] = useState(true);
-  const [responseAlertMessage, setResponseAlertMessage] = useState('');
   const setCurrentUserData = useSetRecoilState(recoilData);
   const emailRegEx = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
 
@@ -41,7 +40,6 @@ export default function LoginPage() {
         : setIsPasswordInvalid(true);
       setEmailInvalid(false);
       setEmailAlertMessage('');
-      console.log(11);
     }
   };
 
@@ -56,7 +54,6 @@ export default function LoginPage() {
     } else {
       setIsPasswordInvalid(false);
       setPasswordAlertMessage('');
-      console.log(22);
     }
   };
 
@@ -68,11 +65,9 @@ export default function LoginPage() {
       if (!emailRegEx.test(email)) {
         setEmailInvalid(true);
         setEmailAlertMessage('*유효하지 않은 이메일입니다.');
-        console.log(33);
       } else {
         setEmailInvalid(false);
         setEmailAlertMessage('');
-        console.log(44);
       }
 
       // 패스워드 유효성 검사
@@ -113,10 +108,13 @@ export default function LoginPage() {
         navigate('/home');
       } else {
         setIsPasswordInvalid(true);
-        setResponseAlertMessage(`*${res.data.message}`);
+        password.length < 6
+          ? setPasswordAlertMessage(`*비밀번호는 6자 이상이어야 합니다.`)
+          : setPasswordAlertMessage(`*${res.data.message}`);
       }
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 
@@ -144,9 +142,9 @@ export default function LoginPage() {
         {isPasswordInvalid && (
           <ErrorMessage>{passwordAlertMessage}</ErrorMessage>
         )}
-        {isPasswordInvalid && (
+        {/* {isPasswordInvalid && (
           <ErrorMessage>{responseAlertMessage}</ErrorMessage>
-        )}
+        )} */}
         <StyledBtn type="submit" disabled={isEmailInvalid || isPasswordInvalid}>
           로그인
         </StyledBtn>

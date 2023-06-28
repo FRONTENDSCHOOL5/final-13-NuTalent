@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { loginState } from '../../../recoil/atoms/loginState';
 import { recoilData } from '../../../recoil/atoms/dataState';
+
+import { instance } from '../../../util/api/axiosInstance';
+import imageValidation from '../../../util/imageValidation';
 
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
@@ -11,10 +15,6 @@ import {
   UploadFileLabel,
   AddProductContainer,
 } from './ProductUpload.styled';
-
-import { instance } from '../../../util/api/axiosInstance';
-import { useState } from 'react';
-import { loginState } from '../../../recoil/atoms/loginState';
 
 export default function AddProduct() {
   const currentUSerData = useRecoilValue(recoilData);
@@ -57,19 +57,7 @@ export default function AddProduct() {
       alert('상품 등록 실패');
     }
   };
-  const imageValidation = (image) => {
-    if (image.size > 10 * 1024 * 1024) {
-      alert('10MB를 초과하는 이미지는 업로드 할 수 없습니다.');
-      return false;
-    } else if (!image.name.match(/(.*)\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i)) {
-      alert(
-        '이미지 파일(*.jpg, *.gif, *.png, *.jpeg, *.bmp, *.tif, *.heic)만 업로드 할 수 있습니다.',
-      );
-      return false;
-    } else {
-      return true;
-    }
-  };
+
   const uploadHanlder = async (e) => {
     const selectedImg = e.target.files[0];
     console.log(selectedImg);
