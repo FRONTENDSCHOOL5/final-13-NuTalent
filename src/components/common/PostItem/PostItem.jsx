@@ -72,7 +72,7 @@ export default function PostItem({
               isLiked={isLiked}
             />
             <S.PostSpan>{postLike}</S.PostSpan>
-            <Link to={`/profile/${userId}`} state={{ userId, user_id }}>
+            <Link to={`/post/${postId}`} state={{ userId, user_id }}>
               <S.PostMessage />
               <S.PostSpan>{postMessage}</S.PostSpan>
             </Link>
@@ -115,6 +115,6 @@ export default function PostItem({
           setIsAlertOpen(false);
         }}
       />
-   </>
+    </>
   );
 }

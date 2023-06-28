@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+
 import moment from 'moment'; // moment import 추가
+import 'moment/locale/ko';
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import PostItem from '../../../components/common/PostItem/PostItem';
 import {
@@ -9,13 +11,19 @@ import {
   CommentUl,
   CommentLi,
   CommentBox,
+  PostDetailLink,
 } from './PostDetail.styled';
 import basicProfile from '../../../assets/img/basic-profile-img-.svg';
 import { instance } from '../../../util/api/axiosInstance';
 import { loginState } from '../../../recoil/atoms/loginState';
 import useScrollBottom from '../../../hooks/useScrollBottom';
 
+import BottomSheetModal from '../../../components/common/BottomSheetModal/BottomSheetModal';
+import Alert from '../../../components/common/Alert/Alert';
+import { recoilData } from '../../../recoil/atoms/dataState';
+
 export default function PostDetail() {
+  moment.locale('ko');
   const token = useRecoilValue(loginState);
   const [isDisabled, setIsDisabled] = useState(true);
   const [comments, setComments] = useState([]);
@@ -24,6 +32,24 @@ export default function PostDetail() {
   const [content, setContent] = useState('');
   const { id } = useParams();
 
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const { accountname } = useRecoilValue(recoilData);
+
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [isMyComment, setIsMyComment] = useState(false);
+
+  const bottomSheetHandler = () => {
+    setIsBottomSheetOpen((prev) => !prev);
+  };
+
+  const bottomSheetRef = useRef(null);
+
+  useEffect(() => {
+    if (isBottomSheetOpen && bottomSheetRef.current) {
+      bottomSheetRef.current.focus();
+    }
+  }, [isBottomSheetOpen, isAlertOpen]);
   const [skip, setSkip] = useState(0);
   const isBottom = useScrollBottom();
 
@@ -55,8 +81,8 @@ export default function PostDetail() {
         },
       );
 
-      console.log(res);
-      return res.data.comments;
+      console.log(res.data.comments);
+      return res.data.comments.reverse();
     } catch (error) {
       console.log(error);
       alert(`${error.response.data.message}`);
@@ -64,21 +90,24 @@ export default function PostDetail() {
   };
 
   useEffect(() => {
+    getPost(); // 초기 렌더링 시에만 getPost 함수 실행
+  }, []);
+  useEffect(() => {
     if (isLastComment) {
       return;
     }
     async function setComment() {
       const data = await getComment();
-      await getPost();
+      // await getPost();
       console.log(data);
-      setComments([...comments, ...data]);
+      setComments((prevComments) => [...prevComments, ...data]);
       if (data.length < 10) {
         setIsLastComment(true);
       }
     }
 
     setComment();
-    setSkip(skip + 10);
+    setSkip((prevSkip) => prevSkip + 10);
   }, [isBottom]);
 
   const handleClick = async () => {
@@ -97,6 +126,8 @@ export default function PostDetail() {
       });
 
       console.log(res);
+      getPost();
+
       return res.data.comment;
     } catch (error) {
       console.error(error);
@@ -113,6 +144,7 @@ export default function PostDetail() {
         },
       });
       console.log(res);
+      getPost();
     } catch (error) {
       console.log(error);
       alert(`${error.response.data.message}`);
@@ -144,29 +176,49 @@ export default function PostDetail() {
             />
           </PostItemWrapper>
           <CommentUl>
-            {comments
-              .slice()
-              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
-              .map((comment) => {
-                return (
-                  <CommentLi key={comment.id}>
+            {comments.map((comment) => {
+              return (
+                <CommentLi key={comment.id}>
+                  <PostDetailLink
+                    to={`/profile/${comment.author.accountname}`}
+                    state={{
+                      userId: comment.author.accountname,
+                      user_id: comment.author.id,
+                    }}
+                  >
                     <img src={comment.author.image} alt="유저 프로필 이미지" />
-                    <div>
+                  </PostDetailLink>
+                  <div>
+                    <PostDetailLink
+                      to={`/profile/${comment.author.accountname}`}
+                      state={{
+                        userId: comment.author.accountname,
+                        user_id: comment.author.id,
+                      }}
+                      style={{ gap: '1.6rem' }}
+                    >
                       <h2>
                         {comment.author.username}
                         <span>{moment(comment.createdAt).fromNow()}</span>
                       </h2>
-                      <p>{comment.content}</p>
-                    </div>
-                    <button
-                      onClick={() => {
-                        handleDeleteClick(comment.id);
-                        deleteComment(comment.id);
-                      }}
-                    />
-                  </CommentLi>
-                );
-              })}
+                    </PostDetailLink>
+                    <p>{comment.content}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setIsBottomSheetOpen(true);
+                      setIsMyComment(
+                        comment.author.accountname === accountname,
+                      );
+                      setSelectedComment(comment);
+
+                      // handleDeleteClick(comment.id);
+                      // deleteComment(comment.id);
+                    }}
+                  />
+                </CommentLi>
+              );
+            })}
           </CommentUl>
           <CommentBox>
             <img src={basicProfile} alt="프로필 이미지" />
@@ -193,6 +245,38 @@ export default function PostDetail() {
               게시
             </button>
           </CommentBox>
+          <BottomSheetModal
+            isOpen={isBottomSheetOpen}
+            bottomSheetHandler={bottomSheetHandler}
+          >
+            {isMyComment ? (
+              <>
+                <button
+                  className="modalBtn"
+                  ref={bottomSheetRef}
+                  onClick={() => {
+                    setIsBottomSheetOpen(false);
+                    setIsAlertOpen(true);
+                  }}
+                >
+                  삭제
+                </button>
+              </>
+            ) : (
+              <button>신고하기</button>
+            )}
+          </BottomSheetModal>
+          <Alert
+            isOpen={isAlertOpen}
+            title="댓글을 삭제할까요?"
+            cancel={() => setIsAlertOpen(false)}
+            actionText="삭제"
+            action={() => {
+              handleDeleteClick(selectedComment.id);
+              deleteComment(selectedComment.id);
+              setIsAlertOpen(false);
+            }}
+          />
         </>
       )}
     </>
