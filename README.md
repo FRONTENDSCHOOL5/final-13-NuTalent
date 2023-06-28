@@ -86,36 +86,15 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 ### 🗓 개발 일정
 
-**1주차** (06.01 ~ 06.03)
-
-- 서비스 기획 (컨셉 및 디자인)
-- 사용할 기술 스택 ??
-- 마일스톤 도입
-
-**2주차** (06.01 ~ 06.03)
-
-- 공통 컴포넌트 구현
-- 기술 스택 세미나
-
-**3주차** (06.01 ~ 06.03)
-
-- 각 페이지 작업
-- 라우터 연결
-- 기능 테스트 및 오류 해결
-
-**4주차** (06.01 ~ 06.03)
-
-- 기능 테스트 및 오류 해결
-- 리팩토링
-- 리드미 작성
+|                              |                                                                                             |
+| ---------------------------- | ------------------------------------------------------------------------------------------- |
+| **1주차**<br>(11/27 ~ 12/8)  | - 서비스 기획 (컨셉 및 디자인) <br>- 사용할 기술 스택 정리 </br> - 마일스톤 도입            |
+| **2주차**<br>(12/9 ~ 12/15)  | - 초기 개발환경 세팅 <br>- 기술 스택 세미나 <br>- 공통 컴포넌트 구현                        |
+| **3주차**<br>(12/16 ~ 12/22) | - 페이지 단위로 업무 분담하여 작업 시작                                                     |
+| **4주차**<br>(12/23 ~ 12/29) | - 기능 테스트 및 오류 해결 </br> - 주요 기능 구현 1차 완료 </br> - 기능 테스트 및 오류 해결 |
+| **5주차**<br>(12/30~1/4)     | - 기능 테스트 및 오류 해결<br>- 리팩토링<br>- README 작성                                   |
 
 </div markdown="1">
-
-## ✨ 리팩토링 예정 목록
-
-- React query
-- 어쩌고 어쩌고
-- 웅앵웅앵
 
   <p align="right"><a href="#top">(🔼 Top)</a></p>
 
@@ -132,40 +111,70 @@ gif 업로드
 <summary>📂 폴더 구조</summary>
 
 ```
+📁 NuTalent
+├── 📁 .github
+├── 📁 node_modules
+├── 📁 public
 ├── 📁 src
-│   ├── App.jsx
-│   ├── 📁 api
-│   ├── 📁 assets
-│   ├── 📁 atoms
-│   ├── 📁 components
-│   │   ├── 📁 AuthInputForm
-│   │   ├── 📁 ChatUserItem
-│   │   ├── 📁 Comment
-│   │   ├── 📁 FollowItem
-│   │   ├── 📁 Message
-│   │   ├── 📁 Modal
-│   │   ├── 📁 Post
-│   │   ├── 📁 Profile
-│   │   ├── 📁 Skeleton
-│   │   ├── 📁 Title
-│   │   ├── 📁 UserSearch
-│   │   └── 📁 common
-│   ├── 📁 constants
-│   ├── 📁 hooks
-│   ├── 📁 pages
-│   │   ├── 📁 Auth
-│   │   ├── 📁 Chat
-│   │   ├── 📁 Home
-│   │   ├── 📁 MyPicksUpload
-│   │   ├── 📁 NotFound
-│   │   ├── 📁 Post
-│   │   ├── 📁 Profile
-│   │   ├── 📁 Search
-│   │   ├── 📁 Splash
-│   │   └── 📁 Welcome
-│   ├── 📁 routes
-│   └── 📁 styles
-└──
+│   ├── 📁 assets
+│   │    └── 📁 image
+│   ├── 📁 components
+│   │   ├── 📁 common
+│   │   │    ├── 📁 Alert
+│   │   │    ├── 📁 BottomSheetModal
+│   │   │    ├── 📁 Button
+│   │   │    ├── 📁 PostItem
+│   │   │    ├── 📁 ProductItem
+│   │   │    ├── 📁 Tabmenu
+│   │   │    ├── 📁 TextActiveInput
+│   │   │    ├── 📁 Top
+│   │   │    └── 📁 User
+│   ├── 📁 hooks
+│   ├── 📁 pages
+│   │   ├── 📁 Auth
+│   │   │    ├── 📁 Intro
+│   │   │    ├── 📁 Login
+│   │   │    ├── 📁 ProfileSetting
+│   │   │    └── 📁 SignUp
+│   │   ├── 📁 Chat
+│   │   │    ├── 📁 ChatList
+│   │   │    └── 📁 ChatRoom
+│   │   ├── 📁 Home
+│   │   ├── 📁 NotFound
+│   │   ├── 📁 Post
+│   │   │    ├── 📁 PostDetail
+│   │   │    ├── 📁 PostEdit
+│   │   │    └── 📁 PostUpload
+│   │   ├── 📁 Product
+│   │   │    ├── 📁 ProductEdit
+│   │   │    └── 📁 ProductUpload
+│   │   ├── 📁 Profile
+│   │   │    ├── 📁 Follwer
+│   │   │    ├── 📁 Following
+│   │   │    ├── 📁 ProfileDetail
+│   │   │    └── 📁 ProfileEdit
+│   │   ├── 📁 Search
+│   │   └── 📁 Splash
+│   ├── 📁 recoil
+│   │    ├── 📁 atoms
+│   │    ├── 📁 effects
+│   │    └── 📁 selectors
+│   ├── 📁 routes
+│   ├── 📁 styles
+│   ├── 📁 util
+        └── 📁 api
+│   ├── App.js
+│   └── index.js
+├── .eslintignore
+├── .eslintrc
+├── .git
+├── .gitignore
+├── .prettierignore
+├── .prettierrc
+├── package.json
+├── README.md
+├── README.md
+└── yarn.lock
 ```
 
 <div markdown="1">
