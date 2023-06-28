@@ -12,6 +12,7 @@ import {
   TextInputBox,
   JoinMembersNextButton,
   ErrorMessage,
+  UserIdValidationMessage,
 } from './ProfileSetting.styled';
 import imageValidation from '../../../util/imageValidation';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
@@ -30,6 +31,7 @@ export default function ProfileSetting() {
   const [isDescriptionInvalid, setIsDescriptionInvalid] = useState(false);
   const [profileImage, setProfileImage] = useState('');
   const [userIdErrorMessage, setUserIdErrorMessage] = useState('');
+  const [userIdValidationMessage, setUserIdValidationMessage] = useState('');
 
   const idRegExp = /^[a-zA-Z0-9_.]+$/;
 
@@ -65,7 +67,31 @@ export default function ProfileSetting() {
   };
 
   // focus를 잃으면 실행
-  const handleUserIdBlur = () => {
+  const handleUserIdBlur = async () => {
+    // 계정 검증
+    try {
+      const userAccountName = JSON.stringify({
+        user: {
+          accountname: userId,
+        },
+      });
+      const res = await instance.post(
+        '/user/accountnamevalid',
+        userAccountName,
+        {
+          headers: {
+            'Content-type': 'application/json',
+          },
+        },
+      );
+
+      console.log('res', res);
+
+      setUserIdValidationMessage(`*${res.data.message}`);
+    } catch (error) {
+      console.error(error);
+      alert('잘못된 접근입니다.');
+    }
     // 유효성 검사
     // 계정ID: 영문, 숫자, 특수문자(.), (_)만 사용가능합니다.
     if (!idRegExp.test(userId)) {
@@ -198,6 +224,11 @@ export default function ProfileSetting() {
           계정ID
         </TextActiveInput>
         {isUserIdInvalid && <ErrorMessage>{userIdErrorMessage}</ErrorMessage>}
+        {
+          <UserIdValidationMessage>
+            {userIdValidationMessage}
+          </UserIdValidationMessage>
+        }
         <TextActiveInput
           type="text"
           placeholder="자신과 판매할 상품에 대해 소개해주세요!"

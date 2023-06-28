@@ -62,9 +62,16 @@ const TextInputBox = styled.form`
 `;
 
 const ErrorMessage = styled.p`
-  color: #eb5757;
+  color: var(--error);
   font-size: 1.4rem;
   margin-bottom: 2rem;
 `;
 
-export { JoinMembersWrap, PageH2, PageDescription, ImageWrapper, DefaultProfileImg, ProfileUploadInput, ProfileUploadLabel, ProfileUploadDiv, JoinMembersNextButton, TextInputBox, ErrorMessage };
+const UserIdValidationMessage = styled.p`
+  color: green;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+
+`;
+
+export { JoinMembersWrap, PageH2, PageDescription, ImageWrapper, DefaultProfileImg, ProfileUploadInput, ProfileUploadLabel, ProfileUploadDiv, JoinMembersNextButton, TextInputBox, ErrorMessage, UserIdValidationMessage };
