@@ -12,6 +12,7 @@ export const Container = styled.div`
   background-color: #f2f2f2;
   line-height: 1.2;
   padding: 4.8rem 0;
+  min-height: 100vh;
 
   & > * {
     margin-bottom: 1rem;
@@ -145,13 +146,13 @@ export const viewButton = styled.button`
   &:first-child {
     margin-left: auto;
     background: ${(props) =>
-    props.view === 'list' ? `url(${listViewOn})` : `url(${listViewOff})`}
+        props.view === 'list' ? `url(${listViewOn})` : `url(${listViewOff})`}
       no-repeat center;
   }
 
   &:last-child {
     background: ${(props) =>
-    props.view === 'album' ? `url(${AlbumViewOn})` : `url(${AlbumViewOff})`}
+        props.view === 'album' ? `url(${AlbumViewOn})` : `url(${AlbumViewOff})`}
       no-repeat center;
   }
 `;
