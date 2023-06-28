@@ -156,12 +156,11 @@ export default function PostDetail() {
     setComments(comments.filter((comment) => comment.id !== commentId));
   };
 
-  const onSubmitReportClick = async (commentId) => {
+  const onSubmitReportClick = async (comment) => {
     try {
-      console.log('token', token);
       // comment 신고하기
       const res = await instance.post(
-        `/post/${id}/comments/${commentId}/report`,
+        `/post/${id}/comments/${comment.id}/report`,
         {},
         {
           headers: {
@@ -172,7 +171,15 @@ export default function PostDetail() {
       );
 
       console.log(res);
-      alert(`신고가 완료되었습니다.`);
+
+      console.log(comment.author);
+      alert(
+        `
+        사용자 이름: ${comment.author.username}
+        계정 내용: ${comment.content}
+  
+        신고가 완료되었습니다.`,
+      );
     } catch (error) {
       console.error(error);
       alert(`${error.response.data.message}`);
@@ -235,9 +242,6 @@ export default function PostDetail() {
                         comment.author.accountname === accountname,
                       );
                       setSelectedComment(comment);
-
-                      // handleDeleteClick(comment.id);
-                      // deleteComment(comment.id);
                     }}
                   />
                 </CommentLi>
@@ -306,7 +310,7 @@ export default function PostDetail() {
             actionText="삭제"
             action={() => {
               handleDeleteClick(selectedComment.id);
-              deleteComment(selectedComment.id);
+              deleteComment(selectedComment.id, selectedComment);
               setIsAlertOpen(false);
             }}
           />
@@ -316,7 +320,7 @@ export default function PostDetail() {
             cancel={() => setIsAlertReportOpen(false)}
             actionText="신고"
             action={() => {
-              onSubmitReportClick(selectedComment.id);
+              onSubmitReportClick(selectedComment);
               setIsAlertReportOpen(false);
             }}
           />
