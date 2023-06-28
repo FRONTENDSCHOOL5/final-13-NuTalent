@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { instance } from '../../../util/api/axiosInstance';
 
 import User from '../User/User';
 import BottomSheetModal from '../BottomSheetModal/BottomSheetModal';
 import Alert from '../Alert/Alert';
 
 import { recoilData } from '../../../recoil/atoms/dataState';
+import { loginState } from '../../../recoil/atoms/loginState';
 
 import * as S from './PostItem.styled';
 
@@ -26,6 +28,8 @@ export default function PostItem({
 }) {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isAlertReportOpen, setIsAlertReportOpen] = useState(false);
+  const token = useRecoilValue(loginState);
   const currentUserData = useRecoilValue(recoilData);
   const date = postDate.slice(0, 10).split('-');
 
@@ -46,7 +50,36 @@ export default function PostItem({
       console.log(bottomSheetRef.current);
       bottomSheetRef.current.focus();
     }
-  }, [isBottomSheetOpen, isAlertOpen]);
+  }, [isBottomSheetOpen, isAlertOpen, isAlertReportOpen]);
+
+  const onSubmitReportClick = async () => {
+    try {
+      console.log('token', token);
+      // post 신고하기
+      const res = await instance.post(
+        `/post/${postId}/report`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
+        },
+      );
+
+      console.log(res);
+      alert(
+        `
+      사용자 이름: ${userName}
+      계정 내용: ${postText}
+
+      신고가 완료되었습니다.`,
+      );
+    } catch (error) {
+      console.error(error);
+      alert(`${error.response.data.message}`);
+    }
+  };
 
   return (
     <>
@@ -102,7 +135,17 @@ export default function PostItem({
             </Link>
           </>
         ) : (
-          <button>신고하기</button>
+          <button
+            type="button"
+            className="modalBtn"
+            ref={bottomSheetRef}
+            onClick={() => {
+              setIsBottomSheetOpen(false);
+              setIsAlertReportOpen(true);
+            }}
+          >
+            신고하기
+          </button>
         )}
       </BottomSheetModal>
       <Alert
@@ -113,6 +156,16 @@ export default function PostItem({
         action={() => {
           onDeletePost();
           setIsAlertOpen(false);
+        }}
+      />
+      <Alert
+        isOpen={isAlertReportOpen}
+        title="게시글을 신고할까요?"
+        cancel={() => setIsAlertReportOpen(false)}
+        actionText="신고"
+        action={() => {
+          onSubmitReportClick();
+          setIsAlertReportOpen(false);
         }}
       />
     </>
