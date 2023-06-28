@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import splash from '../../assets/img/Splash-문구.svg';
+import splash from '../../assets/img/SplashImg.svg';
 import { SplashDiv } from './Splash.styled';
 import { useNavigate } from 'react-router-dom';
 
