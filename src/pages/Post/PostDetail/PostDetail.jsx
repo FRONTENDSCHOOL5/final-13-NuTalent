@@ -34,6 +34,7 @@ export default function PostDetail() {
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isAlertReportOpen, setIsAlertReportOpen] = useState(false);
   const { accountname } = useRecoilValue(recoilData);
 
   const [selectedComment, setSelectedComment] = useState(null);
@@ -155,6 +156,29 @@ export default function PostDetail() {
     setComments(comments.filter((comment) => comment.id !== commentId));
   };
 
+  const onSubmitReportClick = async (commentId) => {
+    try {
+      console.log('token', token);
+      // comment 신고하기
+      const res = await instance.post(
+        `/post/${id}/comments/${commentId}/report`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
+        },
+      );
+
+      console.log(res);
+      alert(`신고가 완료되었습니다.`);
+    } catch (error) {
+      console.error(error);
+      alert(`${error.response.data.message}`);
+    }
+  };
+
   return (
     <>
       <TopBasicNav />
@@ -263,7 +287,16 @@ export default function PostDetail() {
                 </button>
               </>
             ) : (
-              <button>신고하기</button>
+              <button
+                className="modalBtn"
+                ref={bottomSheetRef}
+                onClick={() => {
+                  setIsBottomSheetOpen(false);
+                  setIsAlertReportOpen(true);
+                }}
+              >
+                신고하기
+              </button>
             )}
           </BottomSheetModal>
           <Alert
@@ -275,6 +308,16 @@ export default function PostDetail() {
               handleDeleteClick(selectedComment.id);
               deleteComment(selectedComment.id);
               setIsAlertOpen(false);
+            }}
+          />
+          <Alert
+            isOpen={isAlertReportOpen}
+            title="게시글을 신고할까요?"
+            cancel={() => setIsAlertReportOpen(false)}
+            actionText="신고"
+            action={() => {
+              onSubmitReportClick(selectedComment.id);
+              setIsAlertReportOpen(false);
             }}
           />
         </>
