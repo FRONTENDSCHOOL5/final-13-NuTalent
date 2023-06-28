@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { instance } from '../../../util/api/axiosInstance';
-import imageValidation from '../../../util/imageValidation';
+import imageValidation from '../../../util/validation/imageValidation';
 import {
   ProfileEditWrap,
   ImageWrapper,

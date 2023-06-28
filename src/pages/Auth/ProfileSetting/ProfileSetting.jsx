@@ -14,7 +14,7 @@ import {
   ErrorMessage,
   UserIdValidationMessage,
 } from './ProfileSetting.styled';
-import imageValidation from '../../../util/imageValidation';
+import imageValidation from '../../../util/validation/imageValidation';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import profileDefault from '../../../assets/img/basic-profile-img-.svg';
 import { instance } from '../../../util/api/axiosInstance';

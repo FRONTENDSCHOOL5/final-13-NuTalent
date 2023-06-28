@@ -5,7 +5,7 @@ import { loginState } from '../../../recoil/atoms/loginState';
 import { recoilData } from '../../../recoil/atoms/dataState';
 
 import { instance } from '../../../util/api/axiosInstance';
-import imageValidation from '../../../util/imageValidation';
+import imageValidation from '../../../util/validation/imageValidation';
 
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
