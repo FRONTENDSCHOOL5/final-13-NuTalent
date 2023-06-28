@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-
+//useEffect 추가
 import { SearchWrap, UserListLi } from './Search.styled';
 
 import TopSearchNav from '../../components/common/Top/TopSearchNav';
