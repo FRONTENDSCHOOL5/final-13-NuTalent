@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import moment from 'moment'; // moment import 추가
@@ -31,6 +31,7 @@ export default function PostDetail() {
   const [data, setData] = useState(undefined);
   const [content, setContent] = useState('');
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -186,6 +187,21 @@ export default function PostDetail() {
     }
   };
 
+  const deletePost = async (postId) => {
+    try {
+      await instance.delete(`/post/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      navigate(-1);
+    } catch (error) {
+      console.error(error);
+      alert(`${error.response.data.message}`);
+    }
+  };
+
   return (
     <>
       <TopBasicNav />
@@ -204,6 +220,7 @@ export default function PostDetail() {
               userImg={data.author.image}
               userName={data.author.username}
               isLink={false}
+              onDeletePost={() => deletePost(data.id)}
             />
           </PostItemWrapper>
           <CommentUl>
