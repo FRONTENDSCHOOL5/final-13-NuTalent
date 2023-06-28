@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 
-import imageValidation from '../../../util/imageValidation';
+import imageValidation from '../../../util/validation/imageValidation';
 import { instance } from '../../../util/api/axiosInstance';
 import { loginState } from '../../../recoil/atoms/loginState';
 
