@@ -49,7 +49,7 @@ export default function Home() {
       <TopMainNav />
       <Container>
         {isLoading ? (
-          <h1 style={{ textAlign: 'center', marginTop: '5rem' }}>로딩중</h1>
+          <div></div>
         ) : (
           <>
             {data.length > 0 ? (

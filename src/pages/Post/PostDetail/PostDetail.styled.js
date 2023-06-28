@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { Link } from 'react-router-dom';
 import optionImg from '../../../assets/img/icon-more-vertical.svg';
 
 export const PostItemWrapper = styled.div`
@@ -68,6 +69,10 @@ export const CommentLi = styled.li`
     border: none;
     background: url(${optionImg}) no-repeat center / contain;
   }
+`;
+export const PostDetailLink = styled(Link)`
+  gap: 1.2rem;
+  display: block;
 `;
 
 export const CommentBox = styled.div`
