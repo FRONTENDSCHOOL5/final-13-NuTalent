@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-//useEffect 추가
+
 import { SearchWrap, UserListLi } from './Search.styled';
 
 import TopSearchNav from '../../components/common/Top/TopSearchNav';
@@ -14,29 +14,30 @@ import { loginState } from '../../recoil/atoms/loginState';
 import { debounce } from 'lodash';
 
 export default function Search() {
-  const [keywordForSearchUser, setKeywordToSearchUser] = useState('');
+  const [keywordToSearchUser, setKeywordToSearchUser] = useState('');
   const [data, setData] = useState([]);
 
   const token = useRecoilValue(loginState);
 
-  const sendQuery = async (keyword) => {
-    const res = await instance.get(`/user/searchuser/?keyword=${keyword}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-type': 'application/json',
+  const sendQuery = async () => {
+    if (!keywordToSearchUser) return;
+    const res = await instance.get(
+      `/user/searchuser/?keyword=${keywordToSearchUser}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
       },
-    });
+    );
     setData(res.data);
   };
 
-  const delayedSearch = useCallback(
-    debounce((q) => sendQuery(q), 500),
-    [],
-  );
+  const delayedSearch = useCallback(debounce(() => sendQuery(), 500));
 
   const handleSearchUserChange = (e) => {
-    setKeywordToSearchUser(e.target.value.toLowerCase());
-    delayedSearch(e.target.value.toLowerCase());
+    setKeywordToSearchUser(e.target.value);
+    delayedSearch();
   };
 
   const handleImageError = (e) => {
@@ -44,14 +45,14 @@ export default function Search() {
   };
 
   useEffect(() => {
-    sendQuery(keywordForSearchUser);
-  }, [keywordForSearchUser]);
+    sendQuery();
+  }, [keywordToSearchUser]);
 
   return (
     <>
       <TopSearchNav
         type="text"
-        value={keywordForSearchUser}
+        value={keywordToSearchUser}
         onChange={handleSearchUserChange}
       />
       <SearchWrap>
