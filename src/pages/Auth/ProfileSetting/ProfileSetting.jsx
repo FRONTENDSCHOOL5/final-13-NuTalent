@@ -87,7 +87,7 @@ export default function ProfileSetting() {
 
       console.log('res', res);
 
-      setUserIdValidationMessage(`*${res.data.message}`);
+      setUserIdValidationMessage(`${res.data.message}`);
     } catch (error) {
       console.error(error);
       alert('잘못된 접근입니다.');

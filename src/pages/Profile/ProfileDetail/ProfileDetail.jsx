@@ -48,6 +48,7 @@ export default function Profile() {
       setProfile(res.data.profile);
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 
@@ -62,6 +63,7 @@ export default function Profile() {
       setProducts(res.data.product);
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 
@@ -79,6 +81,7 @@ export default function Profile() {
       setPosts([...posts, ...res.data.post]);
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 
@@ -107,6 +110,7 @@ export default function Profile() {
       }
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 
@@ -148,6 +152,7 @@ export default function Profile() {
       setPosts(res.data.post);
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 
@@ -162,6 +167,7 @@ export default function Profile() {
       loadProduct(accountName);
     } catch (error) {
       console.error(error);
+      alert(`${error.response.data.message}`);
     }
   };
 

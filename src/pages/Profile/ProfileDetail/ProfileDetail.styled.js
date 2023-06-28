@@ -120,6 +120,7 @@ export const ProductList = styled.ul`
   gap: 1rem;
   padding-bottom: 0.5rem;
   overflow-x: scroll;
+  overflow-y: hidden;
 
   &::-webkit-scrollbar {
     display: none;
