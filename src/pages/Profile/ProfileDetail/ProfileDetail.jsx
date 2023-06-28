@@ -67,7 +67,7 @@ export default function Profile() {
     }
   };
 
-  const loadPost = async (accName) => {
+  const loadPost = async (accName, changeUser = false) => {
     try {
       const res = await instance.get(
         `/post/${accName}/userpost/?limit=5&skip=${skip}`,
@@ -78,12 +78,17 @@ export default function Profile() {
           },
         },
       );
-      setPosts([...posts, ...res.data.post]);
+      if (changeUser) {
+        setPosts(res.data.post);
+      } else {
+        setPosts([...posts, ...res.data.post]);
+      }
     } catch (error) {
       console.error(error);
       alert(`${error.response.data.message}`);
     }
   };
+  console.log(posts);
 
   const followHandler = async () => {
     try {
@@ -117,8 +122,7 @@ export default function Profile() {
   useEffect(() => {
     loadProfile(accountName);
     loadProduct(accountName);
-    setPosts([]);
-    loadPost(accountName);
+    loadPost(accountName, true);
   }, [accountName]);
 
   // 무한 스크롤
