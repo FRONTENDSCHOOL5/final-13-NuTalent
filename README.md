@@ -1,6 +1,6 @@
 <!-- <h1 align="center">🌈 NU-TALENT </h1> -->
 
-<img src="../final-13-NuTalent/src/assets/img/Cover.png">
+<img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/d6058d52-09ec-4b56-8968-03731d099fa2">
 
 > 📎 배포 URL : https:// <br/>
 > 🔓 계정 : `test아이디` | `test비번` <br/>
@@ -121,7 +121,7 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 ### 🎨 디자인
 
-피그마 파일
+<img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/a72fe9ea-0364-46e5-8e83-7b49a393e5b0">
 
 ### 🖥 기능 UI
 
