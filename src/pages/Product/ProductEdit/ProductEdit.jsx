@@ -37,7 +37,7 @@ export default function AddProduct() {
       });
       setImage(res.data.product.itemImage);
       setProductName(res.data.product.itemName);
-      setPrice(res.data.product.price);
+      setPrice(res.data.product.price.toLocaleString());
       setLink(res.data.product.link);
     } catch (error) {
       console.error(error);
@@ -63,16 +63,12 @@ export default function AddProduct() {
           itemImage: image,
         },
       });
-      console.log(token);
-      const res = await instance.put(`/product/${id}`, user, {
+      instance.put(`/product/${id}`, user, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-type': 'application/json',
         },
       });
-
-      console.log(res);
-      console.log(currentUSerData, currentUSerData.accountname);
 
       navigate(`/profile/${currentUSerData.accountname}`);
     } catch (error) {
@@ -95,7 +91,6 @@ export default function AddProduct() {
   };
   const uploadHanlder = async (e) => {
     const selectedImg = e.target.files[0];
-    console.log(selectedImg);
     if (!imageValidation(selectedImg)) return;
 
     const formData = new FormData();
@@ -104,7 +99,6 @@ export default function AddProduct() {
 
     const res = await instance.post('/image/uploadfile', formData);
     setImage(res.config.baseURL + '/' + res.data.filename);
-    console.log(res);
   };
 
   // 여기부터 작성하겠습니다~
