@@ -175,47 +175,6 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 ### 🖥 기능 UI
 
-<details>
-<summary>📂 리액트 포탈</summary>
-
-모달이 리액트 앱의 DOM 트리에서 렌더링이 되면 부모 요소의 css 상속을 받아 원하는 위치에 렌더링하기 힘들지만 포탈을 사용하면 DOM 트리에서 벗어나 스타일링이 더 쉬워지고 z-index 관련 문제를 쉽게 해결할 수 있습니다.
-
-```js
-import React, { useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import * as S from './Alert.styled';
-
-export default function Alert({ isOpen, title, cancel, action, actionText }) {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [isOpen]);
-
-  return (
-    isOpen &&
-    createPortal(
-      <S.Overlay>
-        <S.Alert isOpen={isOpen}>
-          <p>{title}</p>
-          <div>
-            <button type="button" onClick={cancel}>
-              취소
-            </button>
-            <button type="button" onClick={action}>
-              {actionText}
-            </button>
-          </div>
-        </S.Alert>
-      </S.Overlay>,
-      document.body,
-    )
-  );
-}
-```
-
 <div markdown="1">
 </details>
 
@@ -256,7 +215,48 @@ export default function Alert({ isOpen, title, cancel, action, actionText }) {
   | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/0aeced98-40f3-4ed8-8d9e-d5a2dfb9f49d" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/5df7f01b-41f2-49f9-9a53-109904e62d55" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/20912f57-70b7-47d3-b985-a2c8cb565cb0" height=462 width=220> |
 
 <details>
-<summary>PrivateRoute</summary>
+<summary>React Portal</summary>
+
+모달이 리액트 앱의 DOM 트리에서 렌더링이 되면 부모 요소의 css 상속을 받아 원하는 위치에 렌더링하기 힘들지만 포탈을 사용하면 DOM 트리에서 벗어나 스타일링이 더 쉬워지고 z-index 관련 문제를 쉽게 해결할 수 있습니다.
+
+```js
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import * as S from './Alert.styled';
+
+export default function Alert({ isOpen, title, cancel, action, actionText }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isOpen]);
+
+  return (
+    isOpen &&
+    createPortal(
+      <S.Overlay>
+        <S.Alert isOpen={isOpen}>
+          <p>{title}</p>
+          <div>
+            <button type="button" onClick={cancel}>
+              취소
+            </button>
+            <button type="button" onClick={action}>
+              {actionText}
+            </button>
+          </div>
+        </S.Alert>
+      </S.Overlay>,
+      document.body,
+    )
+  );
+}
+```
+
+<details>
+<summary>Private Route</summary>
 
 ## PrivateRoute
 
@@ -265,6 +265,9 @@ PrivateRoutes 컴포넌트 내에서 Recoil로 사용자 정보를 받아와 로
 사용자의 정보가 없다면 로그인 페이지로 이동하게되고 사용자의 정보가 있다면 Outlet을 통해 PrivatesRoute 컴포넌트 안의 Route로 이동하게 됩니다.
 
 ```js
+
+// PrivateRoute.jsx
+
 import React from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -278,8 +281,7 @@ export default function PrivateRoutes() {
   return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
 }
 
-
-//
+// Router.jsx
 
 export default function Router() {
   return (
