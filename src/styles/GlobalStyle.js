@@ -12,11 +12,16 @@ export const GlobalStyle = createGlobalStyle`
   ${reset}
 
   :root {
+    --main-purple: #AA6EC9;
+    --sub-purple: #8332AC;
+    --main-grey: #767676;
+    --sub-grey: #dbdbdb;
+    --error: #EB5757;
     font-size: 62.5%;
   }
   
   * {
-    box-sizing:border-box;
+    box-sizing: border-box;
   }
   
   body {
@@ -26,6 +31,9 @@ export const GlobalStyle = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   button, input {
