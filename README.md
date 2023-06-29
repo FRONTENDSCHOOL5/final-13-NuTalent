@@ -3,8 +3,7 @@
 <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/d6058d52-09ec-4b56-8968-03731d099fa2">
 
 > 📎 배포 URL : https:// <br/>
-> 🔓 계정 : `test아이디` | `test비번` <br/>
-> ⛔️ 기타 구동에 필요한 알림사항
+> 🔓 계정 : `ip@time.com` | `test123` <br/>
 
 **"꺼내봐 너의 부캐"**
 
@@ -28,27 +27,44 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 #### 👩🏻‍💻 강은초
 
-- 어쩌구 페이지, 어쩌구 페이지, 어쩌구 페이지 구현
-- 어쩌구 유효성? 구현
+- 초기 폴더구조 세팅 및 환경설정
+- 로그인, 프로필 설정, 검색, 프로필 수정 페이지
+- 이메일, 회원가입 유효성 검사
+- Recoil로 전역 데이터 관리
+- 각 페이지 라우터 연결, 본인/타인 프로필 페이지 전환, splash 페이지 연결
 
 #### 🧑🏻‍💻 손수민
 
-- 어쩌구 페이지, 어쩌구 페이지, 어쩌구 페이지 구현
-- 어쩌구 유효성? 구현
+- 상품 등록, 홈피드, 게시글, 404 페이지
+- 이미지 유효성 검사, 무한 스크롤 구현, 리액트 포탈로 모달 구현
+- 피그마 디자인
+- 라우터 연결 및 폴더구조 수정
 
 #### 🧑🏻‍💻 이선근
 
-- 어쩌구 페이지, 어쩌구 페이지, 어쩌구 페이지 구현
-- 어쩌구 유효성? 구현
+- 초기 개발환경 세팅 (PR, Issue 템플릿 생성)
+- 게시글 작성 및 수정, 프로필 페이지
+- 채팅 페이지 마크업 및 스타일링
+- PrivateRoute, 이미지 유효성 검사, 게시글 보기 방식 변경, 무한 스크롤 구현, 리액트 포탈로 모달 구현
 
 #### 👩🏻‍💻 한수정
 
-- 어쩌구 페이지, 어쩌구 페이지, 어쩌구 페이지 구현
-- 어쩌구 유효성? 구현
+- 팔로우, 팔로잉, 회원가입, 인트로 페이지
+- 이메일, 회원가입 유효성 검사
+- 로그인 페이지 마크업 및 스타일링
+- 탭 메뉴 및 좋아요 버튼 활성화, 리액트 포탈로 모달 구현
 
 ### 👥 공통
 
-- 공통 컴포넌트 (,,,)
+- 공통 컴포넌트
+  - Alert
+  - BottomSheetModal
+  - Button
+  - PostItem
+  - ProductItem
+  - TabMenu
+  - TextActiveInput
+  - Top
 
 <p align="right"><a href="#top">(🔼 Top)</a></p>
 <br>
@@ -74,7 +90,7 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 ### 🛠 Node Modules
 
-| 모듈명           | 용도                                                                      |
+| 모듈명           | 도입계기                                                                  |
 | ---------------- | ------------------------------------------------------------------------- |
 | recoil           | 전역 상태 관리를 위해 사용                                                |
 | axios            | 서버와 통신을 위해 사용                                                   |
@@ -100,12 +116,40 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 ### 🔧 협업 방식
 
 - Git-Flow 사용 <br/>
-  Git-Flow을 본 목적대로 사용하기 위해서는 main, hotfix, release, develop, feature 브랜치를 사용해야 하지만, 3주라는 **짧은 개발 일정**상 **feature, develop, main 브랜치만 우선적으로 사용**하였습니다. 개발 기간 이후 hotfix, release 브랜치를 적극적으로 사용하여 시맨틱한 버전관리를 진행할 예정입니다.
+  Git-Flow을 본 목적대로 사용하기 위해서는 main, hotfix, release, develop, feature 브랜치를 사용해야 하지만, <br>3주라는 **짧은 개발 일정**상 **feature, develop, main 브랜치만 우선적으로 사용**하였습니다.<br> 개발 기간 이후 hotfix, release 브랜치를 적극적으로 사용하여 시맨틱한 버전관리를 진행할 예정입니다.
 
 - 컨벤션 소개 <br/>
-  issue <br/>
-  commit <br/>
-  PR <br/>
+
+  커밋 컨벤션
+  | 커밋 유형 | 의미 |
+  | ------------------ | --------------------------------------------------- |
+  | Feat | 새로운 기능 추가 |
+  | Fix | 버그 수정 |
+  | Docs | 문서 수정 |
+  | Style | css 수정 |
+  | Refactor | 코드 리팩토링 |
+  | Test | 테스트 코드, 리팩토링 테스트 코드 추가 |
+  | Chore | 패키지 매니저 수정, 그 외 기타 수정 ex) .gitignore |
+  | Comment | 필요한 주석 추가 및 변경 |
+  | Rename | 파일 또는 폴더 명을 수정하거나 옮기는 작업만인 경우 |
+  | Remove | 파일을 삭제하는 작업만 수행한 경우 |
+  | !BREAKING CHANGE | 커다란 API 변경의 경우 |
+  | !HOTFIX | 급하게 치명적인 버그를 고쳐야 하는 경우 |
+  <br/>
+
+  프리티어 설정
+
+  ```
+  {
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "printWidth": 80
+  }
+  ```
+
+<br>
 
 <p align="right"><a href="#top">(🔼 Top)</a></p>
 
@@ -131,6 +175,50 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 ### 🖥 기능 UI
 
+<details>
+<summary>📂 리액트 포탈</summary>
+
+모달이 리액트 앱의 DOM 트리에서 렌더링이 되면 부모 요소의 css 상속을 받아 원하는 위치에 렌더링하기 힘들지만 포탈을 사용하면 DOM 트리에서 벗어나 스타일링이 더 쉬워지고 z-index 관련 문제를 쉽게 해결할 수 있습니다.
+
+```js
+import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import * as S from './Alert.styled';
+
+export default function Alert({ isOpen, title, cancel, action, actionText }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isOpen]);
+
+  return (
+    isOpen &&
+    createPortal(
+      <S.Overlay>
+        <S.Alert isOpen={isOpen}>
+          <p>{title}</p>
+          <div>
+            <button type="button" onClick={cancel}>
+              취소
+            </button>
+            <button type="button" onClick={action}>
+              {actionText}
+            </button>
+          </div>
+        </S.Alert>
+      </S.Overlay>,
+      document.body,
+    )
+  );
+}
+```
+
+<div markdown="1">
+</details>
+
 - ### Splash, 로그인,회원가입,프로필 설정
 
   |                                                                   로그인                                                                    |                                                                  회원가입                                                                   |                                                                 프로필설정                                                                  |
@@ -149,7 +237,7 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
   | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
   | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/00cfb725-20bb-4004-9d60-9e195abaffc1" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/85bc056c-703c-4e95-ad9d-877955641141" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/61614b91-0635-4274-b384-99f941f23582" height=462 width=220> |
 
-  - ### 댓글
+- ### 댓글
 
   |                                                                  댓글 등록                                                                   |                                                                  댓글 신고                                                                  |                                                                  댓글 삭제                                                                  |
   | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
@@ -161,7 +249,7 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
   | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
   | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/99c41a6d-7065-46ef-be18-b9ddabaec796" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/6147ed20-5ad2-4788-a098-65e6fa9f32c8" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/edac6e0f-f6cf-4451-8cd0-454b1ddd3a54" height=462 width=220> |
 
-  - ### 채팅, NotFound 페이지, 로그아웃
+- ### 채팅, NotFound 페이지, 로그아웃
 
   |                                                                     채팅                                                                     |                                                               NotFound 페이지                                                               |                                                                  로그아웃                                                                   |
   | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
@@ -171,60 +259,61 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 <summary>📂 폴더 구조</summary>
 
 ```
+
 📁 NuTalent
 ├── 📁 .github
 ├── 📁 node_modules
 ├── 📁 public
 ├── 📁 src
-│   ├── 📁 assets
-│   │    └── 📁 image
-│   ├── 📁 components
-│   │   ├── 📁 common
-│   │   │    ├── 📁 Alert
-│   │   │    ├── 📁 BottomSheetModal
-│   │   │    ├── 📁 Button
-│   │   │    ├── 📁 PostItem
-│   │   │    ├── 📁 ProductItem
-│   │   │    ├── 📁 Tabmenu
-│   │   │    ├── 📁 TextActiveInput
-│   │   │    ├── 📁 Top
-│   │   │    └── 📁 User
-│   ├── 📁 hooks
-│   ├── 📁 pages
-│   │   ├── 📁 Auth
-│   │   │    ├── 📁 Intro
-│   │   │    ├── 📁 Login
-│   │   │    ├── 📁 ProfileSetting
-│   │   │    └── 📁 SignUp
-│   │   ├── 📁 Chat
-│   │   │    ├── 📁 ChatList
-│   │   │    └── 📁 ChatRoom
-│   │   ├── 📁 Home
-│   │   ├── 📁 NotFound
-│   │   ├── 📁 Post
-│   │   │    ├── 📁 PostDetail
-│   │   │    ├── 📁 PostEdit
-│   │   │    └── 📁 PostUpload
-│   │   ├── 📁 Product
-│   │   │    ├── 📁 ProductEdit
-│   │   │    └── 📁 ProductUpload
-│   │   ├── 📁 Profile
-│   │   │    ├── 📁 Follwer
-│   │   │    ├── 📁 Following
-│   │   │    ├── 📁 ProfileDetail
-│   │   │    └── 📁 ProfileEdit
-│   │   ├── 📁 Search
-│   │   └── 📁 Splash
-│   ├── 📁 recoil
-│   │    ├── 📁 atoms
-│   │    ├── 📁 effects
-│   │    └── 📁 selectors
-│   ├── 📁 routes
-│   ├── 📁 styles
-│   ├── 📁 util
-        └── 📁 api
-│   ├── App.js
-│   └── index.js
+│ ├── 📁 assets
+│ │ └── 📁 image
+│ ├── 📁 components
+│ │ ├── 📁 common
+│ │ │ ├── 📁 Alert
+│ │ │ ├── 📁 BottomSheetModal
+│ │ │ ├── 📁 Button
+│ │ │ ├── 📁 PostItem
+│ │ │ ├── 📁 ProductItem
+│ │ │ ├── 📁 TabMenu
+│ │ │ ├── 📁 TextActiveInput
+│ │ │ ├── 📁 Top
+│ │ │ └── 📁 User
+│ ├── 📁 hooks
+│ ├── 📁 pages
+│ │ ├── 📁 Auth
+│ │ │ ├── 📁 Intro
+│ │ │ ├── 📁 Login
+│ │ │ ├── 📁 ProfileSetting
+│ │ │ └── 📁 SignUp
+│ │ ├── 📁 Chat
+│ │ │ ├── 📁 ChatList
+│ │ │ └── 📁 ChatRoom
+│ │ ├── 📁 Home
+│ │ ├── 📁 NotFound
+│ │ ├── 📁 Post
+│ │ │ ├── 📁 PostDetail
+│ │ │ ├── 📁 PostEdit
+│ │ │ └── 📁 PostUpload
+│ │ ├── 📁 Product
+│ │ │ ├── 📁 ProductEdit
+│ │ │ └── 📁 ProductUpload
+│ │ ├── 📁 Profile
+│ │ │ ├── 📁 Follwer
+│ │ │ ├── 📁 Following
+│ │ │ ├── 📁 ProfileDetail
+│ │ │ └── 📁 ProfileEdit
+│ │ ├── 📁 Search
+│ │ └── 📁 Splash
+│ ├── 📁 recoil
+│ │ ├── 📁 atoms
+│ │ ├── 📁 effects
+│ │ └── 📁 selectors
+│ ├── 📁 routes
+│ ├── 📁 styles
+│ ├── 📁 util
+└── 📁 api
+│ ├── App.js
+│ └── index.js
 ├── .eslintignore
 ├── .eslintrc
 ├── .git
@@ -235,6 +324,7 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 ├── README.md
 ├── README.md
 └── yarn.lock
+
 ```
 
 <div markdown="1">
@@ -244,4 +334,85 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 ## ✨ 트러블 슈팅
 
+<br>
+<details>
+<summary>💡 유저 검색 시 오류 발생</summary>
+
+### - 유저 검색 시 오류발생
+
+검색 api를 요청해서 검색 결과를 받아오는데 콘솔창에 계속 다음과 같은 에러가 찍혀나왔습니다.
+<img src="https://raw.githubusercontent.com/cho7778/sample/main/%E1%84%90%E1%85%B3%E1%84%85%E1%85%A5%E1%84%87%E1%85%B3%E1%86%AF%E1%84%89%E1%85%B2%E1%84%90%E1%85%B5%E1%86%BC1.png?token=GHSAT0AAAAAACEPMYRKLANBNJ2L5INUUEH2ZE427SA"/>
+
+문제: net::ERR_CERT_COMMON_NAME_INVALID 문제를 검색해보니 인증서 관련 문제라고 나왔고, 서버에 대한 지식이 전혀 없는 입장이라 프론트 입장에서 일어난 문제일 것이라고 생각하며 블로그 글들을 하나하나 찾아보았습니다. 그들이 해결했던 방법 하나하나 실행을 해보았는데, 정리해보니 다음과 같았습니다.
+
+1. 인터넷 껐다 켜보기
+2. 인터넷 기록 삭제
+3. 이미지를 받아오는 주소가 http인지, https인지 확인
+4. 크롬에서 자주 일어나는 문제로 보여 크롬이 아닌 사파리에서 실행을 시켜보았지만, 사파리에서도 콘솔 창에서 인증서 관련 이슈로 나왔습니다. <br>
+   <img src="https://raw.githubusercontent.com/cho7778/sample/main/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-06-29%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%207.59.00.png?token=GHSAT0AAAAAACEPMYRLQ7P5YCBF4LDMLTTYZE4ZKUA"/>
+
+그 외에도 에러가 무한으로 계속 추가되는 문제, 벋아오지 못한 이미지가 깨져 나오는 문제도 함께 있었다
+
+결국은 어딘가 꼬여있는 것 같다는 생각에, 멘토님께 도움을 요청했습니다. 멘토님께 나온 답변은 다음과 같았습니다.
+
+1. 백엔드에 정확하지 못한 양식으로 저장된 데이터가 많다.
+2. 서버를 한번 바꾼 적이 있어 그 전에 저장된 데이터를 불러오는데 문제가 있다.
+3. useEffect의 사용
+
+=> 그래서 정리한 코드는 다음과 같습니다.
+<br>
+
+```js
+const [keywordForSearchUser, setKeywordToSearchUser] = useState('');
+const [data, setData] = useState([]);
+
+const token = useRecoilValue(loginState);
+
+const sendQuery = async () => {
+  if (!keywordForSearchUser) return;
+  const res = await instance.get(
+    `/user/searchuser/?keyword=${keywordForSearchUser}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/json',
+      },
+    },
+  );
+  setData(res.data);
+};
+
+const delayedSearch = useCallback(debounce(() => sendQuery(), 500));
+
+const handleSearchUserChange = (e) => {
+  setKeywordToSearchUser(e.target.value);
+  delayedSearch();
+};
+
+const handleImageError = (e) => {
+  e.target.src = defaultProfileImage;
+};
+
+useEffect(() => {
+  sendQuery();
+}, [keywordForSearchUser]);
+```
+
+1. useEffect()를 통해 api통신을 하는 sendQuery 호출을 조절한다.
+2. onError처리를 통해 깨져나오던 이미지를 기본 프로필 이미지로 대체한다.
+3. 키워드가 없을 경우에는 api 호출을 하지 않는다.
+
+<div markdown="1">
+
+</details>
+
+<br>
+
 ## ✨ 리팩토링 예정 목록
+
+- 코드 스타일 통일
+- 재사용성 높이기
+- 리액트 쿼리 도입
+- 이미지 최적화
+- 접근성 개선
+- 로딩 페이지(스피너 or 스켈레톤)
