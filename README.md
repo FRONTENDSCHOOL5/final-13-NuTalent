@@ -256,6 +256,72 @@ export default function Alert({ isOpen, title, cancel, action, actionText }) {
   | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/0aeced98-40f3-4ed8-8d9e-d5a2dfb9f49d" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/5df7f01b-41f2-49f9-9a53-109904e62d55" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/20912f57-70b7-47d3-b985-a2c8cb565cb0" height=462 width=220> |
 
 <details>
+<summary>PrivateRoute</summary>
+
+## PrivateRoute
+
+PrivateRoutes 컴포넌트 내에서 Recoil로 사용자 정보를 받아와 로그인이 되어 있는지 확인합니다.
+
+사용자의 정보가 없다면 로그인 페이지로 이동하게되고 사용자의 정보가 있다면 Outlet을 통해 PrivatesRoute 컴포넌트 안의 Route로 이동하게 됩니다.
+
+```js
+import React from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+
+import { recoilData } from '../recoil/atoms/dataState';
+
+export default function PrivateRoutes() {
+  const userData = useRecoilValue(recoilData);
+  const isLoggedIn = userData.length !== 0;
+
+  return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
+}
+
+
+//
+
+export default function Router() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Splash />} />
+        <Route path="/intro" element={<Intro />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signUp">
+          <Route index element={<SignUp />} />
+          <Route path="profile" element={<ProfileSetting />} />
+        </Route>
+        <Route element={<PrivateRoutes />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/chatlist" element={<ChatList />} />
+          <Route path="/chatlist/:accountname" element={<ChatRoom />} />
+          <Route path="/post">
+            <Route path=":id" element={<PostDetail />} />
+            <Route path="upload" element={<PostUpload />} />
+            <Route path="edit/:id" element={<PostEdit />} />
+          </Route>
+          <Route path="productupload" element={<ProductUpload />} />
+          <Route path="product/edit/:id" element={<ProductEdit />} />
+          <Route path="/follower" element={<Follower />} />
+          <Route path="/following" element={<Following />} />
+          <Route path="/profile">
+            <Route path=":accountname" element={<Profile />} />
+            <Route path="edit" element={<ProfileEdit />} />
+          </Route>
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+<div markdown="1">
+</details>
+
+<details>
 <summary>📂 폴더 구조</summary>
 
 ```
@@ -416,3 +482,5 @@ useEffect(() => {
 - 이미지 최적화
 - 접근성 개선
 - 로딩 페이지(스피너 or 스켈레톤)
+
+<p align="right"><a href="#top">(🔼 Top)</a></p>
