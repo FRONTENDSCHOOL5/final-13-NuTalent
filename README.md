@@ -341,7 +341,7 @@ export default function Alert({ isOpen, title, cancel, action, actionText }) {
 ### - 유저 검색 시 오류발생
 
 검색 api를 요청해서 검색 결과를 받아오는데 콘솔창에 계속 다음과 같은 에러가 찍혀나왔습니다.
-<img src="https://raw.githubusercontent.com/cho7778/sample/main/%E1%84%90%E1%85%B3%E1%84%85%E1%85%A5%E1%84%87%E1%85%B3%E1%86%AF%E1%84%89%E1%85%B2%E1%84%90%E1%85%B5%E1%86%BC1.png?token=GHSAT0AAAAAACEPMYRKLANBNJ2L5INUUEH2ZE427SA"/>
+<img src="https://raw.githubusercontent.com/cho7778/sample/main/%E1%84%90%E1%85%B3%E1%84%85%E1%85%A5%E1%84%87%E1%85%B3%E1%86%AF%E1%84%89%E1%85%B2%E1%84%90%E1%85%B5%E1%86%BC1.png"/>
 
 문제: net::ERR_CERT_COMMON_NAME_INVALID 문제를 검색해보니 인증서 관련 문제라고 나왔고, 서버에 대한 지식이 전혀 없는 입장이라 프론트 입장에서 일어난 문제일 것이라고 생각하며 블로그 글들을 하나하나 찾아보았습니다. 그들이 해결했던 방법 하나하나 실행을 해보았는데, 정리해보니 다음과 같았습니다.
 
@@ -349,7 +349,7 @@ export default function Alert({ isOpen, title, cancel, action, actionText }) {
 2. 인터넷 기록 삭제
 3. 이미지를 받아오는 주소가 http인지, https인지 확인
 4. 크롬에서 자주 일어나는 문제로 보여 크롬이 아닌 사파리에서 실행을 시켜보았지만, 사파리에서도 콘솔 창에서 인증서 관련 이슈로 나왔습니다. <br>
-   <img src="https://raw.githubusercontent.com/cho7778/sample/main/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-06-29%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%207.59.00.png?token=GHSAT0AAAAAACEPMYRLQ7P5YCBF4LDMLTTYZE4ZKUA"/>
+   <img src="https://raw.githubusercontent.com/cho7778/sample/main/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-06-29%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%207.59.00.png"/>
 
 그 외에도 에러가 무한으로 계속 추가되는 문제, 벋아오지 못한 이미지가 깨져 나오는 문제도 함께 있었다
 
