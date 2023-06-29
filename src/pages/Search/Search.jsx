@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
 import { SearchWrap, UserListLi } from './Search.styled';
 
@@ -14,15 +14,15 @@ import { loginState } from '../../recoil/atoms/loginState';
 import { debounce } from 'lodash';
 
 export default function Search() {
-  const [keywordForSearchUser, setKeywordToSearchUser] = useState('');
+  const [keywordToSearchUser, setKeywordToSearchUser] = useState('');
   const [data, setData] = useState([]);
 
   const token = useRecoilValue(loginState);
 
   const sendQuery = async () => {
-    if (!keywordForSearchUser) return;
+    if (!keywordToSearchUser) return;
     const res = await instance.get(
-      `/user/searchuser/?keyword=${keywordForSearchUser}`,
+      `/user/searchuser/?keyword=${keywordToSearchUser}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -46,13 +46,13 @@ export default function Search() {
 
   useEffect(() => {
     sendQuery();
-  }, [keywordForSearchUser]);
+  }, [keywordToSearchUser]);
 
   return (
     <>
       <TopSearchNav
         type="text"
-        value={keywordForSearchUser}
+        value={keywordToSearchUser}
         onChange={handleSearchUserChange}
       />
       <SearchWrap>

@@ -36,8 +36,6 @@ export default function Upload({ userImg }) {
       ];
       setContent(loadContent);
       setImage(loadImage);
-      if (loadContent) textareaRef.current.value = loadContent;
-      if (loadImage) imgRef.current.src = loadImage;
     } catch (error) {
       console.error(error);
       alert(`${error.response.data.message}`);
@@ -113,6 +111,7 @@ export default function Upload({ userImg }) {
           ref={textareaRef}
           placeholder="게시글 입력하기..."
           onChange={contentHanlder}
+          value={content}
         ></S.Textarea>
         {image && <S.PostImage ref={imgRef} src={image} alt="게시글 이미지" />}
         <div>
