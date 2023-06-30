@@ -2,7 +2,7 @@
 
 <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/d6058d52-09ec-4b56-8968-03731d099fa2">
 
-> 📎 배포 URL : https:// <br/>
+> 📎 배포 URL : https://nutalent.netlify.app/ <br/>
 > 🔓 계정 : `ip@time.com` | `test123` <br/>
 
 **"꺼내봐 너의 부캐"**
@@ -35,7 +35,7 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 #### 🧑🏻‍💻 손수민
 
-- 상품 등록, 홈피드, 게시글, 404 페이지
+- 상품 등록, 홈피드, 게시글 상세, 404 페이지
 - 이미지 유효성 검사, 무한 스크롤 구현, 리액트 포탈로 모달 구현
 - 피그마 디자인
 - 라우터 연결 및 폴더구조 수정
@@ -175,8 +175,47 @@ _(🦁멋쟁이사자처럼 프론트엔드스쿨 5기 프로젝트 13팀)_
 
 ### 🖥 기능 UI
 
+<div markdown="1">
+</details>
+
+- ### Splash, 로그인,회원가입,프로필 설정
+
+  |                                                                   로그인                                                                    |                                                                  회원가입                                                                   |                                                                 프로필설정                                                                  |
+  | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
+  | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/bb44ae36-67e6-47e0-af4d-1727ae0a4d6a" width=220 height=462> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/06b5b5e0-cb82-44a4-a911-a3d942c63c9f" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/a89c0940-91a5-4b39-a86c-5fd14f6b5f62" height=462 width=220> |
+
+- ### 게시글
+
+  |                                                                 게시글 등록                                                                 |                                                                 게시글 수정                                                                 |                                                                 게시글 삭제                                                                 |
+  | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
+  | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/22b56bd5-4d1b-4825-a6e8-1d69b2065e6a" width=220 height=462> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/dcb39654-927e-410f-b186-cb14d52f4550" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/e1828d78-c357-4145-8027-f5708b5a60f7" height=462 width=220> |
+
+- ### 상품
+
+  |                                                                  상품 등록                                                                   |                                                                  상품 수정                                                                  |                                                                  상품 삭제                                                                  |
+  | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
+  | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/00cfb725-20bb-4004-9d60-9e195abaffc1" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/85bc056c-703c-4e95-ad9d-877955641141" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/61614b91-0635-4274-b384-99f941f23582" height=462 width=220> |
+
+- ### 댓글
+
+  |                                                                  댓글 등록                                                                   |                                                                  댓글 신고                                                                  |                                                                  댓글 삭제                                                                  |
+  | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
+  | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/6dfd4d38-fdda-430a-bcb5-3ed3562d3517" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/d016e30d-f3e7-4815-8046-ef99e50c86af" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/0d3ac828-f16a-41a4-9e54-85e177efe3d0" height=462 width=220> |
+
+- ### 프로필 수정,나의 프로필,다른 유저 프로필
+
+  |                                                                 프로필 수정                                                                  |                                                                 나의 프로필                                                                 |                                                             다른 유저의 프로필                                                              |
+  | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
+  | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/99c41a6d-7065-46ef-be18-b9ddabaec796" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/6147ed20-5ad2-4788-a098-65e6fa9f32c8" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/edac6e0f-f6cf-4451-8cd0-454b1ddd3a54" height=462 width=220> |
+
+- ### 채팅, NotFound 페이지, 로그아웃
+
+  |                                                                     채팅                                                                     |                                                               NotFound 페이지                                                               |                                                                  로그아웃                                                                   |
+  | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
+  | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/0aeced98-40f3-4ed8-8d9e-d5a2dfb9f49d" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/5df7f01b-41f2-49f9-9a53-109904e62d55" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/20912f57-70b7-47d3-b985-a2c8cb565cb0" height=462 width=220> |
+
 <details>
-<summary>📂 리액트 포탈</summary>
+<summary>React Portal</summary>
 
 모달이 리액트 앱의 DOM 트리에서 렌더링이 되면 부모 요소의 css 상속을 받아 원하는 위치에 렌더링하기 힘들지만 포탈을 사용하면 DOM 트리에서 벗어나 스타일링이 더 쉬워지고 z-index 관련 문제를 쉽게 해결할 수 있습니다.
 
@@ -219,41 +258,74 @@ export default function Alert({ isOpen, title, cancel, action, actionText }) {
 <div markdown="1">
 </details>
 
-- ### Splash, 로그인,회원가입,프로필 설정
+<details>
+<summary>Private Route</summary>
 
-  |                                                                   로그인                                                                    |                                                                  회원가입                                                                   |                                                                 프로필설정                                                                  |
-  | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-  | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/bb44ae36-67e6-47e0-af4d-1727ae0a4d6a" width=220 height=462> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/06b5b5e0-cb82-44a4-a911-a3d942c63c9f" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/a89c0940-91a5-4b39-a86c-5fd14f6b5f62" height=462 width=220> |
+## PrivateRoute
 
-- ### 게시글
+PrivateRoutes 컴포넌트 내에서 Recoil로 사용자 정보를 받아와 로그인이 되어 있는지 확인합니다.
 
-  |                                                                 게시글 등록                                                                 |                                                                 게시글 수정                                                                 |                                                                 게시글 삭제                                                                 |
-  | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-  | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/22b56bd5-4d1b-4825-a6e8-1d69b2065e6a" width=220 height=462> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/dcb39654-927e-410f-b186-cb14d52f4550" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/e1828d78-c357-4145-8027-f5708b5a60f7" height=462 width=220> |
+사용자의 정보가 없다면 로그인 페이지로 이동하게되고 사용자의 정보가 있다면 Outlet을 통해 PrivatesRoute 컴포넌트 안의 Route로 이동하게 됩니다.
 
-- ### 상품
+```js
 
-  |                                                                  상품 등록                                                                   |                                                                  상품 수정                                                                  |                                                                  상품 삭제                                                                  |
-  | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-  | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/00cfb725-20bb-4004-9d60-9e195abaffc1" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/85bc056c-703c-4e95-ad9d-877955641141" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/61614b91-0635-4274-b384-99f941f23582" height=462 width=220> |
+// PrivateRoute.jsx
 
-- ### 댓글
+import React from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
-  |                                                                  댓글 등록                                                                   |                                                                  댓글 신고                                                                  |                                                                  댓글 삭제                                                                  |
-  | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-  | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/6dfd4d38-fdda-430a-bcb5-3ed3562d3517" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/d016e30d-f3e7-4815-8046-ef99e50c86af" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/0d3ac828-f16a-41a4-9e54-85e177efe3d0" height=462 width=220> |
+import { recoilData } from '../recoil/atoms/dataState';
 
-- ### 프로필 수정,나의 프로필,다른 유저 프로필
+export default function PrivateRoutes() {
+  const userData = useRecoilValue(recoilData);
+  const isLoggedIn = userData.length !== 0;
 
-  |                                                                 프로필 수정                                                                  |                                                                 나의 프로필                                                                 |                                                             다른 유저의 프로필                                                              |
-  | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-  | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/99c41a6d-7065-46ef-be18-b9ddabaec796" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/6147ed20-5ad2-4788-a098-65e6fa9f32c8" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/edac6e0f-f6cf-4451-8cd0-454b1ddd3a54" height=462 width=220> |
+  return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
+}
 
-- ### 채팅, NotFound 페이지, 로그아웃
+// Router.jsx
 
-  |                                                                     채팅                                                                     |                                                               NotFound 페이지                                                               |                                                                  로그아웃                                                                   |
-  | :------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-  | <img src= "https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/0aeced98-40f3-4ed8-8d9e-d5a2dfb9f49d" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/5df7f01b-41f2-49f9-9a53-109904e62d55" height=462 width=220> | <img src="https://github.com/FRONTENDSCHOOL5/final-13-NuTalent/assets/126536402/20912f57-70b7-47d3-b985-a2c8cb565cb0" height=462 width=220> |
+export default function Router() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Splash />} />
+        <Route path="/intro" element={<Intro />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signUp">
+          <Route index element={<SignUp />} />
+          <Route path="profile" element={<ProfileSetting />} />
+        </Route>
+        <Route element={<PrivateRoutes />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/chatlist" element={<ChatList />} />
+          <Route path="/chatlist/:accountname" element={<ChatRoom />} />
+          <Route path="/post">
+            <Route path=":id" element={<PostDetail />} />
+            <Route path="upload" element={<PostUpload />} />
+            <Route path="edit/:id" element={<PostEdit />} />
+          </Route>
+          <Route path="productupload" element={<ProductUpload />} />
+          <Route path="product/edit/:id" element={<ProductEdit />} />
+          <Route path="/follower" element={<Follower />} />
+          <Route path="/following" element={<Following />} />
+          <Route path="/profile">
+            <Route path=":accountname" element={<Profile />} />
+            <Route path="edit" element={<ProfileEdit />} />
+          </Route>
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+```
+
+<div markdown="1">
+</details>
 
 <details>
 <summary>📂 폴더 구조</summary>
@@ -343,15 +415,15 @@ export default function Alert({ isOpen, title, cancel, action, actionText }) {
 검색 api를 요청해서 검색 결과를 받아오는데 콘솔창에 계속 다음과 같은 에러가 찍혀나왔습니다.
 <img src="https://raw.githubusercontent.com/cho7778/sample/main/%E1%84%90%E1%85%B3%E1%84%85%E1%85%A5%E1%84%87%E1%85%B3%E1%86%AF%E1%84%89%E1%85%B2%E1%84%90%E1%85%B5%E1%86%BC1.png"/>
 
-문제: net::ERR_CERT_COMMON_NAME_INVALID 문제를 검색해보니 인증서 관련 문제라고 나왔고, 서버에 대한 지식이 전혀 없는 입장이라 프론트 입장에서 일어난 문제일 것이라고 생각하며 블로그 글들을 하나하나 찾아보았습니다. 그들이 해결했던 방법 하나하나 실행을 해보았는데, 정리해보니 다음과 같았습니다.
+net::ERR_CERT_COMMON_NAME_INVALID 문제를 검색해보니 서버 관련 이슈였지만, 서버에 대한 지식이 전혀 없는 입장이라 프론트 입장에서 일어난 문제일 것이라고 생각하여 블로그 글들을 하나하나 찾아보았습니다. 그들이 해결했던 방법 하나하나 실행을 해보았는데, 정리해보니 다음과 같았습니다.
 
-1. 인터넷 껐다 켜보기
+1. 네트워크 설정 초기화 및 모뎀/공유기 재부팅
 2. 인터넷 기록 삭제
 3. 이미지를 받아오는 주소가 http인지, https인지 확인
 4. 크롬에서 자주 일어나는 문제로 보여 크롬이 아닌 사파리에서 실행을 시켜보았지만, 사파리에서도 콘솔 창에서 인증서 관련 이슈로 나왔습니다. <br>
    <img src="https://raw.githubusercontent.com/cho7778/sample/main/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA%202023-06-29%20%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB%207.59.00.png"/>
 
-그 외에도 에러가 무한으로 계속 추가되는 문제, 벋아오지 못한 이미지가 깨져 나오는 문제도 함께 있었다
+그 외에도 에러가 무한으로 계속 추가되는 문제, 받아오지 못한 이미지가 깨져 나오는 문제도 함께 있었다
 
 결국은 어딘가 꼬여있는 것 같다는 생각에, 멘토님께 도움을 요청했습니다. 멘토님께 나온 답변은 다음과 같았습니다.
 
@@ -416,3 +488,5 @@ useEffect(() => {
 - 이미지 최적화
 - 접근성 개선
 - 로딩 페이지(스피너 or 스켈레톤)
+
+<p align="right"><a href="#top">(🔼 Top)</a></p>
