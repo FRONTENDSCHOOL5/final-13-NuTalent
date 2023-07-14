@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './FollowingUser.styled';
 import StyledBtn from '../../../components/common/Button/Button';
+import { Link } from 'react-router-dom';
 
 export default function FollowingUser({ size, userInfo, followHandler }) {
   // const [followingState, setFollowingState] = useState(
@@ -30,16 +31,20 @@ export default function FollowingUser({ size, userInfo, followHandler }) {
 
   return (
     <S.FollowingUserStyled>
-      <S.FollowingUserImage
-        size={size}
-        src={userInfo.image}
-        alt="사용자 이미지"
-      />
-      <S.FollowingUserTextBox>
-        <S.FollowingUserName>{userInfo.username}</S.FollowingUserName>
-        <S.FollowingUserIntro>{userInfo.intro}</S.FollowingUserIntro>
-      </S.FollowingUserTextBox>
-
+      <Link
+        to={`/profile/${userInfo.accountname}`}
+        state={{ userId: userInfo.accountname }}
+      >
+        <S.FollowingUserImage
+          size={size}
+          src={userInfo.image}
+          alt="사용자 이미지"
+        />
+        <S.FollowingUserTextBox>
+          <S.FollowingUserName>{userInfo.username}</S.FollowingUserName>
+          <S.FollowingUserIntro>{userInfo.intro}</S.FollowingUserIntro>
+        </S.FollowingUserTextBox>
+      </Link>
       <S.BtnBox>
         {/* 삼항 연산자는 값이 2개로 나뉠 때만 쓰는 것이 가독성이 좋음 */}
         <StyledBtn
