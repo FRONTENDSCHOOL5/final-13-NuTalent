@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import FollowerUser from './FollowerUser';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
-import { Link } from 'react-router-dom';
 import { UserWrapper } from './Follower.styled';
 import { instance } from '../../../util/api/axiosInstance';
 import { useLocation } from 'react-router-dom';
@@ -99,18 +98,13 @@ export default function Follower() {
           console.log(user);
           return (
             <li key={user._id}>
-              <Link
+              <FollowerUser
                 to={`/profile/${user.accountname}`}
-                state={{ userId: user.accountname }}
-              >
-                <FollowerUser
-                  to={`/profile/${user.accountname}`}
-                  state={{}}
-                  userInfo={user} // 나를 팔로우 하는 사람들 각각의 정보를 넘김
-                  followHandler={followHandler} // 팔로우 핸들러 함수
-                  size={'small'} // 아이콘 사이즈
-                />
-              </Link>
+                state={{}}
+                userInfo={user} // 나를 팔로우 하는 사람들 각각의 정보를 넘김
+                followHandler={followHandler} // 팔로우 핸들러 함수
+                size={'small'} // 아이콘 사이즈
+              />
             </li>
           );
         })}
