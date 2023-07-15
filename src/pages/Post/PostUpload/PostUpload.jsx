@@ -6,17 +6,19 @@ import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import imageValidation from '../../../util/validation/imageValidation';
 import { instance } from '../../../util/api/axiosInstance';
 import { loginState } from '../../../recoil/atoms/loginState';
+import { recoilData } from '../../../recoil/atoms/dataState';
 
 import * as S from './PostUpload.styled';
 import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
 
-export default function Upload({ userImg }) {
+export default function PostUpload() {
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
   const navigate = useNavigate();
 
   const textareaRef = useRef(null);
   const token = useRecoilValue(loginState);
+  const currentUserData = useRecoilValue(recoilData);
 
   // 텍스트에 따라 textarea의 높이 동적으로 조절
   const textareaHeightControl = () => {
@@ -78,7 +80,10 @@ export default function Upload({ userImg }) {
         업로드
       </TopUploadNav>
       <S.Section>
-        <S.ProfileImg src={userImg || defaultProfileImg} alt="프로필 이미지" />
+        <S.ProfileImg
+          src={currentUserData.image || defaultProfileImg}
+          alt="프로필 이미지"
+        />
         <S.Textarea
           ref={textareaRef}
           placeholder="게시글 입력하기..."

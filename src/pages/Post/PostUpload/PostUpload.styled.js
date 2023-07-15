@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { styled } from 'styled-components';
 import fileButton from '../../../assets/img/upload-file.svg';
 

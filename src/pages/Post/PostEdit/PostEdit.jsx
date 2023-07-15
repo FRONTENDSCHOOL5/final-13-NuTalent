@@ -7,20 +7,20 @@ import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import imageValidation from '../../../util/validation/imageValidation';
 import { instance } from '../../../util/api/axiosInstance';
 import { loginState } from '../../../recoil/atoms/loginState';
+import { recoilData } from '../../../recoil/atoms/dataState';
 
 import * as S from './PostEdit.styled';
 import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
 
-export default function Upload({ userImg }) {
+export default function PostEdit() {
   const [content, setContent] = useState('');
   const [image, setImage] = useState('');
   const navigate = useNavigate();
   const { id } = useParams();
 
   const textareaRef = useRef(null);
-  const imgRef = useRef(null);
-
   const token = useRecoilValue(loginState);
+  const currentUserData = useRecoilValue(recoilData);
 
   const loadPost = async () => {
     try {
@@ -38,7 +38,6 @@ export default function Upload({ userImg }) {
       setImage(loadImage);
     } catch (error) {
       console.error(error);
-      alert(`${error.response.data.message}`);
     }
   };
 
@@ -106,14 +105,17 @@ export default function Upload({ userImg }) {
         업로드
       </TopUploadNav>
       <S.Section>
-        <S.ProfileImg src={userImg || defaultProfileImg} alt="프로필 이미지" />
+        <S.ProfileImg
+          src={currentUserData.image || defaultProfileImg}
+          alt="프로필 이미지"
+        />
         <S.Textarea
           ref={textareaRef}
           placeholder="게시글 입력하기..."
           onChange={contentHanlder}
           value={content}
         ></S.Textarea>
-        {image && <S.PostImage ref={imgRef} src={image} alt="게시글 이미지" />}
+        {image && <S.PostImage src={image} alt="게시글 이미지" />}
         <div>
           <S.FileLabel htmlFor="uploadImg"></S.FileLabel>
           <S.FileInput type="file" id="uploadImg" onChange={uploadHanlder} />
