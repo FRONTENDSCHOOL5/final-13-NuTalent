@@ -13,6 +13,7 @@ const TopDiv = styled.div`
   background-color: white;
   top: 0;
   left: 0;
+  z-index: 10;
 `;
 const ArrowLeftBtn = styled.button`
   width: 2.2rem;
