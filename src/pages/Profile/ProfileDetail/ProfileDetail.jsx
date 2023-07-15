@@ -88,7 +88,6 @@ export default function Profile() {
       alert(`${error.response.data.message}`);
     }
   };
-  console.log(posts);
 
   const followHandler = async () => {
     try {
@@ -133,7 +132,9 @@ export default function Profile() {
     }
   }, [isBottom]);
   useEffect(() => {
-    loadPost(accountName);
+    if (skip > 0) {
+      loadPost(accountName);
+    }
   }, [skip]);
 
   const deletePost = async (postId) => {
