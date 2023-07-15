@@ -57,8 +57,8 @@ export default function TopBasicNav({ children }) {
         isOpen={isBottomSheetOpen}
         bottomSheetHandler={bottomSheetHandler}
       >
-        <button ref={bottomSheetRef}>설정 및 개인정보</button>
         <button
+          ref={bottomSheetRef}
           onClick={() => {
             setIsBottomSheetOpen(false);
             setIsAlertOpen(true);
