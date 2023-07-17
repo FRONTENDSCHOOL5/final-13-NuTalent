@@ -16,7 +16,7 @@ export default function Follower() {
   const location = useLocation();
   const { accountName, myAccountName } = location.state;
   // console.log(accountName, myAccountName);
-  // localstorage에 바로 값을 가져오지만 recoil사용할 경우에는 recoil을 사용해서 값을 가져오면 됨
+  // localstorage에 바로 값을 가져오지만 recoil 사용할 경우에는 recoil을 사용해서 값을 가져오면 됨
   // const token = localStorage.getItem('token');
 
   // recoil에서 atom(초기값)의 값을 읽어오고 바꿀때 :
@@ -37,7 +37,7 @@ export default function Follower() {
   */
   const getFollowers = async () => {
     const res = await instance.get(
-      `https://api.mandarin.weniv.co.kr/profile/${accountName}/follower`,
+      `https://api.mandarin.weniv.co.kr/profile/${accountName}/follower?limit=infinite&skip=0 `,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,12 +57,15 @@ export default function Follower() {
        * 해당 userInfo에 있는 accountname을 언팔로우 api의 params로 보내 언팔로우를 진행한다
        */
       if (userInfo.isfollow) {
-        await instance.delete(`/profile/${userInfo.accountname}/unfollow`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
+        await instance.delete(
+          `/profile/${userInfo.accountname}/unfollow?limit=infinite&skip=0`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-type': 'application/json',
+            },
           },
-        });
+        );
 
         // 데이터 재조회 => 언팔로우가 끝났으니 getFollower 함수를 실행시켜 팔로우 재조회
         getFollowers();
