@@ -13,7 +13,7 @@ export default function Following() {
   const [following, setFollowing] = useState([]);
 
   const location = useLocation();
-  const accountName = location.state;
+  const { accountName, myAccountName } = location.state;
   // const token = localStorage.getItem('token');
 
   const token = useRecoilValue(loginState);
@@ -30,7 +30,7 @@ export default function Following() {
   */
   const getFollowing = async () => {
     const res = await instance.get(
-      `https://api.mandarin.weniv.co.kr/profile/${accountName}/following`,
+      `https://api.mandarin.weniv.co.kr/profile/${accountName}/following?limit=infinite&skip=0 `,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ export default function Following() {
        * 해당 userInfo에 있는 accountname을 언팔로우 api의 params로 보내 언팔로우를 진행한다
        */
       if (userInfo.isfollow) {
-        await instance.delete(`/profile/${userInfo.accountname}/unfollow`, {
+        await instance.delete(`/profile/${userInfo.accountname}/unfollow `, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-type': 'application/json',
@@ -94,6 +94,7 @@ export default function Following() {
                 userInfo={user} // 내가 팔로우 하는 사람들 각각의 정보를 넘김
                 followHandler={followHandler}
                 size={'small'}
+                myAccountName={myAccountName}
               />
             </li>
           );

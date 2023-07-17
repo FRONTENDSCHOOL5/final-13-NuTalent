@@ -5,6 +5,9 @@ export const FollowingUserStyled = styled.div`
   width: 100%;
   gap: 1.2rem;
   margin-bottom: 1.6rem;
+  & > :first-child {
+    flex-grow: 1;
+  }
 `;
 
 export const FollowingUserImage = styled.img`
@@ -16,6 +19,7 @@ export const FollowingUserImage = styled.img`
 
 export const FollowingUserTextBox = styled.div`
   margin-left: 1rem;
+  flex-grow: 1;
 `;
 
 export const FollowingUserIntro = styled.div`
@@ -34,7 +38,6 @@ export const FollowingUserName = styled.p`
 
 export const BtnBox = styled.div`
   padding-right: 2rem;
-  margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
 `;

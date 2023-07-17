@@ -2,9 +2,13 @@ import { styled } from 'styled-components';
 
 export const FollowerUserStyled = styled.div`
   display: flex;
-  width: 100%;
+  flex-grow: 1;
   gap: 1.2rem;
   margin-bottom: 1.6rem;
+
+  & > :first-child {
+    flex-grow: 1;
+  }
 `;
 
 export const FollowerUserImage = styled.img`
@@ -15,6 +19,7 @@ export const FollowerUserImage = styled.img`
 `;
 
 export const FollowerUserTextBox = styled.div`
+  flex-grow: 1;
   margin-left: 1rem;
 `;
 
@@ -34,7 +39,6 @@ export const FollowerUserName = styled.p`
 
 export const BtnBox = styled.div`
   padding-right: 2rem;
-  margin-left: auto;
   margin-top: auto;
   margin-bottom: auto;
 `;

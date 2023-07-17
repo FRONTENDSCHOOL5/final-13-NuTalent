@@ -3,7 +3,12 @@ import * as S from './FollowingUser.styled';
 import StyledBtn from '../../../components/common/Button/Button';
 import { Link } from 'react-router-dom';
 
-export default function FollowingUser({ size, userInfo, followHandler }) {
+export default function FollowingUser({
+  size,
+  userInfo,
+  followHandler,
+  myAccountName,
+}) {
   // const [followingState, setFollowingState] = useState(
   //   type === 'follow' ? true : false,
   // );
@@ -46,16 +51,17 @@ export default function FollowingUser({ size, userInfo, followHandler }) {
         </S.FollowingUserTextBox>
       </Link>
       <S.BtnBox>
-        {/* 삼항 연산자는 값이 2개로 나뉠 때만 쓰는 것이 가독성이 좋음 */}
-        <StyledBtn
-          size={'s'}
-          width={'10'}
-          color={userInfo.isfollow === true ? 'outline' : ''}
-          onClick={() => followHandler(userInfo)}
-          to={false}
-        >
-          {userInfo.isfollow === true ? '취소' : '팔로우'}
-        </StyledBtn>
+        {userInfo.accountname !== myAccountName && (
+          <StyledBtn
+            size={'s'}
+            width={'10'}
+            color={userInfo.isfollow === true ? 'outline' : ''}
+            onClick={() => followHandler(userInfo)}
+            to={false}
+          >
+            {userInfo.isfollow === true ? '취소' : '팔로우'}
+          </StyledBtn>
+        )}
       </S.BtnBox>
       {/* if문으로 컴포넌트 처리해야 할 때 쓰는 버튼 */}
       {/* {button()} */}
