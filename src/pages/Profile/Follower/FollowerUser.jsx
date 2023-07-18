@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './FollowerUser.styled';
 import StyledBtn from '../../../components/common/Button/Button';
+import handleImageError from '../../../util/handleImageError';
 
 export default function FollowerUser({
   size,
@@ -13,6 +14,7 @@ export default function FollowerUser({
       <S.FollowerUserImage
         size={size}
         src={userInfo.image}
+        onError={handleImageError}
         alt="사용자 이미지"
       />
       <S.FollowerUserTextBox>
