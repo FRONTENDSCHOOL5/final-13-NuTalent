@@ -3,13 +3,14 @@ import { Modal, Overlay } from './BottomSheetModal.styled';
 import { createPortal } from 'react-dom';
 
 const BottomSheetModal = ({ isOpen, children, bottomSheetHandler }) => {
-
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
     }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
   }, [isOpen]);
 
   const overlayClickHandler = (e) => {
