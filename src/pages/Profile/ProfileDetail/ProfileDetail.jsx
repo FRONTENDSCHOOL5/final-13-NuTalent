@@ -10,6 +10,7 @@ import StyledBtn from '../../../components/common/Button/Button';
 
 import { instance } from '../../../util/api/axiosInstance';
 import useScrollBottom from '../../../hooks/useScrollBottom';
+import handleImageError from '../../../util/handleImageError';
 
 import * as S from './ProfileDetail.styled';
 
@@ -87,7 +88,6 @@ export default function Profile() {
       alert(`${error.response.data.message}`);
     }
   };
-  console.log(posts);
 
   const followHandler = async () => {
     try {
@@ -132,7 +132,9 @@ export default function Profile() {
     }
   }, [isBottom]);
   useEffect(() => {
-    loadPost(accountName);
+    if (skip > 0) {
+      loadPost(accountName);
+    }
   }, [skip]);
 
   const deletePost = async (postId) => {
@@ -180,12 +182,28 @@ export default function Profile() {
       <S.Container>
         <S.ProfileSection>
           <S.ProfileWrap>
-            <S.followLink to="/follower" state={profile.accountname}>
+            <S.followLink
+              to="/follower"
+              state={{
+                accountName: profile.accountname,
+                myAccountName: myAccountName,
+              }}
+            >
               <p>{profile.followerCount}</p>
               <p>followers</p>
             </S.followLink>
-            <S.ProfileImg src={profile.image} alt="프로필 사진" />
-            <S.followLink to="/following" state={profile.accountname}>
+            <S.ProfileImg
+              src={profile.image}
+              onError={handleImageError}
+              alt="프로필 사진"
+            />
+            <S.followLink
+              to="/following"
+              state={{
+                accountName: profile.accountname,
+                myAccountName: myAccountName,
+              }}
+            >
               <p>{profile.followingCount}</p>
               <p>followings</p>
             </S.followLink>

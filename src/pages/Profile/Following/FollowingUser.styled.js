@@ -5,6 +5,9 @@ export const FollowingUserStyled = styled.div`
   width: 100%;
   gap: 1.2rem;
   margin-bottom: 1.6rem;
+  & > :first-child {
+    flex-grow: 1;
+  }
 `;
 
 export const FollowingUserImage = styled.img`
@@ -15,8 +18,8 @@ export const FollowingUserImage = styled.img`
 `;
 
 export const FollowingUserTextBox = styled.div`
-  margin-left: 0.5rem;
-  margin-top: 0.5rem;
+  margin-left: 1rem;
+  flex-grow: 1;
 `;
 
 export const FollowingUserIntro = styled.div`
@@ -25,16 +28,16 @@ export const FollowingUserIntro = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   color: #767676;
+  margin-top: 0.5rem;
 `;
 
 export const FollowingUserName = styled.p`
   font-size: 1.4rem;
   font-weight: 500;
-  margin-top: 0.5rem;
 `;
 
 export const BtnBox = styled.div`
   padding-right: 2rem;
-  margin-left: auto;
-  margin-top: 0.5rem;
+  margin-top: auto;
+  margin-bottom: auto;
 `;
