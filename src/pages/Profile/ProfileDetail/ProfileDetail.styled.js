@@ -78,6 +78,7 @@ export const UserIntro = styled.p`
   margin-bottom: 2.4rem;
   font-size: 1.4rem;
   color: var(--main-grey);
+  padding: 0 10rem;
 `;
 
 export const UserBtnWrap = styled.div`
@@ -102,6 +103,7 @@ export const messageButton = styled(Link)`
 export const shareButton = styled.button`
   ${circleBtn}
   background: url(${shareIcon}) no-repeat center;
+  cursor: pointer;
 `;
 
 // Product section
