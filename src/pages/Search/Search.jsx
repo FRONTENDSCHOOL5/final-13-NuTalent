@@ -9,14 +9,14 @@ import User from '../../components/common/User/User';
 import { instance } from '../../util/api/axiosInstance';
 
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../recoil/atoms/loginState';
+import { recoilData } from '../../recoil/atoms/dataState';
 import { debounce } from 'lodash';
 
 export default function Search() {
   const [keywordToSearchUser, setKeywordToSearchUser] = useState('');
   const [data, setData] = useState([]);
 
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
 
   const sendQuery = async () => {
     if (!keywordToSearchUser) return;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../recoil/atoms/loginState';
 import { recoilData } from '../../../recoil/atoms/dataState';
 
 import { instance } from '../../../util/api/axiosInstance';
@@ -18,7 +17,7 @@ import {
 
 export default function AddProduct() {
   const currentUSerData = useRecoilValue(recoilData);
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
 
   const navigate = useNavigate();
   const [image, setImage] = useState('');

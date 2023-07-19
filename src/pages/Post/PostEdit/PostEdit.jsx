@@ -6,7 +6,6 @@ import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 
 import imageValidation from '../../../util/validation/imageValidation';
 import { instance } from '../../../util/api/axiosInstance';
-import { loginState } from '../../../recoil/atoms/loginState';
 import { recoilData } from '../../../recoil/atoms/dataState';
 
 import * as S from './PostEdit.styled';
@@ -19,8 +18,9 @@ export default function PostEdit() {
   const { id } = useParams();
 
   const textareaRef = useRef(null);
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
   const currentUserData = useRecoilValue(recoilData);
+
 
   const loadPost = async () => {
     try {

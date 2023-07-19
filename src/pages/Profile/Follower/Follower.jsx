@@ -5,7 +5,7 @@ import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 import { UserWrapper } from './Follower.styled';
 import { instance } from '../../../util/api/axiosInstance';
 import { useLocation } from 'react-router-dom';
-import { loginState } from '../../../recoil/atoms/loginState';
+import { recoilData } from '../../../recoil/atoms/dataState';
 import { useRecoilValue } from 'recoil';
 
 export default function Follower() {
@@ -20,7 +20,7 @@ export default function Follower() {
 
   // recoil에서 atom(초기값)의 값을 읽어오고 바꿀때 :
   // const [token, setToken] = useState(loginState);
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
   // console.log(token);
   // const setToken = useSetRecoilState(loginState);
 

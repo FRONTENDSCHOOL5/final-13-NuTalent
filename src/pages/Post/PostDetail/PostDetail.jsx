@@ -14,7 +14,6 @@ import {
   PostDetailLink,
 } from './PostDetail.styled';
 import { instance } from '../../../util/api/axiosInstance';
-import { loginState } from '../../../recoil/atoms/loginState';
 import useScrollBottom from '../../../hooks/useScrollBottom';
 import handleImageError from '../../../util/handleImageError';
 
@@ -24,7 +23,7 @@ import { recoilData } from '../../../recoil/atoms/dataState';
 
 export default function PostDetail() {
   moment.locale('ko');
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
   const [isDisabled, setIsDisabled] = useState(true);
   const [comments, setComments] = useState([]);
   const [isLastComment, setIsLastComment] = useState(false);
