@@ -10,6 +10,7 @@ import StyledBtn from '../../../components/common/Button/Button';
 
 import { instance } from '../../../util/api/axiosInstance';
 import useScrollBottom from '../../../hooks/useScrollBottom';
+import handleImageError from '../../../util/handleImageError';
 
 import * as S from './ProfileDetail.styled';
 
@@ -192,7 +193,11 @@ export default function Profile() {
               <p>{profile.followerCount}</p>
               <p>followers</p>
             </S.followLink>
-            <S.ProfileImg src={profile.image} alt="프로필 사진" />
+            <S.ProfileImg
+              src={profile.image}
+              onError={handleImageError}
+              alt="프로필 사진"
+            />
             <S.followLink
               to="/following"
               state={{

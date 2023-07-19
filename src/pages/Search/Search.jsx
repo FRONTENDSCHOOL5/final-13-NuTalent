@@ -8,7 +8,6 @@ import User from '../../components/common/User/User';
 
 import { instance } from '../../util/api/axiosInstance';
 
-import defaultProfileImage from '../../assets/img/basic-profile-img-.svg';
 import { useRecoilValue } from 'recoil';
 import { loginState } from '../../recoil/atoms/loginState';
 import { debounce } from 'lodash';
@@ -40,10 +39,6 @@ export default function Search() {
     delayedSearch();
   };
 
-  const handleImageError = (e) => {
-    e.target.src = defaultProfileImage;
-  };
-
   useEffect(() => {
     sendQuery();
   }, [keywordToSearchUser]);
@@ -64,7 +59,6 @@ export default function Search() {
                   userName={data.username}
                   userImg={data.image}
                   userId={data.accountname}
-                  onError={handleImageError}
                   to={`/profile/${data.accountname}`}
                   state={{ userId: data.accountname }}
                 />

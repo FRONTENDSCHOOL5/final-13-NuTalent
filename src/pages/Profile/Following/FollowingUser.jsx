@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './FollowingUser.styled';
 import StyledBtn from '../../../components/common/Button/Button';
+import handleImageError from '../../../util/handleImageError';
 import { Link } from 'react-router-dom';
 
 export default function FollowingUser({
@@ -43,6 +44,7 @@ export default function FollowingUser({
         <S.FollowingUserImage
           size={size}
           src={userInfo.image}
+          onError={handleImageError}
           alt="사용자 이미지"
         />
         <S.FollowingUserTextBox>

@@ -13,10 +13,10 @@ import {
   CommentBox,
   PostDetailLink,
 } from './PostDetail.styled';
-import basicProfile from '../../../assets/img/basic-profile-img-.svg';
 import { instance } from '../../../util/api/axiosInstance';
 import { loginState } from '../../../recoil/atoms/loginState';
 import useScrollBottom from '../../../hooks/useScrollBottom';
+import handleImageError from '../../../util/handleImageError';
 
 import BottomSheetModal from '../../../components/common/BottomSheetModal/BottomSheetModal';
 import Alert from '../../../components/common/Alert/Alert';
@@ -36,7 +36,7 @@ export default function PostDetail() {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isAlertReportOpen, setIsAlertReportOpen] = useState(false);
-  const { accountname } = useRecoilValue(recoilData);
+  const { accountname, image } = useRecoilValue(recoilData);
 
   const [selectedComment, setSelectedComment] = useState(null);
   const [isMyComment, setIsMyComment] = useState(false);
@@ -234,7 +234,11 @@ export default function PostDetail() {
                       user_id: comment.author.id,
                     }}
                   >
-                    <img src={comment.author.image} alt="유저 프로필 이미지" />
+                    <img
+                      src={comment.author.image}
+                      onError={handleImageError}
+                      alt="유저 프로필 이미지"
+                    />
                   </PostDetailLink>
                   <div>
                     <PostDetailLink
@@ -266,7 +270,7 @@ export default function PostDetail() {
             })}
           </CommentUl>
           <CommentBox>
-            <img src={basicProfile} alt="프로필 이미지" />
+            <img src={image} alt="프로필 이미지" />
             <input
               type="text"
               placeholder="댓글 입력하기"
