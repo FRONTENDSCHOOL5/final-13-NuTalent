@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import FollowingUser from './FollowingUser';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
-import { Link } from 'react-router-dom';
 import { UserWrapper } from './Following.styled';
 import { instance } from '../../../util/api/axiosInstance';
 import { useLocation } from 'react-router-dom';
@@ -91,17 +90,12 @@ export default function Following() {
         {following.map((user) => {
           return (
             <li key={user._id}>
-              <Link
-                to={`/profile/${user.accountname}`}
-                state={{ userId: user.accountname }}
-              >
-                <FollowingUser
-                  userInfo={user} // 내가 팔로우 하는 사람들 각각의 정보를 넘김
-                  followHandler={followHandler}
-                  size={'small'}
-                  myAccountName={myAccountName}
-                />
-              </Link>
+              <FollowingUser
+                userInfo={user} // 내가 팔로우 하는 사람들 각각의 정보를 넘김
+                followHandler={followHandler}
+                size={'small'}
+                myAccountName={myAccountName}
+              />
             </li>
           );
         })}

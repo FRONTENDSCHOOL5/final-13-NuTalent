@@ -2,6 +2,7 @@ import React from 'react';
 import * as S from './FollowingUser.styled';
 import StyledBtn from '../../../components/common/Button/Button';
 import handleImageError from '../../../util/handleImageError';
+import { Link } from 'react-router-dom';
 
 export default function FollowingUser({
   size,
@@ -36,17 +37,21 @@ export default function FollowingUser({
 
   return (
     <S.FollowingUserStyled>
-      <S.FollowingUserImage
-        size={size}
-        src={userInfo.image}
-        onError={handleImageError}
-        alt="사용자 이미지"
-      />
-      <S.FollowingUserTextBox>
-        <S.FollowingUserName>{userInfo.username}</S.FollowingUserName>
-        <S.FollowingUserIntro>{userInfo.intro}</S.FollowingUserIntro>
-      </S.FollowingUserTextBox>
-
+      <Link
+        to={`/profile/${userInfo.accountname}`}
+        state={{ userId: userInfo.accountname }}
+      >
+        <S.FollowingUserImage
+          size={size}
+          src={userInfo.image}
+          onError={handleImageError}
+          alt="사용자 이미지"
+        />
+        <S.FollowingUserTextBox>
+          <S.FollowingUserName>{userInfo.username}</S.FollowingUserName>
+          <S.FollowingUserIntro>{userInfo.intro}</S.FollowingUserIntro>
+        </S.FollowingUserTextBox>
+      </Link>
       <S.BtnBox>
         {userInfo.accountname !== myAccountName && (
           <StyledBtn
