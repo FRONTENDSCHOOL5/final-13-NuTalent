@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
@@ -27,13 +26,6 @@ export default function Profile() {
 
   const currentUserData = useRecoilValue(recoilData);
   const token = useRecoilValue(recoilData).token;
-
-  const location = useLocation();
-
-  const accountName =
-    location.state !== null
-      ? location.state.userId
-      : currentUserData.accountname;
 
   const myAccountName = currentUserData.accountname;
 
@@ -92,7 +84,7 @@ export default function Profile() {
   const followHandler = async () => {
     try {
       if (profile.isfollow) {
-        const res = await instance.delete(`/profile/${accountName}/unfollow`, {
+        const res = await instance.delete(`/profile/${accountname}/unfollow`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-type': 'application/json',
@@ -101,7 +93,7 @@ export default function Profile() {
         setProfile(res.data.profile);
       } else {
         const res = await instance.post(
-          `/profile/${accountName}/follow`,
+          `/profile/${accountname}/follow`,
           {},
           {
             headers: {
@@ -119,10 +111,10 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    loadProfile(accountName);
-    loadProduct(accountName);
-    loadPost(accountName, true);
-  }, [accountName]);
+    loadProfile(accountname);
+    loadProduct(accountname);
+    loadPost(accountname, true);
+  }, [accountname]);
 
   // 무한 스크롤
   const isBottom = useScrollBottom();
@@ -133,7 +125,7 @@ export default function Profile() {
   }, [isBottom]);
   useEffect(() => {
     if (skip > 0) {
-      loadPost(accountName);
+      loadPost(accountname);
     }
   }, [skip]);
 
@@ -146,7 +138,7 @@ export default function Profile() {
         },
       });
       const res = await instance.get(
-        `/post/${accountName}/userpost/?limit=${skip}&skip=0`,
+        `/post/${accountname}/userpost/?limit=${skip}&skip=0`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -169,10 +161,33 @@ export default function Profile() {
           'Content-type': 'application/json',
         },
       });
-      loadProduct(accountName);
+      loadProduct(accountname);
     } catch (error) {
       console.error(error);
       alert(`${error.response.data.message}`);
+    }
+  };
+  ///공유 버튼 클릭시 링크 클립보드에 복사
+
+  const handleCopyClipBoard = async (text) => {
+    if (navigator.canShare) {
+      try {
+        await navigator.share({
+          title: 'nutalent',
+          text: 'welcome to nutalent!!',
+          url: text,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+      return;
+    } else {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('클립보드에 링크가 복사되었어요.');
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -230,7 +245,9 @@ export default function Profile() {
               >
                 {profile.isfollow ? '언팔로우' : '팔로우'}
               </StyledBtn>
-              <S.shareButton />
+              <S.shareButton
+                onClick={() => handleCopyClipBoard(window.location.href)}
+              />
             </S.UserBtnWrap>
           )}
         </S.ProfileSection>
