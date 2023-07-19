@@ -149,7 +149,7 @@ export default function LoginPage() {
           로그인
         </StyledBtn>
       </TextInputBox>
-      <LoginCreateAccount href="#">이메일로 회원가입</LoginCreateAccount>
+      <LoginCreateAccount to="/signUp">이메일로 회원가입</LoginCreateAccount>
     </LoginPageWrap>
   );
 }

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 const LoginPageWrap = styled.div`
@@ -13,7 +14,7 @@ const TextInputBox = styled.form`
   margin-bottom: 3rem;
 `;
 
-const LoginCreateAccount = styled.a`
+const LoginCreateAccount = styled(Link)`
   display: block;
   margin-top: 20px;
   color: #767676;
