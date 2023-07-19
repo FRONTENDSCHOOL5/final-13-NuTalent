@@ -18,7 +18,6 @@ import uploadImage from '../../../assets/img/upload-file.svg';
 
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { recoilData } from '../../../recoil/atoms/dataState';
-import { loginState } from '../../../recoil/atoms/loginState';
 
 export default function ProfileEdit() {
   const [profileImage, setProfileImage] = useState('');
@@ -36,7 +35,7 @@ export default function ProfileEdit() {
   console.log(currentUserData);
 
   const gotAccountName = currentUserData.accountname;
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
 
   useEffect(() => {
     async function getProfile() {

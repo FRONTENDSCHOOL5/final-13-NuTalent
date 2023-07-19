@@ -13,11 +13,10 @@ import {
 
 import { instance } from '../../../util/api/axiosInstance';
 import { recoilData } from '../../../recoil/atoms/dataState';
-import { loginState } from '../../../recoil/atoms/loginState';
 
 export default function AddProduct() {
   const currentUSerData = useRecoilValue(recoilData);
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
 
   const [image, setImage] = useState('');
   const [productName, setProductName] = useState('');

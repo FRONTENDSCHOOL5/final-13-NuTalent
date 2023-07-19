@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { UserWrapper } from './Following.styled';
 import { instance } from '../../../util/api/axiosInstance';
 import { useLocation } from 'react-router-dom';
-import { loginState } from '../../../recoil/atoms/loginState';
+import { recoilData } from '../../../recoil/atoms/dataState';
 import { useRecoilValue } from 'recoil';
 
 export default function Following() {
@@ -17,7 +17,7 @@ export default function Following() {
   const accountName = location.state;
   // const token = localStorage.getItem('token');
 
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
   console.log(token);
   // useEffect(콜백함수, 의존성 배열)
   // 의존성 배열의 요소가 변경되면 콜백함수 실행

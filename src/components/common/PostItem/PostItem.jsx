@@ -8,7 +8,6 @@ import BottomSheetModal from '../BottomSheetModal/BottomSheetModal';
 import Alert from '../Alert/Alert';
 
 import { recoilData } from '../../../recoil/atoms/dataState';
-import { loginState } from '../../../recoil/atoms/loginState';
 
 import * as S from './PostItem.styled';
 
@@ -29,7 +28,7 @@ export default function PostItem({
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isAlertReportOpen, setIsAlertReportOpen] = useState(false);
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
   const currentUserData = useRecoilValue(recoilData);
   const date = postDate.slice(0, 10).split('-');
 

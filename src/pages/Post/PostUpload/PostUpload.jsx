@@ -5,7 +5,7 @@ import { useRecoilValue } from 'recoil';
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import imageValidation from '../../../util/validation/imageValidation';
 import { instance } from '../../../util/api/axiosInstance';
-import { loginState } from '../../../recoil/atoms/loginState';
+import { recoilData } from '../../../recoil/atoms/dataState';
 
 import * as S from './PostUpload.styled';
 import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
@@ -16,7 +16,7 @@ export default function Upload({ userImg }) {
   const navigate = useNavigate();
 
   const textareaRef = useRef(null);
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
 
   // 텍스트에 따라 textarea의 높이 동적으로 조절
   const textareaHeightControl = () => {
