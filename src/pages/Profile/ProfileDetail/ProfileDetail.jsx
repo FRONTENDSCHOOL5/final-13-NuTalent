@@ -222,7 +222,13 @@ export default function Profile() {
             </S.UserBtnWrap>
           ) : (
             <S.UserBtnWrap>
-              <S.messageButton to={`/chatlist/${accountname}`} />
+              <S.messageButton
+                to={`/chatlist/${accountname}`}
+                state={{
+                  userName: profile.username,
+                  userImg: profile.image,
+                }}
+              />
               <StyledBtn
                 size="m"
                 color={profile.isfollow ? 'outlineGrey' : 'fill'}
