@@ -21,17 +21,9 @@ export default function SignUp() {
   const emailPattern = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
 
   const validateEmail = (e) => {
-    const currentEmail = e.currentTarget.value;
+    const currentEmail = e.target.value;
     setEmail(currentEmail);
-  };
 
-  const validatePassword = (e) => {
-    const currentPassword = e.currentTarget.value;
-    setPassword(currentPassword);
-  };
-
-  // focus 잃으면 이메일 유효성 검사
-  const onEmailBlur = () => {
     if (emailPattern.test(email)) {
       setIsEmailError(false);
       setEmailResponseMessage('');
@@ -40,8 +32,11 @@ export default function SignUp() {
       setEmailResponseMessage('*이메일 형식이 맞지 않습니다.');
     }
   };
-  // focus 잃으면 비밀번호 유효성 검사
-  const onPasswordBlur = () => {
+
+  const validatePassword = (e) => {
+    const currentPassword = e.target.value;
+    setPassword(currentPassword);
+
     if (password.length < 6) {
       setIsPasswordError(true);
       setPasswordResponseMessage('*비밀번호는 6자 이상이어야 합니다.');
@@ -95,7 +90,6 @@ export default function SignUp() {
           placeholder="이메일을 입력해주세요."
           value={email}
           onChange={validateEmail}
-          onBlur={onEmailBlur}
         >
           이메일
         </TextActiveInput>
@@ -106,7 +100,6 @@ export default function SignUp() {
           placeholder="비밀번호를 입력해주세요."
           value={password}
           onChange={validatePassword}
-          onBlur={onPasswordBlur}
         >
           비밀번호
         </TextActiveInput>
