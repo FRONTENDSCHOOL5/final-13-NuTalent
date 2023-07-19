@@ -122,11 +122,17 @@ export const ProductList = styled.ul`
   flex-direction: row;
   gap: 1rem;
   padding-bottom: 0.5rem;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
 
   &::-webkit-scrollbar {
-    display: none;
+    background-color: white;
+  }
+  &::-webkit-scrollbar-thumb {
+    border: 0.7rem solid white;
+    border-right: 1rem solid white;
+    border-radius: 5rem;
+    background-color: var(--main-purple);
   }
 `;
 
