@@ -45,8 +45,13 @@ export default function PostEdit() {
     loadPost();
   }, []);
 
+  useEffect(() => {
+    textareaHeightControl();
+  }, [content]);
+
   // 텍스트에 따라 textarea의 높이 동적으로 조절
   const textareaHeightControl = () => {
+    textareaRef.current.style.height = 'auto';
     textareaRef.current.style.height = `${
       textareaRef.current.scrollHeight / 10
     }rem`;
@@ -54,7 +59,6 @@ export default function PostEdit() {
 
   const contentHanlder = (e) => {
     setContent(e.target.value);
-    textareaHeightControl();
   };
 
   const uploadHanlder = async (e) => {
