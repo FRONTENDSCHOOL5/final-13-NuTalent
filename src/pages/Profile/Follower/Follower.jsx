@@ -92,15 +92,27 @@ export default function Follower() {
     }
   };
   console.log(accountName);
+
   return (
     <>
       <TopBasicNav>Followers</TopBasicNav>
       <UserWrapper>
-        {/* 3. 이곳에 useState에 채워져있는 배열이 map으로 뿌려지게 되고, 빈 화면이 아니라 유저들의 정보가 화면에 뿌려지게 된다. */}
+        {(() => {
+          // find 사용하여 내 계정 찾기
+          const myAccount = followers.find(
+            (user) => user.accountname === myAccountName,
+          );
 
-        {followers.map((user) => {
-          // console.log(myAccountName);
-          return (
+          // filter 사용하여 다른 사람의 계정만 필터링
+          const otherFollowers = followers.filter((user) => user !== myAccount);
+
+          // myAccount가 존재하면 배열에 myAccount를 첫번째 요소로 추가한 후 전개문법 사용하여 otherFollowers의 모든 요소들을 추가
+          // myAccount가 없다면 바로 otherFollowers 추가
+          const sortedFollowers = myAccount
+            ? [myAccount, ...otherFollowers]
+            : otherFollowers;
+
+          return sortedFollowers.map((user) => (
             <li key={user._id}>
               <FollowerUser
                 userInfo={user} // 나를 팔로우 하는 사람들 각각의 정보를 넘김
@@ -109,8 +121,8 @@ export default function Follower() {
                 myAccountName={myAccountName}
               />
             </li>
-          );
-        })}
+          ));
+        })()}
       </UserWrapper>
       <TabMenu></TabMenu>
     </>
