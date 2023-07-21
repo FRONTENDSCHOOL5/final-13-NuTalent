@@ -87,8 +87,18 @@ export default function Following() {
       <TopBasicNav>Followings</TopBasicNav>
       <UserWrapper>
         {/* 3. 이곳에 useState에 채워져있는 배열이 map으로 뿌려지게 되고, 빈 화면이 아니라 유저들의 정보가 화면에 뿌려지게 된다. */}
-        {following.map((user) => {
-          return (
+        {(() => {
+          const myAccount = following.find(
+            (user) => user.accountname === myAccountName,
+          );
+
+          const otherFollowing = following.filter((user) => user !== myAccount);
+
+          const sortedFollowing = myAccount
+            ? [myAccount, ...otherFollowing]
+            : otherFollowing;
+
+          return sortedFollowing.map((user) => (
             <li key={user._id}>
               <FollowingUser
                 userInfo={user} // 내가 팔로우 하는 사람들 각각의 정보를 넘김
@@ -97,8 +107,8 @@ export default function Following() {
                 myAccountName={myAccountName}
               />
             </li>
-          );
-        })}
+          ));
+        })()}
       </UserWrapper>
       <TabMenu></TabMenu>
     </>
