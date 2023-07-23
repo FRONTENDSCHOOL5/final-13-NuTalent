@@ -1,25 +1,22 @@
 import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
-import imageValidation from '../../../util/validation/imageValidation';
-import { instance } from '../../../util/api/axiosInstance';
-
 import { recoilData } from '../../../recoil/atoms/dataState';
+import { useCreatePost } from '../../../hooks/react-query/usePost';
+import { useUploadImage } from '../../../hooks/react-query/useImage';
 
 import * as S from './PostUpload.styled';
 import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
 
 export default function PostUpload() {
   const [content, setContent] = useState('');
-  const [image, setImage] = useState('');
-  const navigate = useNavigate();
 
   const textareaRef = useRef(null);
-  const token = useRecoilValue(recoilData).token;
   const currentUserData = useRecoilValue(recoilData);
 
+  const { createPostMutate } = useCreatePost();
+  const { image, handleImageChange } = useUploadImage();
 
   // 텍스트에 따라 textarea의 높이 동적으로 조절
   const textareaHeightControl = () => {
@@ -34,50 +31,12 @@ export default function PostUpload() {
     textareaHeightControl();
   };
 
-  const uploadHanlder = async (e) => {
-    const selectedImage = e.target.files[0];
-
-    if (!selectedImage) return;
-    if (!imageValidation(selectedImage)) return;
-
-    const formdata = new FormData();
-    formdata.append('image', selectedImage);
-
-    const res = await instance.post('/image/uploadfile', formdata);
-    const uploadedImage = `${res.config.baseURL}/${res.data.filename}`;
-    setImage(uploadedImage);
-  };
-
-  const submitHandler = async () => {
-    console.log('post');
-    try {
-      const data = JSON.stringify({
-        post: {
-          content,
-          image,
-        },
-      });
-
-      const res = await instance.post('/post', data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-
-      navigate(`/post/${res.data.post.id}`);
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
-
   return (
     <>
       <TopUploadNav
         size="ms"
         disabled={!(content || image)}
-        onClick={submitHandler}
+        onClick={() => createPostMutate({ content, image })}
       >
         업로드
       </TopUploadNav>
@@ -94,7 +53,11 @@ export default function PostUpload() {
         {image && <S.PostImage src={image} alt="게시글 이미지" />}
         <div>
           <S.FileLabel htmlFor="uploadImg"></S.FileLabel>
-          <S.FileInput type="file" id="uploadImg" onChange={uploadHanlder} />
+          <S.FileInput
+            type="file"
+            id="uploadImg"
+            onChange={handleImageChange}
+          />
         </div>
       </S.Section>
     </>
