@@ -1,10 +1,10 @@
 import React from 'react';
 import Router from './routes/Router';
 import { RecoilRoot } from 'recoil';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-const queryClient = new QueryClient();
+import queryClient from './util/queryClient';
 
 function App() {
   return (
