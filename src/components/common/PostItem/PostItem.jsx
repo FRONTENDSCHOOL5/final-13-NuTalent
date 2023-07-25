@@ -11,7 +11,6 @@ import { recoilData } from '../../../recoil/atoms/dataState';
 
 import * as S from './PostItem.styled';
 
-// ? userId는 accountname임 착가하지말기
 export default function PostItem({
   userName,
   userId,
@@ -32,9 +31,9 @@ export default function PostItem({
   const currentUserData = useRecoilValue(recoilData);
   const date = postDate.slice(0, 10).split('-');
 
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(postLike > 0);
+  const [likeCount, setLikeCount] = useState(postLike);
 
-  // 작성자와 나의 accountname을 비교
   const isMyPost = currentUserData.accountname === userId;
 
   const bottomSheetHandler = () => {
@@ -45,17 +44,13 @@ export default function PostItem({
 
   useEffect(() => {
     if (isBottomSheetOpen && bottomSheetRef.current) {
-      console.log(bottomSheetRef);
-      console.log(bottomSheetRef.current);
       bottomSheetRef.current.focus();
     }
   }, [isBottomSheetOpen, isAlertOpen, isAlertReportOpen]);
 
   const onSubmitReportClick = async () => {
     try {
-      console.log('token', token);
-      // post 신고하기
-      const res = await instance.post(
+      await instance.post(
         `/post/${postId}/report`,
         {},
         {
@@ -66,12 +61,11 @@ export default function PostItem({
         },
       );
 
-      console.log(res);
       alert(
         `
       사용자 이름: ${userName}
       계정 내용: ${postText}
-
+  
       신고가 완료되었습니다.`,
       );
     } catch (error) {
@@ -79,6 +73,63 @@ export default function PostItem({
       alert(`${error.response.data.message}`);
     }
   };
+
+  const updatePostData = async () => {
+    try {
+      const response = await instance.get(`/post/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
+        },
+      });
+      //서버로부터 받은 게시물 데이터에서 각 정보를 가져와 상태 업데이트
+      setIsLiked(response.data.post.hearted); //좋아요 상태
+      setLikeCount(response.data.post.heartCount); //좋아요 개수
+    } catch (error) {
+      console.error(error);
+      alert(`${error.response.data.message}`);
+    }
+  };
+
+  // isLiked에 따라 좋아요 및 취소 기능 실행
+  const submitLike = async () => {
+    try {
+      if (isLiked) {
+        await instance.delete(`/post/${postId}/unheart`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+          },
+        });
+        // .then((response) => {
+        //   console.log(`좋아요 취소 성공`, response);
+        // });
+      } else {
+        await instance.post(
+          `/post/${postId}/heart`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-type': 'application/json',
+            },
+          },
+        );
+        // .then((response) => {
+        //   console.log(`좋아요 성공`, response);
+        // });
+      }
+
+      updatePostData(); // 좋아요, 취소 처리 후 게시물 데이터 업데이트를 위해 호출
+    } catch (error) {
+      console.error(error);
+      alert(`${error.response.data.message}`);
+    }
+  };
+
+  useEffect(() => {
+    updatePostData(); // 컴포넌트가 마운트될 때 게시물 데이터 업데이트
+  }, []);
 
   return (
     <>
@@ -99,11 +150,8 @@ export default function PostItem({
           </S.PostLink>
 
           <S.PostButtons>
-            <S.PostLike
-              onClick={() => setIsLiked(!isLiked)}
-              isLiked={isLiked}
-            />
-            <S.PostSpan>{postLike}</S.PostSpan>
+            <S.PostLike onClick={submitLike} isLiked={isLiked} />
+            <S.PostSpan>{likeCount}</S.PostSpan>
             <Link to={`/post/${postId}`} state={{ userId, user_id }}>
               <S.PostMessage />
               <S.PostSpan>{postMessage}</S.PostSpan>
