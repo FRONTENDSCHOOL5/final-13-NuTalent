@@ -16,7 +16,7 @@ export default function PostUpload() {
   const currentUserData = useRecoilValue(recoilData);
 
   const { createPostMutate } = useCreatePost();
-  const { image, handleImageChange } = useUploadImage();
+  const { uploadedImage, handleImageChange } = useUploadImage();
 
   // 텍스트에 따라 textarea의 높이 동적으로 조절
   const textareaHeightControl = () => {
@@ -35,8 +35,8 @@ export default function PostUpload() {
     <>
       <TopUploadNav
         size="ms"
-        disabled={!(content || image)}
-        onClick={() => createPostMutate({ content, image })}
+        disabled={!(content || uploadedImage)}
+        onClick={() => createPostMutate({ content, image: uploadedImage })}
       >
         업로드
       </TopUploadNav>
@@ -50,7 +50,9 @@ export default function PostUpload() {
           placeholder="게시글 입력하기..."
           onChange={contentHanlder}
         ></S.Textarea>
-        {image && <S.PostImage src={image} alt="게시글 이미지" />}
+        {uploadedImage && (
+          <S.PostImage src={uploadedImage} alt="게시글 이미지" />
+        )}
         <div>
           <S.FileLabel htmlFor="uploadImg"></S.FileLabel>
           <S.FileInput

@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { instance } from '../../util/api/axiosInstance';
 import imageValidation from '../../util/validation/imageValidation';
 
-const uploadedImage = async (imageFile) => {
+const uploadImage = async (imageFile) => {
   const formData = new FormData();
   formData.append('image', imageFile);
 
@@ -15,10 +15,10 @@ const uploadedImage = async (imageFile) => {
 };
 
 export const useUploadImage = () => {
-  const [image, setImage] = useState(null);
+  const [uploadedImage, setImage] = useState(null);
 
   const mutation = useMutation({
-    mutationFn: (file) => uploadedImage(file),
+    mutationFn: (file) => uploadImage(file),
     onSuccess: (uploadedImage) => setImage(uploadedImage),
   });
 
@@ -31,5 +31,5 @@ export const useUploadImage = () => {
     mutation.mutate(file);
   });
 
-  return { image, handleImageChange };
+  return { uploadedImage, handleImageChange };
 };

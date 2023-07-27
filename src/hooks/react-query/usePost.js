@@ -1,4 +1,5 @@
 import {
+  useQuery,
   useMutation,
   useInfiniteQuery,
   useQueryClient,
@@ -6,6 +7,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 
 import { instance } from '../../util/api/axiosInstance';
+
+const getPost = async (postId) => {
+  const { data } = await instance.get(`/post/${postId}`);
+  return data;
+};
 
 const getInfinitePosts = async (
   accountname,
@@ -27,6 +33,15 @@ const createPost = async (post) => {
 const deletePost = async (postId) => {
   const { data } = await instance.delete(`/post/${postId}`);
   return data;
+};
+
+export const useGetPost = (postId) => {
+  const { data: post } = useQuery({
+    queryKey: ['post', postId],
+    queryFn: () => getPost(postId),
+  });
+
+  return { post };
 };
 
 export const useGetInfinitePosts = (accountname, postType = 'userpost') => {

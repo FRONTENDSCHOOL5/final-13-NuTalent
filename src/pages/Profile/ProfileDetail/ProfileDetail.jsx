@@ -176,7 +176,7 @@ export default function Profile() {
               {posts.pages.map((postData) => {
                 return postData.map((post) => {
                   return view === 'list' ? (
-                    <li key={post.accountname}>
+                    <li key={post.id}>
                       <PostItem
                         postId={post.id}
                         postDate={post.createdAt}
@@ -192,7 +192,7 @@ export default function Profile() {
                     </li>
                   ) : (
                     post.image && (
-                      <li key={post.accountname}>
+                      <li key={post.id}>
                         <S.AlbumImg src={post.image} alt="" />
                       </li>
                     )

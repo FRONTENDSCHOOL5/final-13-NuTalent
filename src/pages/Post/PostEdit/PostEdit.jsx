@@ -1,49 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
-
-import imageValidation from '../../../util/validation/imageValidation';
-import { instance } from '../../../util/api/axiosInstance';
 import { recoilData } from '../../../recoil/atoms/dataState';
+import { useCreatePost, useGetPost } from '../../../hooks/react-query/usePost';
+import { useUploadImage } from '../../../hooks/react-query/useImage';
 
 import * as S from './PostEdit.styled';
 import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
 
 export default function PostEdit() {
-  const [content, setContent] = useState('');
-  const [image, setImage] = useState('');
-  const navigate = useNavigate();
   const { id } = useParams();
-
   const textareaRef = useRef(null);
-  const token = useRecoilValue(recoilData).token;
   const currentUserData = useRecoilValue(recoilData);
 
+  const [content, setContent] = useState('');
+  const [image, setImage] = useState('');
 
-  const loadPost = async () => {
-    try {
-      const res = await instance.get(`/post/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      const [loadContent, loadImage] = [
-        res.data.post.content,
-        res.data.post.image,
-      ];
-      setContent(loadContent);
-      setImage(loadImage);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { post } = useGetPost(id);
+  const { createPostMutate } = useCreatePost();
+  const { uploadedImage, handleImageChange } = useUploadImage();
 
   useEffect(() => {
-    loadPost();
-  }, []);
+    setContent(post?.post.content);
+    setImage(post?.post.image);
+  }, [post]);
+
+  useEffect(() => {
+    setImage(uploadedImage);
+  }, [uploadedImage]);
 
   useEffect(() => {
     textareaHeightControl();
@@ -59,44 +45,7 @@ export default function PostEdit() {
 
   const contentHanlder = (e) => {
     setContent(e.target.value);
-  };
-
-  const uploadHanlder = async (e) => {
-    const selectedImage = e.target.files[0];
-
-    if (!selectedImage) return;
-    if (!imageValidation(selectedImage)) return;
-
-    const formdata = new FormData();
-    formdata.append('image', selectedImage);
-
-    const res = await instance.post('/image/uploadfile', formdata);
-    const uploadedImage = `${res.config.baseURL}/${res.data.filename}`;
-    setImage(uploadedImage);
-  };
-
-  const submitHandler = async () => {
-    console.log('post');
-    try {
-      const data = JSON.stringify({
-        post: {
-          content,
-          image,
-        },
-      });
-
-      const res = await instance.put(`/post/${id}`, data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-
-      navigate(`/post/${res.data.post.id}`);
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
+    textareaHeightControl();
   };
 
   return (
@@ -104,7 +53,9 @@ export default function PostEdit() {
       <TopUploadNav
         size="ms"
         disabled={!(content || image)}
-        onClick={submitHandler}
+        onClick={() => {
+          createPostMutate({ content, image });
+        }}
       >
         업로드
       </TopUploadNav>
@@ -122,7 +73,11 @@ export default function PostEdit() {
         {image && <S.PostImage src={image} alt="게시글 이미지" />}
         <div>
           <S.FileLabel htmlFor="uploadImg"></S.FileLabel>
-          <S.FileInput type="file" id="uploadImg" onChange={uploadHanlder} />
+          <S.FileInput
+            type="file"
+            id="uploadImg"
+            onChange={handleImageChange}
+          />
         </div>
       </S.Section>
     </>
