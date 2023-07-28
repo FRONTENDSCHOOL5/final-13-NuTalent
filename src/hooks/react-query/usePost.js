@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
   useQuery,
   useMutation,
@@ -10,7 +11,7 @@ import { instance } from '../../util/api/axiosInstance';
 
 const getPost = async (postId) => {
   const { data } = await instance.get(`/post/${postId}`);
-  return data;
+  return data.post;
 };
 
 const getInfinitePosts = async (
@@ -30,6 +31,11 @@ const createPost = async (post) => {
   return data;
 };
 
+const updatePost = async (postId, post) => {
+  const { data } = await instance.put(`/post/${postId}`, { post });
+  return data;
+};
+
 const deletePost = async (postId) => {
   const { data } = await instance.delete(`/post/${postId}`);
   return data;
@@ -41,7 +47,15 @@ export const useGetPost = (postId) => {
     queryFn: () => getPost(postId),
   });
 
-  return { post };
+  const mappedPost = useMemo(() => {
+    if (post?.image) {
+      return { ...post, image: post.image.split(',') };
+    }
+
+    return post;
+  }, [post]);
+
+  return { post: mappedPost };
 };
 
 export const useGetInfinitePosts = (accountname, postType = 'userpost') => {
@@ -72,6 +86,17 @@ export const useCreatePost = () => {
   });
 
   return { createPostMutate };
+};
+
+export const useUpdatePost = (postId) => {
+  const navigate = useNavigate();
+
+  const { mutate: updatePostMutate } = useMutation({
+    mutationFn: (post) => updatePost(postId, post),
+    onSuccess: (res) => navigate(`/post/${res.post.id}`),
+  });
+
+  return { updatePostMutate };
 };
 
 export const useDeletePost = (accountname) => {
