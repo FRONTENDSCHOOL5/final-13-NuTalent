@@ -146,7 +146,12 @@ export default function PostItem({
         <S.PostContainer>
           <S.PostLink to={`/post/${postId}`} state={{ userId, user_id }}>
             <S.PostText>{postText}</S.PostText>
-            {postImg && <S.PostImage src={postImg} alt="게시물 이미지" />}
+            {postImg &&
+              postImg
+                .split(',')
+                .map((image, index) => (
+                  <S.PostImage key={index} src={image} alt={`게시글 이미지 `} />
+                ))}
           </S.PostLink>
 
           <S.PostButtons>
