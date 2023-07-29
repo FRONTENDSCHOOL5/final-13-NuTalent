@@ -50,9 +50,9 @@ export const useGetPost = (postId) => {
   const mappedPost = useMemo(() => {
     if (post?.image) {
       return { ...post, image: post.image.split(',') };
+    } else {
+      return { ...post, image: [] };
     }
-
-    return post;
   }, [post]);
 
   return { post: mappedPost };
