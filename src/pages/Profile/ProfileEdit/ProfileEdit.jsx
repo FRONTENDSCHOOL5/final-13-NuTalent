@@ -35,7 +35,8 @@ export default function ProfileEdit() {
   console.log(currentUserData);
 
   const gotAccountName = currentUserData.accountname;
-  const token = useRecoilValue(recoilData).token;
+  const myInfo = useRecoilValue(recoilData);
+  const token = myInfo.token;
 
   useEffect(() => {
     async function getProfile() {
@@ -140,6 +141,7 @@ export default function ProfileEdit() {
       console.log(currentUserData);
 
       setCurrentUserData({
+        ...myInfo,
         accountname: res.data.user.accountname,
         image: res.data.user.image,
         intro: res.data.user.intro,
