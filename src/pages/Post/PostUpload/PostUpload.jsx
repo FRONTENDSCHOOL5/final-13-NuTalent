@@ -1,24 +1,33 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
-import imageValidation from '../../../util/validation/imageValidation';
-import { instance } from '../../../util/api/axiosInstance';
-
 import { recoilData } from '../../../recoil/atoms/dataState';
+import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
+import { useCreatePost } from '../../../hooks/react-query/usePost';
+import { useUploadImage } from '../../../hooks/react-query/useImage';
 
 import * as S from './PostUpload.styled';
-import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
 
 export default function PostUpload() {
   const [content, setContent] = useState('');
   const [images, setImages] = useState([]);
-  const navigate = useNavigate();
 
   const textareaRef = useRef(null);
-  const token = useRecoilValue(recoilData).token;
   const currentUserData = useRecoilValue(recoilData);
+
+  const { createPostMutate } = useCreatePost();
+  const { uploadedImage, handleImageChange } = useUploadImage();
+
+  useEffect(() => {
+    if (uploadedImage) {
+      setImages((prev) => [...prev, uploadedImage]);
+    }
+  }, [uploadedImage]);
+
+  useEffect(() => {
+    textareaHeightControl();
+  }, [content]);
 
   // 텍스트에 따라 textarea의 높이 동적으로 조절
   const textareaHeightControl = () => {
@@ -28,67 +37,18 @@ export default function PostUpload() {
     }rem`;
   };
 
+  const deleteHandler = (index) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const contentHandler = (e) => {
     setContent(e.target.value);
     textareaHeightControl();
   };
 
-  const uploadHandler = async (e) => {
-    const selectedImages = e.target.files; // 선택된 이미지들 가져오기
-    const uploadedImages = [];
-    if (selectedImages.length > 3) {
-      // 다중 선택된 이미지가 3개를 초과하는 경우
-      alert('이미지는 최대 3개까지 선택할 수 있습니다.');
-      return; // 업로드를 막고 함수를 종료
-    }
-    if (images.length >= 3) {
-      // 하나씩 올리는 이미지가 3개를 초과하는경우
-      alert('이미지 업로드는 최대 3개까지 가능합니다');
-      return;
-    }
-
-    for (let i = 0; i < selectedImages.length; i++) {
-      const selectedImage = selectedImages[i];
-      if (imageValidation(selectedImage)) {
-        const formdata = new FormData();
-        formdata.append('image', selectedImage);
-        const res = await instance.post('/image/uploadfile', formdata);
-        const uploadedImage = `${res.config.baseURL}/${res.data.filename}`;
-        uploadedImages.push(uploadedImage);
-      }
-    }
-
-    setImages((prevImages) => [...prevImages, ...uploadedImages]); // 새로운 이미지들을 기존 이미지 배열에 추가
-  };
-  const deleteHandler = (index) => {
-    setImages([
-      ...images.slice(0, index),
-      ...images.slice(index + 1, images.length),
-    ]);
-  };
-
-  const submitHandler = async () => {
-    const image = images.join(',');
-    try {
-      const data = JSON.stringify({
-        post: {
-          content,
-          image,
-        },
-      });
-
-      const res = await instance.post('/post', data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      console.log(res);
-      navigate(`/post/${res.data.post.id}`);
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
+  const onImageUpload = (e) => {
+    if (images.length >= 3) return;
+    return handleImageChange(e);
   };
 
   return (
@@ -96,7 +56,9 @@ export default function PostUpload() {
       <TopUploadNav
         size="ms"
         disabled={!(content || images)}
-        onClick={submitHandler}
+        onClick={() => {
+          createPostMutate({ content, image: images.join(',') });
+        }}
       >
         업로드
       </TopUploadNav>
@@ -126,7 +88,7 @@ export default function PostUpload() {
           <S.FileInput
             type="file"
             id="uploadImg"
-            onChange={uploadHandler}
+            onChange={onImageUpload}
             multiple
           />
         </div>

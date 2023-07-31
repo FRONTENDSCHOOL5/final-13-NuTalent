@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Router from './routes/Router';
-import { RecoilRoot } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+import queryClient from './util/queryClient';
+import { recoilData } from './recoil/atoms/dataState';
+import { instance, setupInterceptor } from './util/api/axiosInstance';
 
 function App() {
+  const [isReady, setIsReady] = useState(false);
+  const token = useRecoilValue(recoilData).token;
+
+  useEffect(() => {
+    const interceptorId = setupInterceptor(token);
+    setIsReady(true);
+    return () => {
+      instance.interceptors.request.eject(interceptorId);
+    };
+  }, [token]);
+
   return (
-    <div>
-      <RecoilRoot>
-        <Router />
-      </RecoilRoot>
-    </div>
+    isReady && (
+      <div>
+        <QueryClientProvider client={queryClient}>
+          <Router />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </div>
+    )
   );
 }
 

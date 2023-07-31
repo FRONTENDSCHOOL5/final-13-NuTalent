@@ -1,174 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import ProductItem from '../../../components/common/ProductItem/ProductItem';
 import PostItem from '../../../components/common/PostItem/PostItem';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 import StyledBtn from '../../../components/common/Button/Button';
-
-import { instance } from '../../../util/api/axiosInstance';
+import { recoilData } from '../../../recoil/atoms/dataState';
 import useScrollBottom from '../../../hooks/useScrollBottom';
 import handleImageError from '../../../util/handleImageError';
+import {
+  useDeletePost,
+  useGetInfinitePosts,
+} from '../../../hooks/react-query/usePost';
+import { useGetProfile } from '../../../hooks/react-query/useProfile';
+import {
+  useDeleteProduct,
+  useGetProducts,
+} from '../../../hooks/react-query/useProduct';
+import { useToggleFollow } from '../../../hooks/react-query/useFollow';
 
 import * as S from './ProfileDetail.styled';
 
-import { useRecoilValue } from 'recoil';
-import { recoilData } from '../../../recoil/atoms/dataState';
-
 export default function Profile() {
-  const [profile, setProfile] = useState({});
-  const [products, setProducts] = useState([]);
-  const [posts, setPosts] = useState([]);
   const [view, setView] = useState('list');
-  const [skip, setSkip] = useState(0);
   const { accountname } = useParams();
 
   const currentUserData = useRecoilValue(recoilData);
-  const token = useRecoilValue(recoilData).token;
-
   const myAccountName = currentUserData.accountname;
 
-  const loadProfile = async (accName) => {
-    try {
-      const res = await instance.get(`/profile/${accName}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      setProfile(res.data.profile);
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
-
-  const loadProduct = async (accName) => {
-    try {
-      const res = await instance.get(`/product/${accName}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      setProducts(res.data.product);
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
-
-  const loadPost = async (accName, changeUser = false) => {
-    try {
-      const res = await instance.get(
-        `/post/${accName}/userpost/?limit=5&skip=${skip}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
-          },
-        },
-      );
-      if (changeUser) {
-        setPosts(res.data.post);
-      } else {
-        setPosts([...posts, ...res.data.post]);
-      }
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
-
-  const followHandler = async () => {
-    try {
-      if (profile.isfollow) {
-        const res = await instance.delete(`/profile/${accountname}/unfollow`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
-          },
-        });
-        setProfile(res.data.profile);
-      } else {
-        const res = await instance.post(
-          `/profile/${accountname}/follow`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-type': 'application/json',
-            },
-          },
-        );
-        setProfile(res.data.profile);
-      }
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
-
-  useEffect(() => {
-    loadProfile(accountname);
-    loadProduct(accountname);
-    loadPost(accountname, true);
-  }, [accountname]);
+  const { products } = useGetProducts(accountname);
+  const { profile } = useGetProfile(accountname);
+  const { posts, fetchNextPosts, hasNextPosts } =
+    useGetInfinitePosts(accountname);
+  const { toggleFollowMutate } = useToggleFollow();
+  const { deletePostMutate } = useDeletePost(accountname);
+  const { deleteProductMutate } = useDeleteProduct(accountname);
 
   // 무한 스크롤
   const isBottom = useScrollBottom();
   useEffect(() => {
-    if (isBottom) {
-      setSkip((prev) => prev + 5);
+    if (isBottom && hasNextPosts) {
+      console.log(hasNextPosts);
+      fetchNextPosts();
     }
   }, [isBottom]);
-  useEffect(() => {
-    if (skip > 0) {
-      loadPost(accountname);
-    }
-  }, [skip]);
 
-  const deletePost = async (postId) => {
-    try {
-      await instance.delete(`/post/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      const res = await instance.get(
-        `/post/${accountname}/userpost/?limit=${skip}&skip=0`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
-          },
-        },
-      );
-      setPosts(res.data.post);
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
-
-  const deleteProduct = async (productId) => {
-    try {
-      await instance.delete(`/product/${productId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      loadProduct(accountname);
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
   ///공유 버튼 클릭시 링크 클립보드에 복사
-
   const handleCopyClipBoard = async (text) => {
     if (navigator.canShare) {
       try {
@@ -247,7 +126,7 @@ export default function Profile() {
               <StyledBtn
                 size="m"
                 color={profile.isfollow ? 'outlineGrey' : 'fill'}
-                onClick={followHandler}
+                onClick={() => toggleFollowMutate(profile)}
               >
                 {profile.isfollow ? '언팔로우' : '팔로우'}
               </StyledBtn>
@@ -263,14 +142,14 @@ export default function Profile() {
             <S.ProductList>
               {products.map((product) => {
                 return (
-                  <li key={product.id}>
+                  <li key={product.id + 'asdas'}>
                     <ProductItem
                       productId={product.id}
                       accountname={product.author.accountname}
                       itemName={product.itemName}
                       price={product.price}
                       itemImg={product.itemImage}
-                      onDelete={() => deleteProduct(product.id)}
+                      onDelete={() => deleteProductMutate(product.id)}
                       link={product.link}
                     />
                   </li>
@@ -279,7 +158,7 @@ export default function Profile() {
             </S.ProductList>
           </S.ProductSection>
         )}
-        {posts.length > 0 && (
+        {posts?.pages?.length > 0 && (
           <S.PostSection>
             <S.PostTop>
               <S.viewButton
@@ -294,29 +173,31 @@ export default function Profile() {
               ></S.viewButton>
             </S.PostTop>
             <S.PostList view={view}>
-              {posts.map((post) => {
-                return view === 'list' ? (
-                  <li key={post.accountname}>
-                    <PostItem
-                      postId={post.id}
-                      postDate={post.createdAt}
-                      postImg={post.image}
-                      postLike={post.heartCount}
-                      postMessage={post.commentCount}
-                      postText={post.content}
-                      userId={post.author.accountname}
-                      userImg={profile.image}
-                      userName={post.author.username}
-                      onDeletePost={() => deletePost(post.id)}
-                    />
-                  </li>
-                ) : (
-                  post.image && (
-                    <li key={post.accountname}>
-                      <S.AlbumImg src={post.image} alt="" />
+              {posts.pages.map((postData) => {
+                return postData.map((post) => {
+                  return view === 'list' ? (
+                    <li key={post.id}>
+                      <PostItem
+                        postId={post.id}
+                        postDate={post.createdAt}
+                        postImg={post.image}
+                        postLike={post.heartCount}
+                        postMessage={post.commentCount}
+                        postText={post.content}
+                        userId={post.author.accountname}
+                        userImg={profile.image}
+                        userName={post.author.username}
+                        onDeletePost={() => deletePostMutate(post.id)}
+                      />
                     </li>
-                  )
-                );
+                  ) : (
+                    post.image && (
+                      <li key={post.id}>
+                        <S.AlbumImg src={post.image} alt="" />
+                      </li>
+                    )
+                  );
+                });
               })}
             </S.PostList>
           </S.PostSection>
