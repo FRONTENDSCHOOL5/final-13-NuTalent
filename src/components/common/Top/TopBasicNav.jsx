@@ -5,7 +5,6 @@ import { useSetRecoilState } from 'recoil';
 import BottomSheetModal from '../BottomSheetModal/BottomSheetModal';
 import Alert from '../Alert/Alert';
 
-import { loginState } from '../../../recoil/atoms/loginState';
 import { recoilData } from '../../../recoil/atoms/dataState';
 
 import {
@@ -19,7 +18,7 @@ export default function TopBasicNav({ children }) {
   const navigate = useNavigate();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const setCurrentUSerToken = useSetRecoilState(loginState);
+
   const setCurrentUserData = useSetRecoilState(recoilData);
 
   const bottomSheetHandler = () => {
@@ -27,7 +26,6 @@ export default function TopBasicNav({ children }) {
   };
 
   const logout = () => {
-    setCurrentUSerToken('');
     setCurrentUserData({});
     navigate('/intro');
   };
@@ -57,8 +55,8 @@ export default function TopBasicNav({ children }) {
         isOpen={isBottomSheetOpen}
         bottomSheetHandler={bottomSheetHandler}
       >
-        <button ref={bottomSheetRef}>설정 및 개인정보</button>
         <button
+          ref={bottomSheetRef}
           onClick={() => {
             setIsBottomSheetOpen(false);
             setIsAlertOpen(true);

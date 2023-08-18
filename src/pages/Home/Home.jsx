@@ -13,14 +13,14 @@ import {
 import StyledBtn from '../../components/common/Button/Button';
 import NoFollowerImg from '../../assets/img/smile.svg';
 import useScrollBottom from '../../hooks/useScrollBottom';
-import { loginState } from '../../recoil/atoms/loginState';
+import { recoilData } from '../../recoil/atoms/dataState';
 
 export default function Home() {
   const [data, setData] = useState([]);
   const [skip, setSkip] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
 
   const isBottom = useScrollBottom();
 

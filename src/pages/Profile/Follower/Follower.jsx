@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import FollowerUser from './FollowerUser';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
-import { Link } from 'react-router-dom';
 import { UserWrapper } from './Follower.styled';
 import { instance } from '../../../util/api/axiosInstance';
 import { useLocation } from 'react-router-dom';
-import { loginState } from '../../../recoil/atoms/loginState';
+import { recoilData } from '../../../recoil/atoms/dataState';
 import { useRecoilValue } from 'recoil';
 
 export default function Follower() {
@@ -14,13 +13,14 @@ export default function Follower() {
   const [followers, setFollowers] = useState([]);
 
   const location = useLocation();
-  const accountName = location.state;
-  // localstorage에 바로 값을 가져오지만 recoil사용할 경우에는 recoil을 사용해서 값을 가져오면 됨
+  const { accountName, myAccountName } = location.state;
+  // console.log(accountName, myAccountName);
+  // localstorage에 바로 값을 가져오지만 recoil 사용할 경우에는 recoil을 사용해서 값을 가져오면 됨
   // const token = localStorage.getItem('token');
 
   // recoil에서 atom(초기값)의 값을 읽어오고 바꿀때 :
   // const [token, setToken] = useState(loginState);
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
   // console.log(token);
   // const setToken = useSetRecoilState(loginState);
 
@@ -36,7 +36,7 @@ export default function Follower() {
   */
   const getFollowers = async () => {
     const res = await instance.get(
-      `https://api.mandarin.weniv.co.kr/profile/${accountName}/follower`,
+      `https://api.mandarin.weniv.co.kr/profile/${accountName}/follower?limit=infinite&skip=0 `,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -56,12 +56,15 @@ export default function Follower() {
        * 해당 userInfo에 있는 accountname을 언팔로우 api의 params로 보내 언팔로우를 진행한다
        */
       if (userInfo.isfollow) {
-        await instance.delete(`/profile/${userInfo.accountname}/unfollow`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
+        await instance.delete(
+          `/profile/${userInfo.accountname}/unfollow?limit=infinite&skip=0`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-type': 'application/json',
+            },
           },
-        });
+        );
 
         // 데이터 재조회 => 언팔로우가 끝났으니 getFollower 함수를 실행시켜 팔로우 재조회
         getFollowers();
@@ -88,32 +91,38 @@ export default function Follower() {
       alert(`${error.response.data.message}`);
     }
   };
+  console.log(accountName);
 
   return (
     <>
       <TopBasicNav>Followers</TopBasicNav>
       <UserWrapper>
-        {/* 3. 이곳에 useState에 채워져있는 배열이 map으로 뿌려지게 되고, 빈 화면이 아니라 유저들의 정보가 화면에 뿌려지게 된다. */}
-
-        {followers.map((user) => {
-          console.log(user);
-          return (
-            <li key={user._id}>
-              <Link
-                to={`/profile/${user.accountname}`}
-                state={{ userId: user.accountname }}
-              >
-                <FollowerUser
-                  to={`/profile/${user.accountname}`}
-                  state={{}}
-                  userInfo={user} // 나를 팔로우 하는 사람들 각각의 정보를 넘김
-                  followHandler={followHandler} // 팔로우 핸들러 함수
-                  size={'small'} // 아이콘 사이즈
-                />
-              </Link>
-            </li>
+        {(() => {
+          // find 사용하여 내 계정 찾기
+          const myAccount = followers.find(
+            (user) => user.accountname === myAccountName,
           );
-        })}
+
+          // filter 사용하여 다른 사람의 계정만 필터링
+          const otherFollowers = followers.filter((user) => user !== myAccount);
+
+          // myAccount가 존재하면 배열에 myAccount를 첫번째 요소로 추가한 후 전개문법 사용하여 otherFollowers의 모든 요소들을 추가
+          // myAccount가 없다면 바로 otherFollowers 추가
+          const sortedFollowers = myAccount
+            ? [myAccount, ...otherFollowers]
+            : otherFollowers;
+
+          return sortedFollowers.map((user) => (
+            <li key={user._id}>
+              <FollowerUser
+                userInfo={user} // 나를 팔로우 하는 사람들 각각의 정보를 넘김
+                followHandler={followHandler} // 팔로우 핸들러 함수
+                size={'small'} // 아이콘 사이즈
+                myAccountName={myAccountName}
+              />
+            </li>
+          ));
+        })()}
       </UserWrapper>
       <TabMenu></TabMenu>
     </>

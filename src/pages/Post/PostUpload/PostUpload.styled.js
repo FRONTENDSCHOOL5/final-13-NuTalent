@@ -1,6 +1,6 @@
-/* eslint-disable */
 import { styled } from 'styled-components';
 import fileButton from '../../../assets/img/upload-file.svg';
+import xbtn from '../../../assets/img/x.svg';
 
 export const Section = styled.section`
   width: 100%;
@@ -33,7 +33,9 @@ export const Textarea = styled.textarea`
     color: var(--sub-grey);
   }
 `;
-
+export const imgLayout = styled.div`
+  position: relative;
+`;
 export const PostImage = styled.img`
   display: block;
   width: 100%;
@@ -53,4 +55,12 @@ export const FileLabel = styled.label`
 
 export const FileInput = styled.input`
   display: none;
+`;
+export const Deletebtn = styled.button`
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 22px;
+  height: 22px;
+  background: url(${xbtn}) 0 0 / cover;
 `;

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import FollowingUser from './FollowingUser';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
-import { Link } from 'react-router-dom';
 import { UserWrapper } from './Following.styled';
 import { instance } from '../../../util/api/axiosInstance';
 import { useLocation } from 'react-router-dom';
-import { loginState } from '../../../recoil/atoms/loginState';
+import { recoilData } from '../../../recoil/atoms/dataState';
 import { useRecoilValue } from 'recoil';
 
 export default function Following() {
@@ -14,10 +13,10 @@ export default function Following() {
   const [following, setFollowing] = useState([]);
 
   const location = useLocation();
-  const accountName = location.state;
+  const { accountName, myAccountName } = location.state;
   // const token = localStorage.getItem('token');
 
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
   console.log(token);
   // useEffect(콜백함수, 의존성 배열)
   // 의존성 배열의 요소가 변경되면 콜백함수 실행
@@ -31,7 +30,7 @@ export default function Following() {
   */
   const getFollowing = async () => {
     const res = await instance.get(
-      `https://api.mandarin.weniv.co.kr/profile/${accountName}/following`,
+      `https://api.mandarin.weniv.co.kr/profile/${accountName}/following?limit=infinite&skip=0 `,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -51,7 +50,7 @@ export default function Following() {
        * 해당 userInfo에 있는 accountname을 언팔로우 api의 params로 보내 언팔로우를 진행한다
        */
       if (userInfo.isfollow) {
-        await instance.delete(`/profile/${userInfo.accountname}/unfollow`, {
+        await instance.delete(`/profile/${userInfo.accountname}/unfollow `, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-type': 'application/json',
@@ -88,22 +87,28 @@ export default function Following() {
       <TopBasicNav>Followings</TopBasicNav>
       <UserWrapper>
         {/* 3. 이곳에 useState에 채워져있는 배열이 map으로 뿌려지게 되고, 빈 화면이 아니라 유저들의 정보가 화면에 뿌려지게 된다. */}
-        {following.map((user) => {
-          return (
-            <li key={user._id}>
-              <Link
-                to={`/profile/${user.accountname}`}
-                state={{ userId: user.accountname }}
-              >
-                <FollowingUser
-                  userInfo={user} // 내가 팔로우 하는 사람들 각각의 정보를 넘김
-                  followHandler={followHandler}
-                  size={'small'}
-                />
-              </Link>
-            </li>
+        {(() => {
+          const myAccount = following.find(
+            (user) => user.accountname === myAccountName,
           );
-        })}
+
+          const otherFollowing = following.filter((user) => user !== myAccount);
+
+          const sortedFollowing = myAccount
+            ? [myAccount, ...otherFollowing]
+            : otherFollowing;
+
+          return sortedFollowing.map((user) => (
+            <li key={user._id}>
+              <FollowingUser
+                userInfo={user} // 내가 팔로우 하는 사람들 각각의 정보를 넘김
+                followHandler={followHandler}
+                size={'small'}
+                myAccountName={myAccountName}
+              />
+            </li>
+          ));
+        })()}
       </UserWrapper>
       <TabMenu></TabMenu>
     </>

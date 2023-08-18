@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { loginState } from '../../../recoil/atoms/loginState';
 import { recoilData } from '../../../recoil/atoms/dataState';
 
 import { instance } from '../../../util/api/axiosInstance';
@@ -18,7 +17,7 @@ import {
 
 export default function AddProduct() {
   const currentUSerData = useRecoilValue(recoilData);
-  const token = useRecoilValue(loginState);
+  const token = useRecoilValue(recoilData).token;
 
   const navigate = useNavigate();
   const [image, setImage] = useState('');
@@ -58,7 +57,7 @@ export default function AddProduct() {
     }
   };
 
-  const uploadHanlder = async (e) => {
+  const uploadHandler = async (e) => {
     const selectedImg = e.target.files[0];
     console.log(selectedImg);
     if (!imageValidation(selectedImg)) return;
@@ -90,7 +89,7 @@ export default function AddProduct() {
       <AddProductContainer>
         <ImgSpan>이미지 등록</ImgSpan>
         <UploadFileLabel image={image} htmlFor="uploadImg" />
-        <UploadFileInput type="file" id="uploadImg" onChange={uploadHanlder} />
+        <UploadFileInput type="file" id="uploadImg" onChange={uploadHandler} />
 
         <TextActiveInput
           type="text"

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
@@ -10,12 +9,12 @@ import StyledBtn from '../../../components/common/Button/Button';
 
 import { instance } from '../../../util/api/axiosInstance';
 import useScrollBottom from '../../../hooks/useScrollBottom';
+import handleImageError from '../../../util/handleImageError';
 
 import * as S from './ProfileDetail.styled';
 
 import { useRecoilValue } from 'recoil';
 import { recoilData } from '../../../recoil/atoms/dataState';
-import { loginState } from '../../../recoil/atoms/loginState';
 
 export default function Profile() {
   const [profile, setProfile] = useState({});
@@ -26,14 +25,7 @@ export default function Profile() {
   const { accountname } = useParams();
 
   const currentUserData = useRecoilValue(recoilData);
-  const token = useRecoilValue(loginState);
-
-  const location = useLocation();
-
-  const accountName =
-    location.state !== null
-      ? location.state.userId
-      : currentUserData.accountname;
+  const token = useRecoilValue(recoilData).token;
 
   const myAccountName = currentUserData.accountname;
 
@@ -88,12 +80,11 @@ export default function Profile() {
       alert(`${error.response.data.message}`);
     }
   };
-  console.log(posts);
 
   const followHandler = async () => {
     try {
       if (profile.isfollow) {
-        const res = await instance.delete(`/profile/${accountName}/unfollow`, {
+        const res = await instance.delete(`/profile/${accountname}/unfollow`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-type': 'application/json',
@@ -102,7 +93,7 @@ export default function Profile() {
         setProfile(res.data.profile);
       } else {
         const res = await instance.post(
-          `/profile/${accountName}/follow`,
+          `/profile/${accountname}/follow`,
           {},
           {
             headers: {
@@ -120,10 +111,10 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    loadProfile(accountName);
-    loadProduct(accountName);
-    loadPost(accountName, true);
-  }, [accountName]);
+    loadProfile(accountname);
+    loadProduct(accountname);
+    loadPost(accountname, true);
+  }, [accountname]);
 
   // 무한 스크롤
   const isBottom = useScrollBottom();
@@ -133,7 +124,9 @@ export default function Profile() {
     }
   }, [isBottom]);
   useEffect(() => {
-    loadPost(accountName);
+    if (skip > 0) {
+      loadPost(accountname);
+    }
   }, [skip]);
 
   const deletePost = async (postId) => {
@@ -145,7 +138,7 @@ export default function Profile() {
         },
       });
       const res = await instance.get(
-        `/post/${accountName}/userpost/?limit=${skip}&skip=0`,
+        `/post/${accountname}/userpost/?limit=${skip}&skip=0`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -168,10 +161,33 @@ export default function Profile() {
           'Content-type': 'application/json',
         },
       });
-      loadProduct(accountName);
+      loadProduct(accountname);
     } catch (error) {
       console.error(error);
       alert(`${error.response.data.message}`);
+    }
+  };
+  ///공유 버튼 클릭시 링크 클립보드에 복사
+
+  const handleCopyClipBoard = async (text) => {
+    if (navigator.canShare) {
+      try {
+        await navigator.share({
+          title: 'nutalent',
+          text: 'welcome to nutalent!!',
+          url: text,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+      return;
+    } else {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('클립보드에 링크가 복사되었어요.');
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -181,12 +197,28 @@ export default function Profile() {
       <S.Container>
         <S.ProfileSection>
           <S.ProfileWrap>
-            <S.followLink to="/follower" state={profile.accountname}>
+            <S.followLink
+              to="/follower"
+              state={{
+                accountName: profile.accountname,
+                myAccountName: myAccountName,
+              }}
+            >
               <p>{profile.followerCount}</p>
               <p>followers</p>
             </S.followLink>
-            <S.ProfileImg src={profile.image} alt="프로필 사진" />
-            <S.followLink to="/following" state={profile.accountname}>
+            <S.ProfileImg
+              src={profile.image}
+              onError={handleImageError}
+              alt="프로필 사진"
+            />
+            <S.followLink
+              to="/following"
+              state={{
+                accountName: profile.accountname,
+                myAccountName: myAccountName,
+              }}
+            >
               <p>{profile.followingCount}</p>
               <p>followings</p>
             </S.followLink>
@@ -205,7 +237,13 @@ export default function Profile() {
             </S.UserBtnWrap>
           ) : (
             <S.UserBtnWrap>
-              <S.messageButton to={`/chatlist/${accountname}`} />
+              <S.messageButton
+                to={`/chatlist/${accountname}`}
+                state={{
+                  userName: profile.username,
+                  userImg: profile.image,
+                }}
+              />
               <StyledBtn
                 size="m"
                 color={profile.isfollow ? 'outlineGrey' : 'fill'}
@@ -213,7 +251,9 @@ export default function Profile() {
               >
                 {profile.isfollow ? '언팔로우' : '팔로우'}
               </StyledBtn>
-              <S.shareButton />
+              <S.shareButton
+                onClick={() => handleCopyClipBoard(window.location.href)}
+              />
             </S.UserBtnWrap>
           )}
         </S.ProfileSection>

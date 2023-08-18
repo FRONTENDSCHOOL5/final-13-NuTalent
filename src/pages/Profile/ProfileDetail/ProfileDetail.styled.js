@@ -78,6 +78,7 @@ export const UserIntro = styled.p`
   margin-bottom: 2.4rem;
   font-size: 1.4rem;
   color: var(--main-grey);
+  padding: 0 10rem;
 `;
 
 export const UserBtnWrap = styled.div`
@@ -102,6 +103,7 @@ export const messageButton = styled(Link)`
 export const shareButton = styled.button`
   ${circleBtn}
   background: url(${shareIcon}) no-repeat center;
+  cursor: pointer;
 `;
 
 // Product section
@@ -120,11 +122,17 @@ export const ProductList = styled.ul`
   flex-direction: row;
   gap: 1rem;
   padding-bottom: 0.5rem;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
 
   &::-webkit-scrollbar {
-    display: none;
+    background-color: white;
+  }
+  &::-webkit-scrollbar-thumb {
+    border: 0.7rem solid white;
+    border-right: 1rem solid white;
+    border-radius: 5rem;
+    background-color: var(--main-purple);
   }
 `;
 

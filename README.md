@@ -438,7 +438,7 @@ net::ERR_CERT_COMMON_NAME_INVALID 문제를 검색해보니 서버 관련 이슈
 const [keywordForSearchUser, setKeywordToSearchUser] = useState('');
 const [data, setData] = useState([]);
 
-const token = useRecoilValue(loginState);
+const token = useRecoilValue(recoilData).token;
 
 const sendQuery = async () => {
   if (!keywordForSearchUser) return;

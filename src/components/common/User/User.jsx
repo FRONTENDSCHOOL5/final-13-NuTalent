@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './User.styled';
 import { Link } from 'react-router-dom';
+import handleImageError from '../../../util/handleImageError';
 
 export default function User({
   size,
@@ -9,7 +10,6 @@ export default function User({
   userImg,
   type,
   to,
-  onError,
   state,
 }) {
   return (
@@ -18,7 +18,7 @@ export default function User({
         <S.UserImage
           size={size}
           src={userImg}
-          onError={onError}
+          onError={handleImageError}
           alt="사용자 이미지"
         />
         <S.UserDetails>
