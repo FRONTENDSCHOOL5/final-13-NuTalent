@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import BottomSheetModal from '../BottomSheetModal/BottomSheetModal';
-import Alert from '../Alert/Alert';
+import { useAlert } from '../../../hooks/useModal';
 
 import {
   TopDiv,
@@ -14,7 +14,7 @@ import {
 export default function TopChatNav({ children }) {
   const navigate = useNavigate();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const { openAlert } = useAlert();
 
   const bottomSheetHandler = () => {
     setIsBottomSheetOpen((prev) => !prev);
@@ -28,7 +28,7 @@ export default function TopChatNav({ children }) {
       console.log(bottomSheetRef.current);
       bottomSheetRef.current.focus();
     }
-  }, [isBottomSheetOpen, isAlertOpen]);
+  }, [isBottomSheetOpen]);
 
   return (
     <>
@@ -45,19 +45,16 @@ export default function TopChatNav({ children }) {
           ref={bottomSheetRef}
           onClick={() => {
             setIsBottomSheetOpen(false);
-            setIsAlertOpen(true);
+            openAlert({
+              title: '채팅방을 나가시겠습니까?',
+              actionText: '채팅방 나가기',
+              actionFunction: () => navigate('/chatlist'),
+            });
           }}
         >
           채팅방 나가기
         </button>
       </BottomSheetModal>
-      <Alert
-        isOpen={isAlertOpen}
-        title="채팅방을 나가시겠습니까?"
-        cancel={() => setIsAlertOpen(false)}
-        actionText="채팅방 나가기"
-        action={() => navigate('/chatlist')}
-      />
     </>
   );
 }

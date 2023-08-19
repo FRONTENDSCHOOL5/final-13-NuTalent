@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 
 import BottomSheetModal from '../BottomSheetModal/BottomSheetModal';
-import Alert from '../Alert/Alert';
-
+import { useAlert } from '../../../hooks/useModal';
 import { recoilData } from '../../../recoil/atoms/dataState';
 
 import {
@@ -17,7 +16,7 @@ import {
 export default function TopBasicNav({ children }) {
   const navigate = useNavigate();
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const { openAlert } = useAlert();
 
   const setCurrentUserData = useSetRecoilState(recoilData);
 
@@ -38,7 +37,7 @@ export default function TopBasicNav({ children }) {
       console.log(bottomSheetRef.current);
       bottomSheetRef.current.focus();
     }
-  }, [isBottomSheetOpen, isAlertOpen]);
+  }, [isBottomSheetOpen]);
 
   return (
     <>
@@ -59,19 +58,16 @@ export default function TopBasicNav({ children }) {
           ref={bottomSheetRef}
           onClick={() => {
             setIsBottomSheetOpen(false);
-            setIsAlertOpen(true);
+            openAlert({
+              title: '로그아웃 하시겠습니까?',
+              actionText: '로그아웃',
+              actionFunction: logout,
+            });
           }}
         >
           로그아웃
         </button>
       </BottomSheetModal>
-      <Alert
-        isOpen={isAlertOpen}
-        title="로그아웃 하시겠습니까?"
-        cancel={() => setIsAlertOpen(false)}
-        actionText="로그아웃"
-        action={logout}
-      />
     </>
   );
 }

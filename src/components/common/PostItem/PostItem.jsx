@@ -5,8 +5,7 @@ import { instance } from '../../../util/api/axiosInstance';
 
 import User from '../User/User';
 import BottomSheetModal from '../BottomSheetModal/BottomSheetModal';
-import Alert from '../Alert/Alert';
-
+import { useAlert } from '../../../hooks/useModal';
 import { recoilData } from '../../../recoil/atoms/dataState';
 
 import * as S from './PostItem.styled';
@@ -25,8 +24,7 @@ export default function PostItem({
   postId,
 }) {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [isAlertReportOpen, setIsAlertReportOpen] = useState(false);
+  const { openAlert } = useAlert();
   const token = useRecoilValue(recoilData).token;
   const currentUserData = useRecoilValue(recoilData);
   const date = postDate.slice(0, 10).split('-');
@@ -46,7 +44,7 @@ export default function PostItem({
     if (isBottomSheetOpen && bottomSheetRef.current) {
       bottomSheetRef.current.focus();
     }
-  }, [isBottomSheetOpen, isAlertOpen, isAlertReportOpen]);
+  }, [isBottomSheetOpen]);
 
   const onSubmitReportClick = async () => {
     try {
@@ -177,7 +175,11 @@ export default function PostItem({
               ref={bottomSheetRef}
               onClick={() => {
                 setIsBottomSheetOpen(false);
-                setIsAlertOpen(true);
+                openAlert({
+                  title: '게시글을 삭제할까요?',
+                  actionText: '삭제',
+                  actionFunction: onDeletePost,
+                });
               }}
             >
               삭제
@@ -193,33 +195,17 @@ export default function PostItem({
             ref={bottomSheetRef}
             onClick={() => {
               setIsBottomSheetOpen(false);
-              setIsAlertReportOpen(true);
+              openAlert({
+                title: '게시글을 신고할까요?',
+                actionText: '신고',
+                actionFunction: onSubmitReportClick,
+              });
             }}
           >
             신고하기
           </button>
         )}
       </BottomSheetModal>
-      <Alert
-        isOpen={isAlertOpen}
-        title="게시글을 삭제할까요?"
-        cancel={() => setIsAlertOpen(false)}
-        actionText="삭제"
-        action={() => {
-          onDeletePost();
-          setIsAlertOpen(false);
-        }}
-      />
-      <Alert
-        isOpen={isAlertReportOpen}
-        title="게시글을 신고할까요?"
-        cancel={() => setIsAlertReportOpen(false)}
-        actionText="신고"
-        action={() => {
-          onSubmitReportClick();
-          setIsAlertReportOpen(false);
-        }}
-      />
     </>
   );
 }

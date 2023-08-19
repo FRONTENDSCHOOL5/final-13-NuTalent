@@ -18,8 +18,8 @@ import useScrollBottom from '../../../hooks/useScrollBottom';
 import handleImageError from '../../../util/handleImageError';
 
 import BottomSheetModal from '../../../components/common/BottomSheetModal/BottomSheetModal';
-import Alert from '../../../components/common/Alert/Alert';
 import { recoilData } from '../../../recoil/atoms/dataState';
+import { useAlert } from '../../../hooks/useModal';
 
 export default function PostDetail() {
   moment.locale('ko');
@@ -31,10 +31,9 @@ export default function PostDetail() {
   const [content, setContent] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
+  const { openAlert } = useAlert();
 
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [isAlertReportOpen, setIsAlertReportOpen] = useState(false);
   const { accountname, image } = useRecoilValue(recoilData);
 
   const [selectedComment, setSelectedComment] = useState(null);
@@ -50,7 +49,7 @@ export default function PostDetail() {
     if (isBottomSheetOpen && bottomSheetRef.current) {
       bottomSheetRef.current.focus();
     }
-  }, [isBottomSheetOpen, isAlertOpen]);
+  }, [isBottomSheetOpen]);
   const [skip, setSkip] = useState(0);
   const isBottom = useScrollBottom();
 
@@ -304,7 +303,14 @@ export default function PostDetail() {
                   ref={bottomSheetRef}
                   onClick={() => {
                     setIsBottomSheetOpen(false);
-                    setIsAlertOpen(true);
+                    openAlert({
+                      title: '댓글을 삭제할까요?',
+                      actionText: '삭제',
+                      actionFunction: () => {
+                        handleDeleteClick(selectedComment.id);
+                        deleteComment(selectedComment.id, selectedComment);
+                      },
+                    });
                   }}
                 >
                   삭제
@@ -316,34 +322,17 @@ export default function PostDetail() {
                 ref={bottomSheetRef}
                 onClick={() => {
                   setIsBottomSheetOpen(false);
-                  setIsAlertReportOpen(true);
+                  openAlert({
+                    title: '게시글을 신고할까요?',
+                    actionText: '신고',
+                    actionFunction: () => onSubmitReportClick(selectedComment),
+                  });
                 }}
               >
                 신고하기
               </button>
             )}
           </BottomSheetModal>
-          <Alert
-            isOpen={isAlertOpen}
-            title="댓글을 삭제할까요?"
-            cancel={() => setIsAlertOpen(false)}
-            actionText="삭제"
-            action={() => {
-              handleDeleteClick(selectedComment.id);
-              deleteComment(selectedComment.id, selectedComment);
-              setIsAlertOpen(false);
-            }}
-          />
-          <Alert
-            isOpen={isAlertReportOpen}
-            title="게시글을 신고할까요?"
-            cancel={() => setIsAlertReportOpen(false)}
-            actionText="신고"
-            action={() => {
-              onSubmitReportClick(selectedComment);
-              setIsAlertReportOpen(false);
-            }}
-          />
         </>
       )}
     </>
