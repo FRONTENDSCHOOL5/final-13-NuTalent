@@ -9,3 +9,13 @@ export const toastState = atom({
     duration: 3000,
   },
 });
+
+export const alertState = atom({
+  key: 'alertState',
+  default: {
+    isOpen: false,
+    title: null,
+    actionText: null,
+    actionFunction: null,
+  },
+});
