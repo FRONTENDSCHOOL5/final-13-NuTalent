@@ -4,13 +4,16 @@ import { useRecoilValue } from 'recoil';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import Toast from './components/Toast/Toast';
 import queryClient from './util/queryClient';
 import { recoilData } from './recoil/atoms/dataState';
 import { instance, setupInterceptor } from './util/api/axiosInstance';
+import { useToast } from './hooks/useModal';
 
 function App() {
   const [isReady, setIsReady] = useState(false);
   const token = useRecoilValue(recoilData).token;
+  const { toast } = useToast();
 
   useEffect(() => {
     const interceptorId = setupInterceptor(token);
@@ -25,6 +28,7 @@ function App() {
       <div>
         <QueryClientProvider client={queryClient}>
           <Router />
+          <Toast {...toast} />
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </div>
