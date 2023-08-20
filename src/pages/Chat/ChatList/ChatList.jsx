@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import io from 'socket.io-client';
 
 import TopBasicNav from '../../../components/common/Top/TopBasicNav';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
@@ -6,7 +8,19 @@ import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 import * as S from './ChatList.styled';
 
 export default function ChatList() {
-  const ChatDummy = [
+  const socket = io('http://localhost:8000');
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to the server');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from the server');
+    });
+  }, []);
+
+  const chatDummy = [
     {
       partnerAccount: 'itismusic',
       partnerName: '방구석뮤지션',
@@ -91,7 +105,7 @@ export default function ChatList() {
       <TopBasicNav />
       <S.Container>
         <S.ChatList>
-          {ChatDummy.map((item, index) => {
+          {chatDummy.map((item, index) => {
             return (
               <li key={index}>
                 {!item.chatList[item.chatList.length - 1].isRead ? (

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import io from 'socket.io-client';
 import TopChatNav from '../../../components/common/Top/TopChatNav';
 import * as S from './ChatRoom.styled';
 
@@ -8,6 +9,7 @@ export default function ChatRoom() {
 
   const [isMessageTyped, setIsMessageTyped] = useState(false);
   const [isImageTyped, setIsImageTyped] = useState(false);
+  const [message, setMessage] = useState('');
 
   // const partnerAccount = location.state.partnerAccount;
   const partnerName = location.state.partnerName;
@@ -15,6 +17,18 @@ export default function ChatRoom() {
   const chatContents = location.state.chatContents;
 
   console.log(location.state);
+
+  const socket = io('http://localhost:8000');
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to the server');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from the server');
+    });
+  }, []);
 
   const handleImageChange = (e) => {
     // console.log(e.target.files);
@@ -28,12 +42,31 @@ export default function ChatRoom() {
   };
 
   const handleMessageChange = (e) => {
-    setMessage(e.target.value);
+    const typedMessage = e.target.value;
+    setMessage(typedMessage);
     if (message) {
       setIsMessageTyped(true);
     } else if (!message) {
       setIsMessageTyped(false);
     }
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+
+    const date = new Date();
+    const params = {
+      content: message,
+      time: date,
+      isRead: false,
+    };
+    socket.emit('send message', params);
+    socket.on('send message', (data) => {
+      console.log(data);
+    });
+
+    setMessage('');
+    console.log('메시지 전송 완료');
   };
 
   return (
@@ -57,26 +90,8 @@ export default function ChatRoom() {
             );
           })}
         </S.ChatUL>
-        {/* <S.ChatArticle>
-          <img src={partnerProfile} alt="유저 프로필 사진" />
-          <p>Lorem, ipsum dolor.</p>
-        </S.ChatArticle>
-        <S.ChatArticle className="me">
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam
-            neque quidem a quasi corrupti voluptatum omnis in magnam ipsa
-            tempore.
-          </p>
-        </S.ChatArticle>
-        <S.ChatArticle>
-          <img src={userProfile} alt="" />
-          <p>{chatContents}</p>
-        </S.ChatArticle>
-        {/* <S.ChatArticle className="me">
-          <p>Lorem ipsum dolor sit.</p>
-        </S.ChatArticle> */}
       </S.Container>
-      <S.ChatForm>
+      <S.ChatForm onSubmit={handleSendMessage}>
         <S.FileLabel htmlFor="image"></S.FileLabel>
         <S.FileInput
           type="file"
@@ -92,7 +107,7 @@ export default function ChatRoom() {
         />
         <S.SendButton
           disabled={!isMessageTyped && !isImageTyped}
-          type="button"
+          type="submit"
           // disabled
         >
           전송
