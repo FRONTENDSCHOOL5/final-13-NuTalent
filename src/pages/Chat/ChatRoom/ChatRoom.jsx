@@ -9,8 +9,9 @@ export default function ChatRoom() {
   const [isMessageTyped, setIsMessageTyped] = useState(false);
   const [isImageTyped, setIsImageTyped] = useState(false);
 
-  const userName = location.state.userName;
-  const userProfile = location.state.userImg;
+  // const partnerAccount = location.state.partnerAccount;
+  const partnerName = location.state.partnerName;
+  const partnerImg = location.state.partnerImg;
   const chatContents = location.state.chatContents;
 
   console.log(location.state);
@@ -27,7 +28,7 @@ export default function ChatRoom() {
   };
 
   const handleMessageChange = (e) => {
-    const message = e.target.value;
+    setMessage(e.target.value);
     if (message) {
       setIsMessageTyped(true);
     } else if (!message) {
@@ -37,10 +38,27 @@ export default function ChatRoom() {
 
   return (
     <>
-      <TopChatNav>{userName}</TopChatNav>
+      <TopChatNav>{partnerName}</TopChatNav>
       <S.Container>
-        <S.ChatArticle>
-          <img src={userProfile} alt="유저 프로필 사진" />
+        <S.ChatUL>
+          {chatContents.map((item, index) => {
+            return (
+              <S.ChatLi key={index} className={item.isMyMessage ? 'me' : ''}>
+                {!item.isMyMessage ? (
+                  <>
+                    <img src={partnerImg} alt="대화 상대 프로필 사진" />
+                    <p>{item.content}</p>
+                  </>
+                ) : (
+                  <p>{item.content}</p>
+                )}
+                {/* {<p>{item.content}</p>} */}
+              </S.ChatLi>
+            );
+          })}
+        </S.ChatUL>
+        {/* <S.ChatArticle>
+          <img src={partnerProfile} alt="유저 프로필 사진" />
           <p>Lorem, ipsum dolor.</p>
         </S.ChatArticle>
         <S.ChatArticle className="me">
@@ -70,6 +88,7 @@ export default function ChatRoom() {
           type="text"
           placeholder="메시지 입력하기..."
           onChange={handleMessageChange}
+          value={message}
         />
         <S.SendButton
           disabled={!isMessageTyped && !isImageTyped}

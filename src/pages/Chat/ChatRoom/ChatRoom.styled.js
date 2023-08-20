@@ -5,15 +5,17 @@ export const Container = styled.div`
   padding: 6.8rem 1.6rem;
   background-color: #f2f2f2;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  gap: 1rem;
 `;
 
 // chat area
-export const ChatArticle = styled.article`
-  align-self: flex-start;
+export const ChatUL = styled.ul`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1rem;
+`;
+export const ChatLi = styled.li`
   display: flex;
   gap: 1.2rem;
 
@@ -27,9 +29,9 @@ export const ChatArticle = styled.article`
   }
 
   & > p {
-    flex-grow: 1;
+    /* flex-grow: 1; */
     padding: 1.2rem;
-    max-width: 24rem;
+    max-width: 36rem;
     background-color: #fff;
     border: 0.1rem solid #c4c4c4;
     border-radius: 0 1rem 1rem 1rem;
@@ -38,8 +40,9 @@ export const ChatArticle = styled.article`
   }
 
   &.me {
-    align-self: flex-end;
+    align-self: end;
     & > p {
+      max-width: 40rem;
       background-color: var(--main-purple);
       color: #fff;
       border: none;
