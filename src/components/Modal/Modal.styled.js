@@ -7,7 +7,7 @@ export const ModalRoot = styled.div`
 `;
 
 export const ModalBackdrop = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   z-index: -1;
@@ -39,6 +39,18 @@ export const ModalBackdrop = styled.div`
   }
 `;
 
+const position = {
+  center: css`
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  `,
+  bottom: css`
+    bottom: 0;
+  `,
+};
+
 export const ModalContainer = styled.div`
-  position: relative;
+  position: absolute;
+  ${({ $position }) => position[$position]}
 `;

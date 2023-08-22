@@ -11,9 +11,12 @@ export default function Modal({
   onClose = () => {},
   hasBackdrop = true,
   isBackdropClose = false,
+  transitionStyle,
+  position = 'center',
   children,
 }) {
   const { isTransitionComplete } = useCloseAfterTransition(isOpen);
+  console.log(isBackdropClose);
 
   useEffect(() => {
     if (isOpen) {
@@ -36,7 +39,11 @@ export default function Modal({
           $isOpen={isOpen}
           $hasBackdrop={hasBackdrop}
         />
-        <Transition isOpen={isOpen}>{children}</Transition>
+        <S.ModalContainer $position={position}>
+          <Transition isOpen={isOpen} transitionStyle={transitionStyle}>
+            {children}
+          </Transition>
+        </S.ModalContainer>
       </S.ModalRoot>,
       document.body,
     )
