@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
@@ -17,9 +17,8 @@ import { instance } from '../../../util/api/axiosInstance';
 import useScrollBottom from '../../../hooks/useScrollBottom';
 import handleImageError from '../../../util/handleImageError';
 
-import BottomSheetModal from '../../../components/common/BottomSheetModal/BottomSheetModal';
 import { recoilData } from '../../../recoil/atoms/dataState';
-import { useAlert } from '../../../hooks/useModal';
+import { useAlert, useBottomSheet } from '../../../hooks/useModal';
 
 export default function PostDetail() {
   moment.locale('ko');
@@ -32,24 +31,13 @@ export default function PostDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { openAlert } = useAlert();
+  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
-  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const { accountname, image } = useRecoilValue(recoilData);
 
   const [selectedComment, setSelectedComment] = useState(null);
   const [isMyComment, setIsMyComment] = useState(false);
 
-  const bottomSheetHandler = () => {
-    setIsBottomSheetOpen((prev) => !prev);
-  };
-
-  const bottomSheetRef = useRef(null);
-
-  useEffect(() => {
-    if (isBottomSheetOpen && bottomSheetRef.current) {
-      bottomSheetRef.current.focus();
-    }
-  }, [isBottomSheetOpen]);
   const [skip, setSkip] = useState(0);
   const isBottom = useScrollBottom();
 
@@ -256,7 +244,44 @@ export default function PostDetail() {
                   </div>
                   <button
                     onClick={() => {
-                      setIsBottomSheetOpen(true);
+                      openBottomSheet(
+                        isMyComment ? (
+                          <>
+                            <button
+                              onClick={() => {
+                                openAlert({
+                                  title: '댓글을 삭제할까요?',
+                                  actionText: '삭제',
+                                  actionFunction: () => {
+                                    handleDeleteClick(selectedComment.id);
+                                    deleteComment(
+                                      selectedComment.id,
+                                      selectedComment,
+                                    );
+                                  },
+                                });
+                                closeBottomSheet();
+                              }}
+                            >
+                              삭제
+                            </button>
+                          </>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              openAlert({
+                                title: '게시글을 신고할까요?',
+                                actionText: '신고',
+                                actionFunction: () =>
+                                  onSubmitReportClick(selectedComment),
+                              });
+                              closeBottomSheet();
+                            }}
+                          >
+                            신고하기
+                          </button>
+                        ),
+                      );
                       setIsMyComment(
                         comment.author.accountname === accountname,
                       );
@@ -292,47 +317,6 @@ export default function PostDetail() {
               게시
             </button>
           </CommentBox>
-          <BottomSheetModal
-            isOpen={isBottomSheetOpen}
-            bottomSheetHandler={bottomSheetHandler}
-          >
-            {isMyComment ? (
-              <>
-                <button
-                  className="modalBtn"
-                  ref={bottomSheetRef}
-                  onClick={() => {
-                    setIsBottomSheetOpen(false);
-                    openAlert({
-                      title: '댓글을 삭제할까요?',
-                      actionText: '삭제',
-                      actionFunction: () => {
-                        handleDeleteClick(selectedComment.id);
-                        deleteComment(selectedComment.id, selectedComment);
-                      },
-                    });
-                  }}
-                >
-                  삭제
-                </button>
-              </>
-            ) : (
-              <button
-                className="modalBtn"
-                ref={bottomSheetRef}
-                onClick={() => {
-                  setIsBottomSheetOpen(false);
-                  openAlert({
-                    title: '게시글을 신고할까요?',
-                    actionText: '신고',
-                    actionFunction: () => onSubmitReportClick(selectedComment),
-                  });
-                }}
-              >
-                신고하기
-              </button>
-            )}
-          </BottomSheetModal>
         </>
       )}
     </>
