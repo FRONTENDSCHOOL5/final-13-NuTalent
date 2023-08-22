@@ -5,7 +5,7 @@ import * as S from './Transition.styled';
 export default function Transition({
   isOpen,
   transitionStyle = 'fade',
-  duration = 300,
+  duration = 200,
   children,
 }) {
   return (

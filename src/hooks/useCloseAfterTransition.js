@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useCloseAfterTransition = (isOpen, duration = 300) => {
+const useCloseAfterTransition = (isOpen, duration = 200) => {
   const [isTransitionComplete, setIsTransitionComplete] = useState(isOpen);
 
   useEffect(() => {

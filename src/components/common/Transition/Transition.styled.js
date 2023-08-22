@@ -21,7 +21,7 @@ const fadeOut = keyframes`
 const slideIn = keyframes`
   from {
     opacity: 0;
-    transform: translateY(300%);
+    transform: translateY(100%);
   }
   to {
     opacity: 1;
@@ -36,11 +36,13 @@ const slideOut = keyframes`
   }
   to {
     opacity: 0;
-    transform: translateY(300%);
+    transform: translateY(100%);
   }
 `;
 
 export const TransitionContainer = styled.div`
+  width: fit-content;
+  height: fit-content;
   animation-duration: ${(props) => props.$duration}ms;
   animation-timing-function: ease-in-out;
   animation-fill-mode: both;
