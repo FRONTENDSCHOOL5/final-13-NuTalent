@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { toastState, alertState } from '../recoil/atoms/modalState';
+import {
+  toastState,
+  alertState,
+  bottomSheetState,
+} from '../recoil/atoms/modalState';
 
 export const useToast = () => {
   const [toast, setToast] = useRecoilState(toastState);
@@ -52,4 +56,22 @@ export const useAlert = () => {
   };
 
   return { alert, openAlert, closeAlert };
+};
+
+export const useBottomSheet = () => {
+  const [bottomSheet, setBottomSheet] = useRecoilState(bottomSheetState);
+
+  const closeBottomSheet = () => {
+    setBottomSheet((prev) => ({ ...prev, isOpen: false }));
+  };
+
+  const openBottomSheet = (children) => {
+    setBottomSheet({
+      isOpen: true,
+      children: children,
+      onClose: closeBottomSheet,
+    });
+  };
+
+  return { bottomSheet, openBottomSheet, closeBottomSheet };
 };

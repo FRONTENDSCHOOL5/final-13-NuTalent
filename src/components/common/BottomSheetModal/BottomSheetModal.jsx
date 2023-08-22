@@ -1,35 +1,25 @@
-import React, { useEffect } from 'react';
-import { Modal, Overlay } from './BottomSheetModal.styled';
-import { createPortal } from 'react-dom';
+import React from 'react';
 
-const BottomSheetModal = ({ isOpen, children, bottomSheetHandler }) => {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    }
+import Modal from '../../Modal/Modal';
 
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isOpen]);
+import * as S from './BottomSheetModal.styled';
 
-  const overlayClickHandler = (e) => {
-    if (e.currentTarget === e.target) {
-      bottomSheetHandler();
-    }
-  };
+const BottomSheetModal = ({ isOpen, children, onClose }) => {
+  console.log(children);
 
   return (
-    isOpen &&
-    createPortal(
-      <Overlay onClick={overlayClickHandler}>
-        <Modal isOpen={isOpen}>
-          <span></span>
-          {children}
-        </Modal>
-      </Overlay>,
-      document.body,
-    )
+    <Modal
+      isOpen={isOpen}
+      hasBackdrop
+      isBackdropClose={true}
+      onClose={onClose}
+      transitionStyle="slide"
+      position="bottom"
+    >
+      <S.BottomSheetContainer isOpen={isOpen}>
+        {children}
+      </S.BottomSheetContainer>
+    </Modal>
   );
 };
 
