@@ -17,12 +17,7 @@ export default function Alert({
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      hasBackdrop
-      isBackdropClose="false"
-      onClose={onClose}
-    >
+    <Modal isOpen={isOpen} hasBackdrop onClose={onClose}>
       <S.AlertContainer>
         <S.Alert isOpen={isOpen}>
           <S.AlertTitle>{title}</S.AlertTitle>

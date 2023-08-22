@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
 
 export const AlertContainer = styled.div`
-  position: fixed;
   width: 100%;
   height: 100%;
   display: flex;
