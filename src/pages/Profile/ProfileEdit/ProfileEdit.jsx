@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { instance } from '../../../util/api/axiosInstance';
 import imageValidation from '../../../util/validation/imageValidation';
 import {
   ProfileEditWrap,
@@ -16,8 +14,13 @@ import TextActiveInput from '../../../components/common/TextActiveInput/TextActi
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import uploadImage from '../../../assets/img/upload-file.svg';
 
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { recoilData } from '../../../recoil/atoms/dataState';
+import {
+  useGetProfile,
+  useUpdateProfile,
+  useUploadProfileImage,
+} from '../../../hooks/react-query/useProfile';
 
 export default function ProfileEdit() {
   const [profileImage, setProfileImage] = useState('');
@@ -28,40 +31,28 @@ export default function ProfileEdit() {
   const [isUserIdInvalid, setIsUserIdInvalid] = useState(false);
   const [description, setDescription] = useState('');
   const [isDescriptionInvalid, setIsDescriptionInvalid] = useState(false);
-  const navigate = useNavigate();
   const idRegExp = /^[a-zA-Z0-9_.]+$/;
 
-  const [currentUserData, setCurrentUserData] = useRecoilState(recoilData);
-  console.log(currentUserData);
+  const currentUserData = useRecoilValue(recoilData);
+  const myAccountName = currentUserData.accountname;
 
-  const gotAccountName = currentUserData.accountname;
-  const myInfo = useRecoilValue(recoilData);
-  const token = myInfo.token;
+  const { profile } = useGetProfile(myAccountName);
+  const { updateProfileMutate } = useUpdateProfile();
+  const { uploadProfileImageMutate, uploadedImage } = useUploadProfileImage();
 
   useEffect(() => {
-    async function getProfile() {
-      const getProfileRes = await instance.get(`/profile/${gotAccountName}`, {
-        params: {
-          image: profileImage,
-          userName: userName,
-          userId: userId,
-          description: description,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      console.log(getProfileRes);
-
-      setProfileImage(getProfileRes.data.profile.image);
-      setUserName(getProfileRes.data.profile.username);
-      setUserId(getProfileRes.data.profile.accountname);
-      setDescription(getProfileRes.data.profile.intro);
-    }
-
-    getProfile();
+    setProfileImage(profile.image);
+    setUserName(profile.username);
+    setUserId(profile.accountname);
+    setDescription(profile.intro);
   }, []);
+
+  useEffect(() => {
+    if (uploadedImage) {
+      console.log(uploadedImage);
+      setProfileImage(uploadedImage);
+    }
+  }, [uploadedImage]);
 
   const handleUserNameChange = (e) => {
     const currentUserName = e.target.value;
@@ -130,25 +121,10 @@ export default function ProfileEdit() {
           image: profileImage,
         },
       });
-      const res = await instance.put('/user', user, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
 
-      console.log(res);
-      console.log(currentUserData);
+      console.log('user', user);
 
-      setCurrentUserData({
-        ...myInfo,
-        accountname: res.data.user.accountname,
-        image: res.data.user.image,
-        intro: res.data.user.intro,
-        username: res.data.user.username,
-      });
-
-      navigate(`/profile/${res.data.user.accountname}`);
+      updateProfileMutate(user);
     } catch (error) {
       console.error(error);
 
@@ -173,17 +149,7 @@ export default function ProfileEdit() {
     const formData = new FormData();
     formData.append('image', selectedImage);
 
-    const res = await instance.post('/image/uploadfile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    console.log(res);
-
-    const uploadImage = `${res.config.baseURL}/${res.data.filename}`;
-    console.log('uploadImage', uploadImage);
-    setProfileImage(uploadImage);
+    uploadProfileImageMutate(formData);
   };
 
   return (
