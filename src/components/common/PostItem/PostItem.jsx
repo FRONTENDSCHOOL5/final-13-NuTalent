@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { instance } from '../../../util/api/axiosInstance';
 
 import User from '../User/User';
-import BottomSheetModal from '../BottomSheetModal/BottomSheetModal';
-import Alert from '../Alert/Alert';
-
+import { useAlert, useBottomSheet } from '../../../hooks/useModal';
 import { recoilData } from '../../../recoil/atoms/dataState';
 
 import * as S from './PostItem.styled';
@@ -24,9 +22,8 @@ export default function PostItem({
   onDeletePost,
   postId,
 }) {
-  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
-  const [isAlertReportOpen, setIsAlertReportOpen] = useState(false);
+  const { openAlert } = useAlert();
+  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const token = useRecoilValue(recoilData).token;
   const currentUserData = useRecoilValue(recoilData);
   const date = postDate.slice(0, 10).split('-');
@@ -35,18 +32,6 @@ export default function PostItem({
   const [likeCount, setLikeCount] = useState(postLike);
 
   const isMyPost = currentUserData.accountname === userId;
-
-  const bottomSheetHandler = () => {
-    setIsBottomSheetOpen((prev) => !prev);
-  };
-
-  const bottomSheetRef = useRef(null);
-
-  useEffect(() => {
-    if (isBottomSheetOpen && bottomSheetRef.current) {
-      bottomSheetRef.current.focus();
-    }
-  }, [isBottomSheetOpen, isAlertOpen, isAlertReportOpen]);
 
   const onSubmitReportClick = async () => {
     try {
@@ -164,62 +149,46 @@ export default function PostItem({
           </S.PostButtons>
           <S.PostDate>{`${date[0]}년 ${date[1]}월 ${date[2]}일`}</S.PostDate>
         </S.PostContainer>
-        <S.PostMore onClick={() => setIsBottomSheetOpen(true)} />
+        <S.PostMore
+          onClick={() =>
+            openBottomSheet(
+              isMyPost ? (
+                <>
+                  <button
+                    onClick={() => {
+                      openAlert({
+                        title: '게시글을 삭제할까요?',
+                        actionText: '삭제',
+                        actionFunction: onDeletePost,
+                      });
+                      closeBottomSheet();
+                    }}
+                  >
+                    삭제
+                  </button>
+                  <Link onClick={closeBottomSheet} to={`/post/edit/${postId}`}>
+                    수정
+                  </Link>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    openAlert({
+                      title: '게시글을 신고할까요?',
+                      actionText: '신고',
+                      actionFunction: onSubmitReportClick,
+                    });
+                    closeBottomSheet();
+                  }}
+                >
+                  신고하기
+                </button>
+              ),
+            )
+          }
+        />
       </S.PostArticle>
-      <BottomSheetModal
-        isOpen={isBottomSheetOpen}
-        bottomSheetHandler={bottomSheetHandler}
-      >
-        {isMyPost ? (
-          <>
-            <button
-              className="modalBtn"
-              ref={bottomSheetRef}
-              onClick={() => {
-                setIsBottomSheetOpen(false);
-                setIsAlertOpen(true);
-              }}
-            >
-              삭제
-            </button>
-            <Link className="modalBtn" to={`/post/edit/${postId}`}>
-              수정
-            </Link>
-          </>
-        ) : (
-          <button
-            type="button"
-            className="modalBtn"
-            ref={bottomSheetRef}
-            onClick={() => {
-              setIsBottomSheetOpen(false);
-              setIsAlertReportOpen(true);
-            }}
-          >
-            신고하기
-          </button>
-        )}
-      </BottomSheetModal>
-      <Alert
-        isOpen={isAlertOpen}
-        title="게시글을 삭제할까요?"
-        cancel={() => setIsAlertOpen(false)}
-        actionText="삭제"
-        action={() => {
-          onDeletePost();
-          setIsAlertOpen(false);
-        }}
-      />
-      <Alert
-        isOpen={isAlertReportOpen}
-        title="게시글을 신고할까요?"
-        cancel={() => setIsAlertReportOpen(false)}
-        actionText="신고"
-        action={() => {
-          onSubmitReportClick();
-          setIsAlertReportOpen(false);
-        }}
-      />
     </>
   );
 }

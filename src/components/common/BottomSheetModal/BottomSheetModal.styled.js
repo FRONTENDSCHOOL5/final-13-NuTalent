@@ -1,20 +1,19 @@
-import { styled, css } from 'styled-components';
+import { styled } from 'styled-components';
 
-const Modal = styled.div`
+export const BottomSheetContainer = styled.div`
   border-radius: 1rem 1rem 0 0;
   width: 100vw;
-  position: absolute;
-  bottom: 0;
   background-color: #fff;
+  overflow: hidden;
 
-  span {
-    height: 10px;
-    height: 0.4rem;
+  &::before {
+    content: '';
+    display: block;
     width: 7rem;
+    height: 0.4rem;
     background-color: #dbdbdb;
     border-radius: 5rem;
     margin: 2rem auto;
-    display: block;
   }
 
   button,
@@ -32,30 +31,4 @@ const Modal = styled.div`
       margin-bottom: 1rem;
     }
   }
-
-  ${({ isOpen }) =>
-    isOpen &&
-    css`
-      animation: fadeSlide 0.3s ease-in-out;
-    `}
-
-  @keyframes fadeSlide {
-    from {
-      bottom: -3rem;
-      opacity: 0;
-    }
-    to {
-      bottom: 0rem;
-      opacity: 1;
-    }
-  }
 `;
-
-const Overlay = styled.div`
-  position: fixed;
-  z-index: 100;
-  inset: 0;
-  background-color: rgb(0, 0, 0, 0.3);
-`;
-
-export { Modal, Overlay };
