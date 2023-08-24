@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import imageValidation from '../../../util/validation/imageValidation';
 import {
   ProfileEditWrap,
   ImageWrapper,
@@ -19,8 +18,8 @@ import { recoilData } from '../../../recoil/atoms/dataState';
 import {
   useGetProfile,
   useUpdateProfile,
-  useUploadProfileImage,
 } from '../../../hooks/react-query/useProfile';
+import { useUploadImage } from '../../../hooks/react-query/useImage';
 
 export default function ProfileEdit() {
   const [profileImage, setProfileImage] = useState('');
@@ -38,7 +37,7 @@ export default function ProfileEdit() {
 
   const { profile } = useGetProfile(myAccountName);
   const { updateProfileMutate } = useUpdateProfile();
-  const { uploadProfileImageMutate, uploadedImage } = useUploadProfileImage();
+  const { uploadedImage, handleImageChange } = useUploadImage();
 
   useEffect(() => {
     // console.log('첫페이지 로딩 실행!');
@@ -50,7 +49,7 @@ export default function ProfileEdit() {
 
   useEffect(() => {
     if (uploadedImage) {
-      console.log(uploadedImage);
+      console.log('uploadedimage', uploadedImage);
       setProfileImage(uploadedImage);
     }
   }, [uploadedImage]);
@@ -119,25 +118,6 @@ export default function ProfileEdit() {
     }
   }
 
-  const handleImageUploadChange = async (e) => {
-    console.log(e.target.files[0]);
-    const selectedImage = e.target.files[0];
-
-    if (!selectedImage) {
-      console.log('선택이미지없음');
-      return;
-    }
-    if (!imageValidation(selectedImage)) {
-      console.log('validation안됨');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('image', selectedImage);
-
-    uploadProfileImageMutate(formData);
-  };
-
   return (
     <>
       <TopUploadNav
@@ -158,11 +138,10 @@ export default function ProfileEdit() {
                 type="file"
                 className="user-profile"
                 id="upload-button"
-                onChange={handleImageUploadChange}
+                onChange={handleImageChange}
               />
             )}
           </ImageWrapper>
-
           <TextActiveInput
             type="text"
             className="user-name"
@@ -173,7 +152,6 @@ export default function ProfileEdit() {
           >
             사용자 이름
           </TextActiveInput>
-
           <TextActiveInput
             type="text"
             className="user-id"
@@ -184,9 +162,7 @@ export default function ProfileEdit() {
           >
             계정ID
           </TextActiveInput>
-
           {isUserIdInvalid && <ErrorMessage>{userIdErrorMessage}</ErrorMessage>}
-
           <TextActiveInput
             type="text"
             className="user-description"
