@@ -6,67 +6,27 @@ import { UserWrapper } from './Following.styled';
 import { useLocation } from 'react-router-dom';
 import { recoilData } from '../../../recoil/atoms/dataState';
 import { useRecoilValue } from 'recoil';
-import { useGetFollowings } from '../../../hooks/react-query/useGetFollowing';
-import { useMutation } from 'react-query';
-import { instance } from '../../../util/api/axiosInstance';
+import { useFollowStatus } from '../../../hooks/react-query/useFollowStatus';
 
 export default function Following() {
   const location = useLocation();
   const { accountName, myAccountName } = location.state;
   const token = useRecoilValue(recoilData).token;
-
-  // 팔로잉
-  const { followings, queryClient } = useGetFollowings(accountName);
-
-  // Unfollow mutation
-  const unfollowMutation = useMutation(
-    (userInfo) =>
-      instance.delete(
-        `/profile/${userInfo.accountname}/unfollow?limit=infinite&skip=0`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
-          },
-        },
-      ),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['followings', accountName]);
-      },
-    },
+  const { followings, unfollowMutation, followMutation } = useFollowStatus(
+    accountName,
+    token,
   );
 
-  // Follow mutation
-  const followMutation = useMutation(
-    (userInfo) =>
-      instance.post(
-        `/profile/${userInfo.accountname}/follow`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
-          },
-        },
-      ),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['followings', accountName]);
-      },
-    },
-  );
-
-  const followHandler = async (userInfo) => {
+  const followHandler = (userInfo) => {
     try {
       if (userInfo.isfollow) {
-        await unfollowMutation.mutateAsync(userInfo);
+        unfollowMutation(userInfo);
       } else {
-        await followMutation.mutateAsync(userInfo);
+        followMutation(userInfo);
       }
     } catch (error) {
       console.error(error);
-      alert(`${error.response.data.message}`);
+      // alert(`${error.response.data.message}`);
     }
   };
 
@@ -87,8 +47,8 @@ export default function Following() {
             (user) => user !== myAccount,
           );
 
-          // myAccount가 존재하면 배열에 myAccount를 첫번째 요소로 추가한 후 전개문법 사용하여 otherFollowings의 모든 요소들을 추가
-          // myAccount가 없다면 바로 otherFollowings 추가
+          // myAccount가 존재하면 배열에 myAccount를 첫번째 요소로 추가한 후 전개문법 사용하여 otherFollowers의 모든 요소들을 추가
+          // myAccount가 없다면 바로 otherFollowers 추가
           const sortedFollowings = myAccount
             ? [myAccount, ...otherFollowings]
             : otherFollowings;

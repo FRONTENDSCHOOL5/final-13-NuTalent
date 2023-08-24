@@ -6,67 +6,27 @@ import { UserWrapper } from './Follower.styled';
 import { useLocation } from 'react-router-dom';
 import { recoilData } from '../../../recoil/atoms/dataState';
 import { useRecoilValue } from 'recoil';
-import { useGetFollowers } from '../../../hooks/react-query/useGetFollow';
-import { useMutation } from 'react-query';
-import { instance } from '../../../util/api/axiosInstance';
+import { useFollowStatus } from '../../../hooks/react-query/useFollowStatus';
 
 export default function Follower() {
   const location = useLocation();
   const { accountName, myAccountName } = location.state;
   const token = useRecoilValue(recoilData).token;
-
-  // 팔로워
-  const { followers, queryClient } = useGetFollowers(accountName);
-
-  // Unfollow mutation
-  const unfollowMutation = useMutation(
-    (userInfo) =>
-      instance.delete(
-        `/profile/${userInfo.accountname}/unfollow?limit=infinite&skip=0`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
-          },
-        },
-      ),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['followers', accountName]);
-      },
-    },
+  const { followers, unfollowMutation, followMutation } = useFollowStatus(
+    accountName,
+    token,
   );
 
-  // Follow mutation
-  const followMutation = useMutation(
-    (userInfo) =>
-      instance.post(
-        `/profile/${userInfo.accountname}/follow`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
-          },
-        },
-      ),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['followers', accountName]);
-      },
-    },
-  );
-
-  const followHandler = async (userInfo) => {
+  const followHandler = (userInfo) => {
     try {
       if (userInfo.isfollow) {
-        await unfollowMutation.mutateAsync(userInfo);
+        unfollowMutation(userInfo);
       } else {
-        await followMutation.mutateAsync(userInfo);
+        followMutation(userInfo);
       }
     } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
+      console.log(error);
+      // alert(`${error.response.data.message}`);
     }
   };
 
@@ -94,9 +54,9 @@ export default function Follower() {
           return sortedFollowers.map((user) => (
             <li key={user._id}>
               <FollowerUser
-                userInfo={user} // 나를 팔로우 하는 사람들 각각의 정보를 넘김
-                followHandler={followHandler} // 팔로우 핸들러 함수
-                size={'small'} // 아이콘 사이즈
+                userInfo={user}
+                followHandler={followHandler}
+                size={'small'}
                 myAccountName={myAccountName}
               />
             </li>
