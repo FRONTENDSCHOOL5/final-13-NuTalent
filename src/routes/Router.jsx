@@ -45,10 +45,12 @@ export default function Router() {
         </Route>
         <Route path="productupload" element={<ProductUpload />} />
         <Route path="product/edit/:id" element={<ProductEdit />} />
-        <Route path="/follower" element={<Follower />} />
-        <Route path="/following" element={<Following />} />
         <Route path="/profile">
-          <Route path=":accountname" element={<Profile />} />
+          <Route path=":accountname">
+            <Route index element={<Profile />} />
+            <Route path="follower" element={<Follower />} />
+            <Route path="following" element={<Following />} />
+          </Route>
           <Route path="edit" element={<ProfileEdit />} />
         </Route>
       </Route>
