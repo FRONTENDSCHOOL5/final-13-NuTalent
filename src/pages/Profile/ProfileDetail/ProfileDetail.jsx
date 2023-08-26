@@ -76,13 +76,7 @@ export default function Profile() {
       <S.Container>
         <S.ProfileSection>
           <S.ProfileWrap>
-            <S.followLink
-              to="/follower"
-              state={{
-                accountName: profile.accountname,
-                myAccountName: myAccountName,
-              }}
-            >
+            <S.followLink to="follower">
               <p>{profile.followerCount}</p>
               <p>followers</p>
             </S.followLink>
@@ -91,13 +85,7 @@ export default function Profile() {
               onError={handleImageError}
               alt="프로필 사진"
             />
-            <S.followLink
-              to="/following"
-              state={{
-                accountName: profile.accountname,
-                myAccountName: myAccountName,
-              }}
-            >
+            <S.followLink to="following">
               <p>{profile.followingCount}</p>
               <p>followings</p>
             </S.followLink>
