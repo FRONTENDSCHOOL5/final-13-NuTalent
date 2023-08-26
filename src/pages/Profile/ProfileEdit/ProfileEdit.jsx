@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { instance } from '../../../util/api/axiosInstance';
-import imageValidation from '../../../util/validation/imageValidation';
 import {
   ProfileEditWrap,
   ImageWrapper,
@@ -16,8 +13,13 @@ import TextActiveInput from '../../../components/common/TextActiveInput/TextActi
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import uploadImage from '../../../assets/img/upload-file.svg';
 
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { recoilData } from '../../../recoil/atoms/dataState';
+import {
+  useGetProfile,
+  useUpdateProfile,
+} from '../../../hooks/react-query/useProfile';
+import { useUploadImage } from '../../../hooks/react-query/useImage';
 
 export default function ProfileEdit() {
   const [profileImage, setProfileImage] = useState('');
@@ -28,55 +30,29 @@ export default function ProfileEdit() {
   const [isUserIdInvalid, setIsUserIdInvalid] = useState(false);
   const [description, setDescription] = useState('');
   const [isDescriptionInvalid, setIsDescriptionInvalid] = useState(false);
-  const navigate = useNavigate();
   const idRegExp = /^[a-zA-Z0-9_.]+$/;
 
-  const [currentUserData, setCurrentUserData] = useRecoilState(recoilData);
-  console.log(currentUserData);
+  const currentUserData = useRecoilValue(recoilData);
+  const myAccountName = currentUserData.accountname;
 
-  const gotAccountName = currentUserData.accountname;
-  const myInfo = useRecoilValue(recoilData);
-  const token = myInfo.token;
+  const { profile } = useGetProfile(myAccountName);
+  const { updateProfileMutate } = useUpdateProfile();
+  const { uploadedImage, handleImageChange } = useUploadImage();
 
   useEffect(() => {
-    async function getProfile() {
-      const getProfileRes = await instance.get(`/profile/${gotAccountName}`, {
-        params: {
-          image: profileImage,
-          userName: userName,
-          userId: userId,
-          description: description,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      console.log(getProfileRes);
+    // console.log('첫페이지 로딩 실행!');
+    setProfileImage(profile.image);
+    setUserName(profile.username);
+    setUserId(profile.accountname);
+    setDescription(profile.intro);
+  }, [profile]);
 
-      setProfileImage(getProfileRes.data.profile.image);
-      setUserName(getProfileRes.data.profile.username);
-      setUserId(getProfileRes.data.profile.accountname);
-      setDescription(getProfileRes.data.profile.intro);
+  useEffect(() => {
+    if (uploadedImage) {
+      console.log('uploadedimage', uploadedImage);
+      setProfileImage(uploadedImage);
     }
-
-    getProfile();
-  }, []);
-
-  const handleUserNameChange = (e) => {
-    const currentUserName = e.target.value;
-    setUserName(currentUserName);
-  };
-
-  const handleUserIdChange = (e) => {
-    const currentUserId = e.target.value.trim();
-    setUserId(currentUserId);
-  };
-
-  const handleDescriptionChange = (e) => {
-    const currentDescription = e.target.value;
-    setDescription(currentDescription);
-  };
+  }, [uploadedImage]);
 
   // focus를 잃으면 실행
   const handleUserNameBlur = () => {
@@ -130,25 +106,10 @@ export default function ProfileEdit() {
           image: profileImage,
         },
       });
-      const res = await instance.put('/user', user, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
 
-      console.log(res);
-      console.log(currentUserData);
+      console.log('user', user);
 
-      setCurrentUserData({
-        ...myInfo,
-        accountname: res.data.user.accountname,
-        image: res.data.user.image,
-        intro: res.data.user.intro,
-        username: res.data.user.username,
-      });
-
-      navigate(`/profile/${res.data.user.accountname}`);
+      updateProfileMutate(user);
     } catch (error) {
       console.error(error);
 
@@ -156,35 +117,6 @@ export default function ProfileEdit() {
       setUserIdErrorMessage(`*${error.response.data.message}`);
     }
   }
-
-  const handleImageUploadChange = async (e) => {
-    console.log(e.target.files[0]);
-    const selectedImage = e.target.files[0];
-
-    if (!selectedImage) {
-      console.log('선택이미지없음');
-      return;
-    }
-    if (!imageValidation(selectedImage)) {
-      console.log('validation안됨');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('image', selectedImage);
-
-    const res = await instance.post('/image/uploadfile', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    console.log(res);
-
-    const uploadImage = `${res.config.baseURL}/${res.data.filename}`;
-    console.log('uploadImage', uploadImage);
-    setProfileImage(uploadImage);
-  };
 
   return (
     <>
@@ -195,41 +127,37 @@ export default function ProfileEdit() {
       <ProfileEditWrap>
         <TextInputBox>
           <ImageWrapper>
-            <DefaultProfileImg
-              src={profileImage}
-              // src={profileImage ? profileImage : profileDefault}
-            />
+            <DefaultProfileImg src={profileImage} />
             <ProfileUploadLabel htmlFor="upload-button">
               <ProfileUploadDiv>
                 <img src={uploadImage} />
               </ProfileUploadDiv>
             </ProfileUploadLabel>
-            <ProfileUploadInput
-              type="file"
-              className="user-profile"
-              id="upload-button"
-              onChange={handleImageUploadChange}
-            />
+            {!!uploadImage && (
+              <ProfileUploadInput
+                type="file"
+                className="user-profile"
+                id="upload-button"
+                onChange={handleImageChange}
+              />
+            )}
           </ImageWrapper>
           <TextActiveInput
             type="text"
             className="user-name"
             // placeholder="2~10자 이내여야 합니다."
-            value={userName}
-            onChange={handleUserNameChange}
+            value={userName || ''}
+            onChange={(e) => setUserName(e.target.value)}
             onBlur={handleUserNameBlur}
           >
             사용자 이름
           </TextActiveInput>
-          {/* {isUserNameInvalid && (
-          <ErrorMessage>*사용자 이름은 2~10자 이내여야 합니다.</ErrorMessage>
-        )} */}
           <TextActiveInput
             type="text"
             className="user-id"
             // placeholder="영문, 숫자, 특수문자(.),(_)만 사용 가능합니다."
-            value={userId}
-            onChange={handleUserIdChange}
+            value={userId || ''}
+            onChange={(e) => setUserId(e.target.value)}
             onBlur={handleUserIdBlur}
           >
             계정ID
@@ -239,15 +167,12 @@ export default function ProfileEdit() {
             type="text"
             className="user-description"
             // placeholder="자신과 판매할 상품에 대해 소개해주세요!"
-            value={description}
-            onChange={handleDescriptionChange}
+            value={description || ''}
+            onChange={(e) => setDescription(e.target.value)}
             onBlur={handleDescriptionBlur}
           >
             소개
           </TextActiveInput>
-          {/* {isDescriptionInvalid && (
-          <ErrorMessage>*내용을 입력해주세요</ErrorMessage>
-        )} */}
         </TextInputBox>
       </ProfileEditWrap>
     </>
