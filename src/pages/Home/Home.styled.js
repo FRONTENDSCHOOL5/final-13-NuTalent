@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
+  margin-top: 4.8rem;
   background-color: #fff;
   line-height: 1.2;
 `;
@@ -9,7 +10,7 @@ const ContainerUl = styled.ul`
   min-width: 32rem;
   max-width: 64rem;
   margin: 0 auto;
-  padding: 6.8rem 1.6rem;
+  padding: 2rem 1.6rem;
 `;
 const ContainerLi = styled.li`
   list-style: none;

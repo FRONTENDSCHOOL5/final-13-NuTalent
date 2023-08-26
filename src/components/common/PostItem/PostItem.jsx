@@ -6,6 +6,7 @@ import { instance } from '../../../util/api/axiosInstance';
 import User from '../User/User';
 import { useAlert, useBottomSheet } from '../../../hooks/useModal';
 import { recoilData } from '../../../recoil/atoms/dataState';
+import useTag from '../../../hooks/useTag';
 
 import * as S from './PostItem.styled';
 
@@ -25,6 +26,7 @@ export default function PostItem({
   const { openAlert } = useAlert();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const token = useRecoilValue(recoilData).token;
+  const { contentWithoutTag } = useTag();
   const currentUserData = useRecoilValue(recoilData);
   const date = postDate.slice(0, 10).split('-');
 
@@ -130,7 +132,7 @@ export default function PostItem({
         />
         <S.PostContainer>
           <S.PostLink to={`/post/${postId}`} state={{ userId, user_id }}>
-            <S.PostText>{postText}</S.PostText>
+            <S.PostText>{contentWithoutTag(postText)}</S.PostText>
             {postImg &&
               postImg
                 .split(',')

@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+
 import TopMainNav from '../../components/common/Top/TopMainNav';
 import PostItem from '../../components/common/PostItem/PostItem';
 import TabMenu from '../../components/common/Tabmenu/TabMenu';
+import StyledBtn from '../../components/common/Button/Button';
+import TagBar from '../../components/common/TagBar/TagBar';
 import { instance } from '../../util/api/axiosInstance';
+import NoFollowerImg from '../../assets/img/smile.svg';
+import useScrollBottom from '../../hooks/useScrollBottom';
+import useTag from '../../hooks/useTag';
+import { recoilData } from '../../recoil/atoms/dataState';
+
 import {
   Container,
   ContainerUl,
   ContainerLi,
   NoFollowerWrap,
 } from './Home.styled';
-import StyledBtn from '../../components/common/Button/Button';
-import NoFollowerImg from '../../assets/img/smile.svg';
-import useScrollBottom from '../../hooks/useScrollBottom';
-import { recoilData } from '../../recoil/atoms/dataState';
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -21,6 +25,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   const token = useRecoilValue(recoilData).token;
+  const { tagList, selectedTag, selectTag, checkTagInContent } = useTag();
 
   const isBottom = useScrollBottom();
 
@@ -42,40 +47,50 @@ export default function Home() {
     }
     setSkip((prevSkip) => prevSkip + 5);
   }, [isBottom]);
-  console.log('렌더링');
 
   return (
     <>
       <TopMainNav />
       <Container>
+        <TagBar
+          tagList={tagList}
+          selectedTag={selectedTag}
+          selectTag={selectTag}
+        />
         {isLoading ? (
           <div></div>
         ) : (
           <>
             {data.length > 0 ? (
               <ContainerUl>
-                {data.map((post) => {
-                  console.log(post);
-                  return (
-                    <ContainerLi key={post.id}>
-                      {
-                        <PostItem
-                          postDate={post.createdAt}
-                          postImg={post.image}
-                          postLike={post.heartCount}
-                          postMessage={post.commentCount}
-                          postText={post.content}
-                          postId={post.id}
-                          userId={post.author.accountname}
-                          user_id={post.author.id}
-                          userImg={post.author.image}
-                          userName={post.author.username}
-                          isLink={true}
-                        />
-                      }
-                    </ContainerLi>
-                  );
-                })}
+                {data
+                  .filter((post) => {
+                    if (selectedTag === null) {
+                      return true;
+                    }
+                    return checkTagInContent(post.content, selectedTag);
+                  })
+                  .map((post) => {
+                    return (
+                      <ContainerLi key={post.id}>
+                        {
+                          <PostItem
+                            postDate={post.createdAt}
+                            postImg={post.image}
+                            postLike={post.heartCount}
+                            postMessage={post.commentCount}
+                            postText={post.content}
+                            postId={post.id}
+                            userId={post.author.accountname}
+                            user_id={post.author.id}
+                            userImg={post.author.image}
+                            userName={post.author.username}
+                            isLink={true}
+                          />
+                        }
+                      </ContainerLi>
+                    );
+                  })}
               </ContainerUl>
             ) : (
               <NoFollowerWrap>

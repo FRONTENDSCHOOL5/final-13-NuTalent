@@ -2,11 +2,14 @@ import { styled } from 'styled-components';
 import fileButton from '../../../assets/img/upload-file.svg';
 import xbtn from '../../../assets/img/x.svg';
 
+export const TagBarContainer = styled.div`
+  margin-top: 4.8rem;
+`;
+
 export const Section = styled.section`
   width: 100%;
-  min-height: calc(100vh - 4.8rem);
+  min-height: calc(100vh - 8.8rem);
   position: relative;
-  margin-top: 4.8rem;
   padding: 3.2rem 1.6rem 2rem 7rem;
 `;
 
