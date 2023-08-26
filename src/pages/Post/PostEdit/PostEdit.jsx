@@ -6,6 +6,8 @@ import TopUploadNav from '../../../components/common/Top/TopUploadNav';
 import { recoilData } from '../../../recoil/atoms/dataState';
 import { useUpdatePost, useGetPost } from '../../../hooks/react-query/usePost';
 import { useUploadImage } from '../../../hooks/react-query/useImage';
+import TagBar from '../../../components/common/TagBar/TagBar';
+import useTag from '../../../hooks/useTag';
 
 import * as S from './PostEdit.styled';
 import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
@@ -21,10 +23,23 @@ export default function PostEdit() {
   const { post } = useGetPost(id);
   const { updatePostMutate } = useUpdatePost(id);
   const { uploadedImage, handleImageChange } = useUploadImage();
+  const {
+    tagList,
+    selectedTag,
+    selectTag,
+    addTagToContent,
+    contentWithoutTag,
+    getTagInContent,
+  } = useTag();
 
   useEffect(() => {
-    setContent(post?.content);
-    setImages(post?.image);
+    if (post.image) {
+      setImages(post.image);
+    }
+    if (post.content) {
+      setContent(contentWithoutTag(post.content));
+      selectTag(getTagInContent(post.content));
+    }
   }, [post]);
 
   useEffect(() => {
@@ -65,11 +80,21 @@ export default function PostEdit() {
         size="ms"
         disabled={!(content || images)}
         onClick={() => {
-          updatePostMutate({ content, image: images.join(',') });
+          updatePostMutate({
+            content: addTagToContent(content),
+            image: images.join(','),
+          });
         }}
       >
         업로드
       </TopUploadNav>
+      <S.TagBarContainer>
+        <TagBar
+          tagList={tagList}
+          selectedTag={selectedTag}
+          selectTag={selectTag}
+        />
+      </S.TagBarContainer>
       <S.Section>
         <S.ProfileImg
           src={currentUserData.image || defaultProfileImg}

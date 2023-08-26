@@ -2,10 +2,12 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import TopUploadNav from '../../../components/common/Top/TopUploadNav';
+import TagBar from '../../../components/common/TagBar/TagBar';
 import { recoilData } from '../../../recoil/atoms/dataState';
 import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
 import { useCreatePost } from '../../../hooks/react-query/usePost';
 import { useUploadImage } from '../../../hooks/react-query/useImage';
+import useTag from '../../../hooks/useTag';
 
 import * as S from './PostUpload.styled';
 
@@ -18,6 +20,7 @@ export default function PostUpload() {
 
   const { createPostMutate } = useCreatePost();
   const { uploadedImage, handleImageChange } = useUploadImage();
+  const { tagList, selectedTag, selectTag, addTagToContent } = useTag();
 
   useEffect(() => {
     if (uploadedImage) {
@@ -57,11 +60,21 @@ export default function PostUpload() {
         size="ms"
         disabled={!(content || images)}
         onClick={() => {
-          createPostMutate({ content, image: images.join(',') });
+          createPostMutate({
+            content: addTagToContent(content),
+            image: images.join(','),
+          });
         }}
       >
         업로드
       </TopUploadNav>
+      <S.TagBarContainer>
+        <TagBar
+          tagList={tagList}
+          selectedTag={selectedTag}
+          selectTag={selectTag}
+        />
+      </S.TagBarContainer>
       <S.Section>
         <S.ProfileImg
           src={currentUserData.image || defaultProfileImg}
