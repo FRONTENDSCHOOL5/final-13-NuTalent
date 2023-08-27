@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { instance } from '../../../util/api/axiosInstance';
 
 import User from '../User/User';
+import Carousel from '../Carousel/Carousel';
 import { useAlert, useBottomSheet } from '../../../hooks/useModal';
 import { recoilData } from '../../../recoil/atoms/dataState';
 import useTag from '../../../hooks/useTag';
@@ -133,14 +134,8 @@ export default function PostItem({
         <S.PostContainer>
           <S.PostLink to={`/post/${postId}`} state={{ userId, user_id }}>
             <S.PostText>{contentWithoutTag(postText)}</S.PostText>
-            {postImg &&
-              postImg
-                .split(',')
-                .map((image, index) => (
-                  <S.PostImage key={index} src={image} alt={`게시글 이미지 `} />
-                ))}
           </S.PostLink>
-
+          {postImg && <Carousel images={postImg} />}
           <S.PostButtons>
             <S.PostLike onClick={submitLike} isLiked={isLiked} />
             <S.PostSpan>{likeCount}</S.PostSpan>

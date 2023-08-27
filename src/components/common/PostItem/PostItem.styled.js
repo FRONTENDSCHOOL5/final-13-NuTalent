@@ -23,14 +23,6 @@ export const PostText = styled.p`
   word-break: break-all;
 `;
 
-export const PostImage = styled.img`
-  display: block;
-  width: 100%;
-  aspect-ratio: 4/3;
-  margin-bottom: 1.2rem;
-  border-radius: 1rem;
-`;
-
 export const PostButtons = styled.div`
   display: flex;
   margin-bottom: 1.6rem;
