@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import TopUploadNav from '../../../components/common/Top/TopUploadNav';
+import StyledBtn from '../../../components/common/Button/Button';
+import TopNav from '../../../components/common/Top/TopNav';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import {
   ImgSpan,
@@ -109,12 +110,16 @@ export default function AddProduct() {
 
   return (
     <>
-      <TopUploadNav
-        size="ms"
-        contents="저장"
-        disabled={!(image && productName && price && link)}
-        onClick={handleSubmit}
-      />
+      <TopNav>
+        <TopNav.BackButton />
+        <StyledBtn
+          size="ms"
+          disabled={!(image && productName && price && link)}
+          onClick={handleSubmit}
+        >
+          저장
+        </StyledBtn>
+      </TopNav>
       <AddProductContainer>
         <ImgSpan>이미지 등록</ImgSpan>
         <UploadFileLabel image={image} htmlFor="uploadImg" />

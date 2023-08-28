@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import TopBasicNav from '../../../components/common/Top/TopBasicNav';
+import TopNav from '../../../components/common/Top/TopNav';
 import FollowerUser from './FollowerUser';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 import { UserWrapper } from './Follower.styled';
@@ -32,7 +32,10 @@ export default function Follower() {
 
   return (
     <>
-      <TopBasicNav>Followers</TopBasicNav>
+      <TopNav>
+        <TopNav.BackButton />
+        <TopNav.Title size="sm">Followers</TopNav.Title>
+      </TopNav>
       <UserWrapper>
         {(() => {
           if (!followers) return;

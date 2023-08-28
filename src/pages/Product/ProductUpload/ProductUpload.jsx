@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { recoilData } from '../../../recoil/atoms/dataState';
 
+import StyledBtn from '../../../components/common/Button/Button';
+import TopNav from '../../../components/common/Top/TopNav';
+import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
+import { recoilData } from '../../../recoil/atoms/dataState';
 import { instance } from '../../../util/api/axiosInstance';
 import imageValidation from '../../../util/validation/imageValidation';
 
-import TopUploadNav from '../../../components/common/Top/TopUploadNav';
-import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import {
   ImgSpan,
   UploadFileInput,
@@ -80,12 +81,16 @@ export default function AddProduct() {
 
   return (
     <>
-      <TopUploadNav
-        size="ms"
-        contents="저장"
-        disabled={!(image && productName && price && link)}
-        onClick={handleSubmit}
-      />
+      <TopNav>
+        <TopNav.BackButton />
+        <StyledBtn
+          size="ms"
+          disabled={!(image && productName && price && link)}
+          onClick={handleSubmit}
+        >
+          저장
+        </StyledBtn>
+      </TopNav>
       <AddProductContainer>
         <ImgSpan>이미지 등록</ImgSpan>
         <UploadFileLabel image={image} htmlFor="uploadImg" />

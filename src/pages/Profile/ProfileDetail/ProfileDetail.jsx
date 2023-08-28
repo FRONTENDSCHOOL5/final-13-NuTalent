@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import TopBasicNav from '../../../components/common/Top/TopBasicNav';
+import TopNav from '../../../components/common/Top/TopNav';
 import ProductItem from '../../../components/common/ProductItem/ProductItem';
 import PostItem from '../../../components/common/PostItem/PostItem';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
@@ -72,7 +72,10 @@ export default function Profile() {
 
   return (
     <>
-      <TopBasicNav />
+      <TopNav>
+        <TopNav.BackButton />
+        <TopNav.OptionButton />
+      </TopNav>
       <S.Container>
         <S.ProfileSection>
           <S.ProfileWrap>

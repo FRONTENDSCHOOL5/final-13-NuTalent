@@ -10,7 +10,7 @@ import {
   ErrorMessage,
 } from './ProfileEdit.styled';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
-import TopUploadNav from '../../../components/common/Top/TopUploadNav';
+import TopNav from '../../../components/common/Top/TopNav';
 import uploadImage from '../../../assets/img/upload-file.svg';
 
 import { useRecoilValue } from 'recoil';
@@ -19,6 +19,7 @@ import {
   useGetProfile,
   useUpdateProfile,
 } from '../../../hooks/react-query/useProfile';
+import StyledBtn from '../../../components/common/Button/Button';
 import { useUploadImage } from '../../../hooks/react-query/useImage';
 
 export default function ProfileEdit() {
@@ -120,10 +121,18 @@ export default function ProfileEdit() {
 
   return (
     <>
-      <TopUploadNav
-        onClick={handleClick}
-        disabled={isUserIdInvalid || isUserNameInvalid || isDescriptionInvalid}
-      />
+      <TopNav>
+        <TopNav.BackButton />
+        <StyledBtn
+          size="ms"
+          onClick={handleClick}
+          disabled={
+            isUserIdInvalid || isUserNameInvalid || isDescriptionInvalid
+          }
+        >
+          저장
+        </StyledBtn>
+      </TopNav>
       <ProfileEditWrap>
         <TextInputBox>
           <ImageWrapper>

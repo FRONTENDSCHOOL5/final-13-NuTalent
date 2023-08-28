@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import TopChatNav from '../../../components/common/Top/TopChatNav';
+
+import TopNav from '../../../components/common/Top/TopNav';
+
 import * as S from './ChatRoom.styled';
 
 export default function ChatRoom() {
@@ -37,7 +39,11 @@ export default function ChatRoom() {
 
   return (
     <>
-      <TopChatNav>{userName}</TopChatNav>
+      <TopNav>
+        <TopNav.BackButton />
+        <TopNav.Title>{userName}</TopNav.Title>
+        <TopNav.OptionButton type="chat" />
+      </TopNav>
       <S.Container>
         <S.ChatArticle>
           <img src={userProfile} alt="유저 프로필 사진" />
