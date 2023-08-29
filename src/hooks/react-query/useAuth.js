@@ -33,12 +33,10 @@ export const useAccountNameValid = () => {
     const { mutate: accountNameValidMutate } = useMutation({
         mutationFn: (accountName) => accountNameValid(accountName),
         onSuccess: (res) => {
-            console.log(res);
             // TODO: alert창을 추후 디자인 된 알림창으로 변경 필요
             alert(`${res.data.message}`);
         },
         onError: (err) => {
-            console.error(err)
             setaccountNameValidErrorMessage(err.message);
         }
     })
