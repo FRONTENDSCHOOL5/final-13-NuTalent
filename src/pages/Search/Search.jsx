@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 
+import { useGetResult } from '../../hooks/react-query/useSearch';
+
 import { SearchWrap, UserListLi } from './Search.styled';
 
 import TopSearchNav from '../../components/common/Top/TopSearchNav';
 import TabMenu from '../../components/common/Tabmenu/TabMenu';
 import User from '../../components/common/User/User';
 
-import { useGetResult } from '../../hooks/react-query/useSearch';
-
 export default function Search() {
-  const [keywordToSearchUser, setKeywordToSearchUser] = useState('');
-  const { searchedResult } = useGetResult(keywordToSearchUser);
+  const [keyword, setKeyword] = useState('');
+  const { searchedResult } = useGetResult(keyword);
 
   return (
     <>
       <TopSearchNav
         type="text"
-        value={keywordToSearchUser}
-        onChange={(e) => setKeywordToSearchUser(e.target.value)}
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
       />
       <SearchWrap>
         <ul>
