@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import StyledBtn from '../../../components/common/Button/Button';
-import { instance } from '../../../util/api/axiosInstance';
+// import { instance } from '../../../util/api/axiosInstance';
+import useSignUp from '../../../../src/hooks/react-query/useSignUp';
 import {
   JoinMembersWrap,
   PageH2,
@@ -17,6 +18,7 @@ export default function SignUp() {
   const [isPasswordError, setIsPasswordError] = useState(true);
   const [emailResponseMessage, setEmailResponseMessage] = useState('');
   const [passwordResponseMessage, setPasswordResponseMessage] = useState('');
+  const signUpMutation = useSignUp();
   const navigate = useNavigate();
   const emailPattern = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
 
@@ -50,18 +52,7 @@ export default function SignUp() {
     if (isEmailError || isPasswordError) return;
 
     try {
-      // console.log(email);
-      const user = JSON.stringify({
-        user: {
-          email: email,
-        },
-      });
-
-      //비동기통신
-      const res = await instance.post('/user/emailvalid', user, {
-        headers: { 'Content-type': 'application/json' },
-      });
-      console.log('res', res);
+      const res = await signUpMutation.mutateAsync({ email });
 
       if (res.data.message === '이미 가입된 이메일 주소 입니다.') {
         setIsEmailError(true);
@@ -77,7 +68,6 @@ export default function SignUp() {
       }
     } catch (error) {
       console.error(error);
-      alert(`${error.response.data.message}`);
     }
   };
 
