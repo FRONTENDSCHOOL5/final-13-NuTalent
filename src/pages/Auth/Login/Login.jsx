@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import { recoilData } from '../../../recoil/atoms/dataState';
-import { instance } from '../../../util/api/axiosInstance';
+import { useLogin } from '../../../hooks/react-query/useAuth';
+
 import {
   LoginPageWrap,
   PageH2,
@@ -14,42 +12,41 @@ import TextActiveInput from '../../../components/common/TextActiveInput/TextActi
 import StyledBtn from '../../../components/common/Button/Button';
 
 export default function LoginPage() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailAlertMessage, setEmailAlertMessage] = useState('');
   const [passwordAlertMessage, setPasswordAlertMessage] = useState('');
-  const [isPasswordInvalid, setIsPasswordInvalid] = useState(true);
-  const [isEmailInvalid, setEmailInvalid] = useState(true);
-  const setCurrentUserData = useSetRecoilState(recoilData);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const emailRegEx = /^[a-zA-Z0-9+_.-]+@[a-z0-9.-]+\.[a-z0-9.-]+$/;
+
+  const { loginMutate, message } = useLogin();
+
   const handleEmailChange = (e) => {
-    const currentEmail = e.target.value.trim();
-    setEmail(currentEmail);
+    setEmail(e.target.value.trim());
 
     // 이메일 유효성 검사
     if (email === '') {
-      setEmailInvalid(true);
+      setIsEmailValid(false);
       setEmailAlertMessage('*이메일을 입력해주세요');
     } else {
       passwordAlertMessage !== ''
-        ? setIsPasswordInvalid(false)
-        : setIsPasswordInvalid(true);
-      setEmailInvalid(false);
+        ? setIsPasswordValid(true)
+        : setIsPasswordValid(false);
+      setIsEmailValid(true);
       setEmailAlertMessage('');
     }
   };
 
   const handlePasswordChange = (e) => {
-    const currentPassword = e.target.value.trim();
-    setPassword(currentPassword);
+    setPassword(e.target.value.trim());
 
     // 패스워드 유효성 검사
     if (password.length < 1) {
-      setIsPasswordInvalid(true);
+      setIsPasswordValid(false);
       setPasswordAlertMessage('*비밀번호를 입력해주세요.');
     } else {
-      setIsPasswordInvalid(false);
+      setIsPasswordValid(true);
       setPasswordAlertMessage('');
     }
   };
@@ -57,57 +54,33 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      // 이메일 유효성 검사
-      if (!emailRegEx.test(email)) {
-        setEmailInvalid(true);
-        setEmailAlertMessage('*유효하지 않은 이메일입니다.');
-      } else {
-        setEmailInvalid(false);
-        setEmailAlertMessage('');
-      }
+    // 이메일 유효성 검사
+    if (!emailRegEx.test(email)) {
+      setIsEmailValid(false);
+      setEmailAlertMessage('*유효하지 않은 이메일입니다.');
+    } else {
+      setIsEmailValid(true);
+      setEmailAlertMessage('');
+    }
 
-      // 패스워드 유효성 검사
-      if (password.length < 6) {
-        setIsPasswordInvalid(true);
-        setPasswordAlertMessage('*비밀번호는 6자 이상이어야 합니다.');
-      } else {
-        setIsPasswordInvalid(false);
-        setPasswordAlertMessage('');
-      }
+    // 패스워드 유효성 검사
+    if (password.length < 6) {
+      setIsPasswordValid(false);
+      setPasswordAlertMessage('*비밀번호는 6자 이상이어야 합니다.');
+    } else {
+      setIsPasswordValid(true);
+      setPasswordAlertMessage('');
+    }
 
-      if (isEmailInvalid || isPasswordInvalid) return;
+    if (!isEmailValid || !isPasswordValid) return;
 
-      // api 통신
-      const user = JSON.stringify({
-        user: {
-          email: email,
-          password: password,
-        },
-      });
+    loginMutate({ email, password });
 
-      // 비동기 통신
-      const res = await instance.post('/user/login', user, {
-        headers: { 'Content-type': 'application/json' },
-      });
-      console.log(res);
-
-      if (!res.data.message) {
-        // recoil state
-        setCurrentUserData(res.data.user);
-
-        console.log('로그인 성공!');
-
-        navigate('/home');
-      } else {
-        setIsPasswordInvalid(true);
-        password.length < 6
-          ? setPasswordAlertMessage(`*비밀번호는 6자 이상이어야 합니다.`)
-          : setPasswordAlertMessage(`*${res.data.message}`);
-      }
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
+    if (message) {
+      setIsPasswordValid(false);
+      password.length < 6
+        ? setPasswordAlertMessage(`*비밀번호는 6자 이상이어야 합니다.`)
+        : setPasswordAlertMessage(`*${message}`);
     }
   };
 
@@ -123,7 +96,7 @@ export default function LoginPage() {
         >
           이메일
         </TextActiveInput>
-        {isEmailInvalid && <ErrorMessage>{emailAlertMessage}</ErrorMessage>}
+        {!isEmailValid && <ErrorMessage>{emailAlertMessage}</ErrorMessage>}
         <TextActiveInput
           type="password"
           placeholder="비밀번호를 입력해주세요"
@@ -132,13 +105,13 @@ export default function LoginPage() {
         >
           비밀번호
         </TextActiveInput>
-        {isPasswordInvalid && (
+        {!isPasswordValid && (
           <ErrorMessage>{passwordAlertMessage}</ErrorMessage>
         )}
         {/* {isPasswordInvalid && (
           <ErrorMessage>{responseAlertMessage}</ErrorMessage>
         )} */}
-        <StyledBtn type="submit" disabled={isEmailInvalid || isPasswordInvalid}>
+        <StyledBtn type="submit" disabled={!isEmailValid || !isPasswordValid}>
           로그인
         </StyledBtn>
       </TextInputBox>

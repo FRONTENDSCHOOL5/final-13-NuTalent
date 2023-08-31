@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { instance } from '../../util/api/axiosInstance';
 import { useNavigate } from "react-router-dom";
+import { recoilData } from "../../recoil/atoms/dataState";
+import { useSetRecoilState } from "recoil";
 
 const accountNameValid = async (accountName) => {
     const userAccountName = JSON.stringify({
@@ -21,8 +23,21 @@ const joinMember = async (user) => {
             intro: user.intro,
             userimage: user.image,
         }
-    })
+    });
     const data = await instance.post('/user', userToJoin);
+
+    return data;
+}
+
+const login = async ({ email, password }) => {
+    const userToLogin = JSON.stringify({
+        user: {
+            email: email,
+            password: password,
+        }
+    });
+
+    const data = await instance.post('/user/login', userToLogin);
 
     return data;
 }
@@ -57,4 +72,29 @@ export const useJoinMember = () => {
         }
     })
     return { JoinMemberMutate };
+}
+
+export const useLogin = () => {
+    const setCurrentUserData = useSetRecoilState(recoilData);
+    const navigate = useNavigate();
+    const [message, setMessage] = useState("");
+
+    const { mutate: loginMutate } = useMutation({
+        mutationFn: (email, password) => login(email, password),
+        onSuccess: (res) => {
+            if (!res.data.message) {
+                setCurrentUserData(res.data.user);
+                navigate('/home');
+            } else {
+                setMessage(res.data.message);
+            }
+        },
+        onError: (err) => {
+            console.error(err);
+        }
+
+    })
+
+    return { loginMutate, message };
+
 }
