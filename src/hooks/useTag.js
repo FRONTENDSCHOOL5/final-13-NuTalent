@@ -32,7 +32,7 @@ const useTag = () => {
   };
 
   const getTagInContent = (content) => {
-    const tag = content.match(tagRegex)[0].slice(6, -1);
+    const tag = content.match(tagRegex)?.[0].slice(6, -1);
     return tag;
   };
 
