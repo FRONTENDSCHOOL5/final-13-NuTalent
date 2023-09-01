@@ -1,10 +1,17 @@
 import { styled } from 'styled-components';
+import MainLogo from '../../assets/img/Group-21.svg';
 
 const SplashDiv = styled.div`
-  position: relative;
+  /* position: relative;
   width: 100vw;
   height: 100vh;
+  background-color: var(--sub-purple); */
   background-color: var(--sub-purple);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 10rem;
 
   & img {
     width: 40rem;
@@ -15,4 +22,21 @@ const SplashDiv = styled.div`
   }
 `;
 
-export { SplashDiv }
+const IntroLogoBox = styled.div`
+  width: 33.4rem;
+  height: 23.5rem;
+  background-image: url(${MainLogo});
+  background-repeat: no-repeat;
+  margin: auto;
+  margin-top: 1rem;
+`;
+const CarouselBox = styled.div`
+  width: 22rem;
+  height: 22rem;
+  background-repeat: no-repeat;
+  margin: auto;
+  background-size: cover;
+  transition: opacity 5s ease-in-out;
+`;
+
+export { SplashDiv, IntroLogoBox, CarouselBox };
