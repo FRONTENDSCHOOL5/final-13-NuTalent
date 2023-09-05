@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 import MainLogo from '../../../assets/img/Group-21.svg';
-import Kakao from '../../../assets/img/message-circle.svg';
-import Google from '../../../assets/img/Google__G__Logo1.svg';
-import Facebook from '../../../assets/img/facebook.svg';
 import { Link } from 'react-router-dom';
 
 const IntroWrapper = styled.div`
@@ -31,7 +28,7 @@ const IntroBtnBox = styled.div`
   gap: 1rem;
 `;
 
-const IntroBtn = styled.button`
+const IntroBtnLogin = styled(Link)`
   cursor: pointer;
   height: 4.4rem;
   border: 0.1rem solid ${({ color }) => color};
@@ -42,58 +39,23 @@ const IntroBtn = styled.button`
   background-position-x: 1.5rem;
   font-size: 1.3rem;
   color: #767676;
-`;
-
-const IntroBtnKakao = styled(IntroBtn)`
   margin-top: 5rem;
-  background-image: url(${Kakao});
+  &:hover {
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: ${({ color }) => color};
+  }
 `;
 
-const IntroBtnGoogle = styled(IntroBtn)`
-  background-image: url(${Google});
-`;
-
-const IntroBtnFacebook = styled(IntroBtn)`
-  margin-bottom: 1rem;
-  background-image: url(${Facebook});
-`;
-
-const IntroLoginBox = styled.div`
-  display: flex;
-  margin: 0 auto;
-  width: 15.3rem;
-  height: 1.5rem;
-  margin-bottom: 12rem;
-  color: #767676;
-`;
-
-const EmailLoginBtn = styled(Link)`
-  display: block;
-  width: 60%;
-  height: 100%;
-  padding: 0.2rem;
-  padding-left: 1rem;
-`;
-
-const JoinBtn = styled(Link)`
-  display: block;
-  width: 40%;
-  height: 100%;
-
-  padding: 0.2rem;
-  padding-left: 1.5rem;
-  border-left: 1px solid #c4c4c4;
+const IntroBtnSignUp = styled(IntroBtnLogin)`
+  margin-top: 0;
+  margin-bottom: 4.5rem;
 `;
 
 export {
   IntroBtnBox,
   IntroWrapper,
-  IntroBtn,
-  IntroBtnKakao,
-  IntroBtnGoogle,
-  IntroBtnFacebook,
+  IntroBtnLogin,
+  IntroBtnSignUp,
   IntroLogoBox,
-  IntroLoginBox,
-  EmailLoginBtn,
-  JoinBtn,
 };
