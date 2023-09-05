@@ -2,10 +2,6 @@ import { styled } from 'styled-components';
 import MainLogo from '../../assets/img/Group-21.svg';
 
 const SplashDiv = styled.div`
-  /* position: relative;
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--sub-purple); */
   background-color: var(--sub-purple);
   height: 100vh;
   display: flex;
@@ -33,7 +29,6 @@ const IntroLogoBox = styled.div`
 const CarouselBox = styled.div`
   width: 22rem;
   height: 22rem;
-  background-repeat: no-repeat;
   margin: auto;
   background-size: cover;
   transition: opacity 5s ease-in-out;

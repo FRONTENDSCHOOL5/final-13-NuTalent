@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-// import splash from '../../assets/img/SplashImg.png';
 import people1 from '../../assets/img/peo1.png';
 import people2 from '../../assets/img/peo2.png';
 import people3 from '../../assets/img/peo3.png';
 import people4 from '../../assets/img/peo4.png';
 import people5 from '../../assets/img/peo5.png';
 import people6 from '../../assets/img/peo6.png';
-
-// import people6 from '../../assets/img/people9.png';
 
 import { SplashDiv, IntroLogoBox, CarouselBox } from './Splash.styled';
 import { useNavigate } from 'react-router-dom';
