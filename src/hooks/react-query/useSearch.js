@@ -13,7 +13,6 @@ export const useGetResult = (keyword) => {
         placeholderData: [],
         enabled: !!keyword,
         select: (data) => data.slice(0, 100),
-        staleTime: 3000,
         cacheTime: 1000,
     })
     return { searchedResult };
