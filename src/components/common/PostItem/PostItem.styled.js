@@ -21,6 +21,7 @@ export const PostText = styled.p`
   line-height: 1.8rem;
   font-weight: 400;
   word-break: break-all;
+  white-space: pre-wrap;
 `;
 
 export const PostButtons = styled.div`
