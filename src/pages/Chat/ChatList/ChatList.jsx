@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TopBasicNav from '../../../components/common/Top/TopBasicNav';
+import TopNav from '../../../components/common/Top/TopNav';
 import TabMenu from '../../../components/common/Tabmenu/TabMenu';
 
 import * as S from './ChatList.styled';
@@ -43,7 +43,10 @@ export default function ChatList() {
 
   return (
     <>
-      <TopBasicNav />
+      <TopNav>
+        <TopNav.BackButton />
+        <TopNav.OptionButton />
+      </TopNav>
       <S.Container>
         <S.ChatList>
           {ChatDummy.map((item, index) => {

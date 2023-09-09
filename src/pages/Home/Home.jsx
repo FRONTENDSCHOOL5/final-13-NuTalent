@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import TopMainNav from '../../components/common/Top/TopMainNav';
+import TopNav from '../../components/common/Top/TopNav';
 import PostItem from '../../components/common/PostItem/PostItem';
 import TabMenu from '../../components/common/Tabmenu/TabMenu';
 import StyledBtn from '../../components/common/Button/Button';
@@ -50,7 +50,10 @@ export default function Home() {
 
   return (
     <>
-      <TopMainNav />
+      <TopNav>
+        <TopNav.Title>HOME</TopNav.Title>
+        <TopNav.SearchButton />
+      </TopNav>
       <Container>
         <TagBar
           tagList={tagList}

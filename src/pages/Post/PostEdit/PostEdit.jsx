@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import TopUploadNav from '../../../components/common/Top/TopUploadNav';
+import StyledBtn from '../../../components/common/Button/Button';
+import TopNav from '../../../components/common/Top/TopNav';
 import { recoilData } from '../../../recoil/atoms/dataState';
 import { useUpdatePost, useGetPost } from '../../../hooks/react-query/usePost';
 import { useUploadImage } from '../../../hooks/react-query/useImage';
@@ -76,18 +77,21 @@ export default function PostEdit() {
 
   return (
     <>
-      <TopUploadNav
-        size="ms"
-        disabled={!(content || images)}
-        onClick={() => {
-          updatePostMutate({
-            content: addTagToContent(content),
-            image: images.join(','),
-          });
-        }}
-      >
-        업로드
-      </TopUploadNav>
+      <TopNav>
+        <TopNav.BackButton />
+        <StyledBtn
+          size="ms"
+          disabled={!(content || images.length)}
+          onClick={() => {
+            updatePostMutate({
+              content: addTagToContent(content),
+              image: images.join(','),
+            });
+          }}
+        >
+          업로드
+        </StyledBtn>
+      </TopNav>
       <S.TagBarContainer>
         <TagBar
           tagList={tagList}

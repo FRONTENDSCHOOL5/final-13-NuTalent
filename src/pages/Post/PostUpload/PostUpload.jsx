@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import TopUploadNav from '../../../components/common/Top/TopUploadNav';
+import StyledBtn from '../../../components/common/Button/Button';
+import TopNav from '../../../components/common/Top/TopNav';
 import TagBar from '../../../components/common/TagBar/TagBar';
 import { recoilData } from '../../../recoil/atoms/dataState';
 import defaultProfileImg from '../../../assets/img/basic-profile-img-.svg';
@@ -56,18 +57,21 @@ export default function PostUpload() {
 
   return (
     <>
-      <TopUploadNav
-        size="ms"
-        disabled={!(content || images)}
-        onClick={() => {
-          createPostMutate({
-            content: addTagToContent(content),
-            image: images.join(','),
-          });
-        }}
-      >
-        업로드
-      </TopUploadNav>
+      <TopNav>
+        <TopNav.BackButton />
+        <StyledBtn
+          size="ms"
+          disabled={!(content || images.length)}
+          onClick={() => {
+            createPostMutate({
+              content: addTagToContent(content),
+              image: images.join(','),
+            });
+          }}
+        >
+          업로드
+        </StyledBtn>
+      </TopNav>
       <S.TagBarContainer>
         <TagBar
           tagList={tagList}

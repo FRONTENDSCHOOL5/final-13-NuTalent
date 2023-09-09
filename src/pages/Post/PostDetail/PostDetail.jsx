@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 
 import moment from 'moment'; // moment import 추가
 import 'moment/locale/ko';
-import TopBasicNav from '../../../components/common/Top/TopBasicNav';
+import TopNav from '../../../components/common/Top/TopNav';
 import PostItem from '../../../components/common/PostItem/PostItem';
 import {
   PostItemWrapper,
@@ -190,7 +190,10 @@ export default function PostDetail() {
 
   return (
     <>
-      <TopBasicNav />
+      <TopNav>
+        <TopNav.BackButton />
+        <TopNav.OptionButton />
+      </TopNav>
       {data && comments && (
         <>
           <PostItemWrapper>
