@@ -45,6 +45,7 @@ export const PostImage = styled.img`
   aspect-ratio: 4/3;
   margin-bottom: 1.2rem;
   border-radius: 1rem;
+  object-fit: contain;
 `;
 
 export const FileLabel = styled.label`
