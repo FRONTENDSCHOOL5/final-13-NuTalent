@@ -17,6 +17,7 @@ const IntroLogoBox = styled.div`
   background-image: url(${MainLogo});
   background-repeat: no-repeat;
   margin: auto;
+  margin-top: 1rem;
 `;
 
 const IntroBtnBox = styled.div`
