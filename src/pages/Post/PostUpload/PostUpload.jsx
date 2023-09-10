@@ -51,7 +51,10 @@ export default function PostUpload() {
   };
 
   const onImageUpload = (e) => {
-    if (images.length >= 3) return;
+    if (images.length >= 3) {
+      alert('이미지 업로드는 최대 3개까지 가능합니다');
+      return;
+    }
     return handleImageChange(e);
   };
 

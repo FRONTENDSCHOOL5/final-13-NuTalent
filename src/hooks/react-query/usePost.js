@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+// import { useMemo } from 'react';
 import {
   useQuery,
   useMutation,
@@ -14,16 +14,12 @@ const getPost = async (postId) => {
   return data.post;
 };
 
-const getInfinitePosts = async (
-  accountname,
-  postType = 'userpost',
-  skip = 0,
-) => {
+const getInfinitePosts = async (accountname, postType, skip = 0) => {
   const path =
     postType === 'userpost' ? `/post/${accountname}/userpost` : '/post/feed';
 
   const { data } = await instance.get(`${path}/?limit=5&skip=${skip}`);
-  return data.post;
+  return postType === 'userpost' ? data.post : data.posts;
 };
 
 const createPost = async (post) => {
@@ -47,18 +43,10 @@ export const useGetPost = (postId) => {
     queryFn: () => getPost(postId),
   });
 
-  const mappedPost = useMemo(() => {
-    if (post?.image) {
-      return { ...post, image: post.image.split(',') };
-    } else {
-      return { ...post, image: [] };
-    }
-  }, [post]);
-
-  return { post: mappedPost };
+  return { post };
 };
 
-export const useGetInfinitePosts = (accountname, postType = 'userpost') => {
+export const useGetInfinitePosts = (accountname, postType) => {
   const {
     data: posts,
     fetchNextPage: fetchNextPosts,
@@ -106,6 +94,7 @@ export const useDeletePost = (accountname) => {
     mutationFn: (postId) => deletePost(postId),
     onSuccess: (_, postId) => {
       queryClient.setQueryData(['post', accountname, 'userpost'], (oldData) => {
+        console.log(oldData);
         const oldPages = oldData.pages;
         const newPages = oldPages.map((page) =>
           page.filter((post) => post.id !== postId),
