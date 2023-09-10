@@ -1,13 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-
 import StyledBtn from '../../../components/common/Button/Button';
 import TopNav from '../../../components/common/Top/TopNav';
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
-import { recoilData } from '../../../recoil/atoms/dataState';
-import { instance } from '../../../util/api/axiosInstance';
-import imageValidation from '../../../util/validation/imageValidation';
+import React, { useState, useEffect } from 'react';
+import { useCreateProduct } from '../../../hooks/react-query/useProduct';
+import { useUploadImage } from '../../../hooks/react-query/useImage';
 
 import {
   ImgSpan,
@@ -17,59 +13,31 @@ import {
 } from './ProductUpload.styled';
 
 export default function AddProduct() {
-  const currentUSerData = useRecoilValue(recoilData);
-  const token = useRecoilValue(recoilData).token;
+  const { createProductMutate } = useCreateProduct();
+  const { uploadedImage, handleImageChange } = useUploadImage();
 
-  const navigate = useNavigate();
   const [image, setImage] = useState('');
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
+
+  useEffect(() => {
+    if (uploadedImage) {
+      setImage(uploadedImage);
+    }
+  }, [uploadedImage]);
 
   const handleSubmit = async () => {
     if (productName.length < 2) {
       alert('2글자 이상을 입력해 주세요!');
       return;
     }
-
-    try {
-      const user = JSON.stringify({
-        product: {
-          itemName: productName,
-          price: Number(price.replaceAll(',', '')), //1원 이상
-          link: link,
-          itemImage: image,
-        },
-      });
-      console.log(token);
-      const res = await instance.post('/product', user, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-
-      console.log(res);
-
-      navigate(`/profile/${currentUSerData.accountname}`);
-    } catch (error) {
-      console.error(error);
-      alert('상품 등록 실패');
-    }
-  };
-
-  const uploadHandler = async (e) => {
-    const selectedImg = e.target.files[0];
-    console.log(selectedImg);
-    if (!imageValidation(selectedImg)) return;
-
-    const formData = new FormData();
-
-    formData.append('image', selectedImg);
-
-    const res = await instance.post('/image/uploadfile', formData);
-    setImage(res.config.baseURL + '/' + res.data.filename);
-    console.log(res);
+    createProductMutate({
+      itemName: productName,
+      price: Number(price.replaceAll(',', '')),
+      link: link,
+      itemImage: image,
+    });
   };
 
   // 여기부터 작성하겠습니다~
@@ -94,7 +62,11 @@ export default function AddProduct() {
       <AddProductContainer>
         <ImgSpan>이미지 등록</ImgSpan>
         <UploadFileLabel image={image} htmlFor="uploadImg" />
-        <UploadFileInput type="file" id="uploadImg" onChange={uploadHandler} />
+        <UploadFileInput
+          type="file"
+          id="uploadImg"
+          onChange={handleImageChange}
+        />
 
         <TextActiveInput
           type="text"

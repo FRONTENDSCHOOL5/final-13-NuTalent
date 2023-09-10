@@ -32,8 +32,10 @@ export default function Profile() {
 
   const { products } = useGetProducts(accountname);
   const { profile } = useGetProfile(accountname);
-  const { posts, fetchNextPosts, hasNextPosts } =
-    useGetInfinitePosts(accountname);
+  const { posts, fetchNextPosts, hasNextPosts } = useGetInfinitePosts(
+    accountname,
+    'userpost',
+  );
   const { toggleFollowMutate } = useToggleFollow();
   const { deletePostMutate } = useDeletePost(accountname);
   const { deleteProductMutate } = useDeleteProduct(accountname);

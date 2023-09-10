@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
 
 import StyledBtn from '../../../components/common/Button/Button';
 import TopNav from '../../../components/common/Top/TopNav';
+import { useUpdateProduct } from '../../../hooks/react-query/useProduct';
+import { useGetDetailProducts } from '../../../hooks/react-query/useProduct';
+import { useUploadImage } from '../../../hooks/react-query/useImage';
+
 import TextActiveInput from '../../../components/common/TextActiveInput/TextActiveInput';
 import {
   ImgSpan,
@@ -12,93 +15,41 @@ import {
   AddProductContainer,
 } from './ProductEdit.styled';
 
-import { instance } from '../../../util/api/axiosInstance';
-import { recoilData } from '../../../recoil/atoms/dataState';
-
 export default function AddProduct() {
-  const currentUSerData = useRecoilValue(recoilData);
-  const token = useRecoilValue(recoilData).token;
+  const { id } = useParams();
+  const { products } = useGetDetailProducts(id);
+  const { updateProductMutate } = useUpdateProduct(id);
+  const { uploadedImage, handleImageChange } = useUploadImage();
 
   const [image, setImage] = useState('');
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [link, setLink] = useState('');
 
-  const navigate = useNavigate();
-  const { id } = useParams();
-
-  const loadProduct = async () => {
-    try {
-      const res = await instance.get(`/product/detail/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      setImage(res.data.product.itemImage);
-      setProductName(res.data.product.itemName);
-      setPrice(res.data.product.price.toLocaleString());
-      setLink(res.data.product.link);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  useEffect(() => {
+    setImage(products.itemImage);
+    setProductName(products.itemName);
+    setPrice(Number(products.price).toLocaleString());
+    setLink(products.link);
+  }, [products]);
 
   useEffect(() => {
-    loadProduct();
-  }, []);
+    if (uploadedImage) {
+      setImage(uploadedImage);
+    }
+  }, [uploadedImage]);
 
   const handleSubmit = async () => {
     if (productName.length < 2) {
       alert('2글자 이상을 입력해 주세요!');
       return;
     }
-
-    try {
-      const user = JSON.stringify({
-        product: {
-          itemName: productName,
-          price: Number(price.replaceAll(',', '')), //1원 이상
-          link: link,
-          itemImage: image,
-        },
-      });
-      instance.put(`/product/${id}`, user, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-
-      navigate(`/profile/${currentUSerData.accountname}`);
-    } catch (error) {
-      console.error(error);
-      alert('상품 등록 실패');
-    }
-  };
-  const imageValidation = (image) => {
-    if (image.size > 10 * 1024 * 1024) {
-      alert('10MB를 초과하는 이미지는 업로드 할 수 없습니다.');
-      return false;
-    } else if (!image.name.match(/(.*)\.(jpg|gif|png|jpeg|bmp|tif|heic)$/i)) {
-      alert(
-        '이미지 파일(*.jpg, *.gif, *.png, *.jpeg, *.bmp, *.tif, *.heic)만 업로드 할 수 있습니다.',
-      );
-      return false;
-    } else {
-      return true;
-    }
-  };
-  const uploadHandler = async (e) => {
-    const selectedImg = e.target.files[0];
-    if (!imageValidation(selectedImg)) return;
-
-    const formData = new FormData();
-
-    formData.append('image', selectedImg);
-
-    const res = await instance.post('/image/uploadfile', formData);
-    setImage(res.config.baseURL + '/' + res.data.filename);
+    updateProductMutate({
+      itemName: productName,
+      price: Number(price.replaceAll(',', '')),
+      link: link,
+      itemImage: image,
+    });
   };
 
   // 여기부터 작성하겠습니다~
@@ -123,7 +74,11 @@ export default function AddProduct() {
       <AddProductContainer>
         <ImgSpan>이미지 등록</ImgSpan>
         <UploadFileLabel image={image} htmlFor="uploadImg" />
-        <UploadFileInput type="file" id="uploadImg" onChange={uploadHandler} />
+        <UploadFileInput
+          type="file"
+          id="uploadImg"
+          onChange={handleImageChange}
+        />
 
         <TextActiveInput
           type="text"
