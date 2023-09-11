@@ -60,6 +60,7 @@ export const useCreateComment = (id) => {
   const { mutate: createCommentMutate } = useMutation({
     mutationFn: (comment) => createComment(id, comment),
     onSuccess: (res) => {
+      queryClient.invalidateQueries(['post', id]);
       queryClient.setQueryData(['comments', id], (oldData) => {
         const oldPages = oldData.pages;
         const newPages = oldPages.map((page, index) =>

@@ -36,6 +36,10 @@ const deletePost = async (postId) => {
   const { data } = await instance.delete(`/post/${postId}`);
   return data;
 };
+const reportPost = async (postId) => {
+  const { data } = await instance.post(`/post/${postId}/report`);
+  return data;
+};
 
 export const useGetPost = (postId) => {
   const { data: post } = useQuery({
@@ -104,4 +108,14 @@ export const useDeletePost = (accountname) => {
     },
   });
   return { deletePostMutate };
+};
+
+export const useReportPost = (postId) => {
+  const { mutate: reportPostMutate } = useMutation({
+    mutationFn: () => reportPost(postId),
+    onSuccess: () => {
+      alert(`신고가 완료되었습니다.`);
+    },
+  });
+  return { reportPostMutate };
 };

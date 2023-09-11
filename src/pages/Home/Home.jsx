@@ -70,6 +70,7 @@ export default function Home() {
                             <PostItem
                               postDate={post.createdAt}
                               postImg={post.image}
+                              postHearted={post.hearted}
                               postLike={post.heartCount}
                               postMessage={post.commentCount}
                               postText={post.content}

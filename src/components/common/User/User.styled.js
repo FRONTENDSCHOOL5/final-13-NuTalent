@@ -4,6 +4,7 @@ export const UserStyled = styled.div`
   display: flex;
   width: 35.8rem;
   gap: 1.2rem;
+  overflow: hidden;
 `;
 
 export const UserImage = styled.img`
@@ -21,11 +22,17 @@ export const UserDetails = styled.div`
 `;
 
 export const UserName = styled.p`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 1.4rem;
   font-weight: 500;
 `;
 
 export const UserId = styled.p`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 1.2rem;
   font-weight: 400;
   color: var(--main-grey);
