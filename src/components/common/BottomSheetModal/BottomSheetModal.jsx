@@ -16,9 +16,7 @@ const BottomSheetModal = ({ isOpen, children, onClose }) => {
       transitionStyle="slide"
       position="bottom"
     >
-      <S.BottomSheetContainer isOpen={isOpen}>
-        {children}
-      </S.BottomSheetContainer>
+      <S.BottomSheetContainer>{children}</S.BottomSheetContainer>
     </Modal>
   );
 };

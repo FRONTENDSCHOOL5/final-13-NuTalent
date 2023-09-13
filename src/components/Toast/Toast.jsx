@@ -13,7 +13,7 @@ const Toast = ({ isOpen, status = 'success', message }) => {
     isTransitionComplete &&
     createPortal(
       <S.ToastRoot>
-        <Transition isOpen={isOpen} transitionStyle="slide">
+        <Transition $isOpen={isOpen} transitionStyle="slide">
           <S.ToastContainer $status={status} $isOpen={isOpen}>
             <span>{message}</span>
           </S.ToastContainer>
