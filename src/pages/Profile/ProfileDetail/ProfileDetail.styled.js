@@ -13,7 +13,7 @@ export const Container = styled.div`
   line-height: 1.2;
   padding: 4.8rem 0;
   min-height: 100vh;
-
+  overflow: hidden;
   & > * {
     margin-bottom: 1rem;
     background-color: #fff;
@@ -70,6 +70,9 @@ export const UserName = styled.p`
 `;
 
 export const UserId = styled.p`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin-bottom: 1.6rem;
   font-size: 1.2rem;
   color: var(--main-grey);
@@ -77,6 +80,8 @@ export const UserId = styled.p`
 
 export const UserIntro = styled.p`
   margin-bottom: 2.4rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 1.4rem;
   color: var(--main-grey);
   padding: 0 10rem;

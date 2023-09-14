@@ -83,7 +83,7 @@ export default function AddProduct() {
         <TextActiveInput
           type="text"
           placeholder="2~15자 이내여야 합니다."
-          value={productName}
+          value={productName || ''}
           onChange={(e) => setProductName(e.target.value)}
           minLength={'2'}
           maxLength={'15'}
@@ -94,7 +94,7 @@ export default function AddProduct() {
         <TextActiveInput
           type="text"
           placeholder="숫자만 입력 가능합니다."
-          value={price}
+          value={price || ''}
           onChange={priceHandler}
         >
           가격
@@ -102,7 +102,7 @@ export default function AddProduct() {
         <TextActiveInput
           type="text"
           placeholder="URL을 입력해 주세요."
-          value={link}
+          value={link || ''}
           onChange={(e) => setLink(e.target.value)}
         >
           판매 링크

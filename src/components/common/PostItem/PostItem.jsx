@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { instance } from '../../../util/api/axiosInstance';
-
 import User from '../User/User';
 import Carousel from '../Carousel/Carousel';
+import likeImg from '../../../assets/img/icon-heart.svg';
+import ActiveLikeImg from '../../../assets/img/Active-icon-heart.svg';
 import { useAlert, useBottomSheet } from '../../../hooks/useModal';
+import { useReportPost } from '../../../hooks/react-query/usePost';
 import { recoilData } from '../../../recoil/atoms/dataState';
 import useTag from '../../../hooks/useTag';
 
 import * as S from './PostItem.styled';
+import { useDeleteLike, useLike } from '../../../hooks/react-query/useLike';
 
 export default function PostItem({
   userName,
@@ -17,6 +19,7 @@ export default function PostItem({
   userImg,
   postText,
   postImg,
+  postHearted,
   postLike,
   postDate,
   postMessage,
@@ -24,100 +27,15 @@ export default function PostItem({
   onDeletePost,
   postId,
 }) {
+  const currentUserData = useRecoilValue(recoilData);
+  const { reportPostMutate } = useReportPost(postId);
+  const { likeMutate } = useLike(postId);
+  const { deleteLikeMutate } = useDeleteLike(postId);
   const { openAlert } = useAlert();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
-  const token = useRecoilValue(recoilData).token;
   const { contentWithoutTag } = useTag();
-  const currentUserData = useRecoilValue(recoilData);
   const date = postDate.slice(0, 10).split('-');
-
-  const [isLiked, setIsLiked] = useState(postLike > 0);
-  const [likeCount, setLikeCount] = useState(postLike);
-
   const isMyPost = currentUserData.accountname === userId;
-
-  const onSubmitReportClick = async () => {
-    try {
-      await instance.post(
-        `/post/${postId}/report`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
-          },
-        },
-      );
-
-      alert(
-        `
-      사용자 이름: ${userName}
-      계정 내용: ${postText}
-  
-      신고가 완료되었습니다.`,
-      );
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
-
-  const updatePostData = async () => {
-    try {
-      const response = await instance.get(`/post/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
-        },
-      });
-      //서버로부터 받은 게시물 데이터에서 각 정보를 가져와 상태 업데이트
-      setIsLiked(response.data.post.hearted); //좋아요 상태
-      setLikeCount(response.data.post.heartCount); //좋아요 개수
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
-
-  // isLiked에 따라 좋아요 및 취소 기능 실행
-  const submitLike = async () => {
-    try {
-      if (isLiked) {
-        await instance.delete(`/post/${postId}/unheart`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/json',
-          },
-        });
-        // .then((response) => {
-        //   console.log(`좋아요 취소 성공`, response);
-        // });
-      } else {
-        await instance.post(
-          `/post/${postId}/heart`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-type': 'application/json',
-            },
-          },
-        );
-        // .then((response) => {
-        //   console.log(`좋아요 성공`, response);
-        // });
-      }
-
-      updatePostData(); // 좋아요, 취소 처리 후 게시물 데이터 업데이트를 위해 호출
-    } catch (error) {
-      console.error(error);
-      alert(`${error.response.data.message}`);
-    }
-  };
-
-  useEffect(() => {
-    updatePostData(); // 컴포넌트가 마운트될 때 게시물 데이터 업데이트
-  }, []);
 
   return (
     <>
@@ -137,8 +55,19 @@ export default function PostItem({
           </S.PostLink>
           {postImg && <Carousel images={postImg} />}
           <S.PostButtons>
-            <S.PostLike onClick={submitLike} isLiked={isLiked} />
-            <S.PostSpan>{likeCount}</S.PostSpan>
+            <S.PostLike
+              onClick={
+                postHearted
+                  ? () => deleteLikeMutate(postId)
+                  : () => likeMutate(postId)
+              }
+            >
+              <img
+                src={postHearted ? ActiveLikeImg : likeImg}
+                alt="좋아요 이미지"
+              />
+            </S.PostLike>
+            <S.PostSpan>{postLike}</S.PostSpan>
             <Link to={`/post/${postId}`} state={{ userId, user_id }}>
               <S.PostMessage />
               <S.PostSpan>{postMessage}</S.PostSpan>
@@ -174,7 +103,7 @@ export default function PostItem({
                     openAlert({
                       title: '게시글을 신고할까요?',
                       actionText: '신고',
-                      actionFunction: onSubmitReportClick,
+                      actionFunction: reportPostMutate,
                     });
                     closeBottomSheet();
                   }}

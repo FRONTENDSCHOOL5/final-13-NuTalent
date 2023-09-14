@@ -26,10 +26,8 @@ import * as S from './ProfileDetail.styled';
 export default function Profile() {
   const [view, setView] = useState('list');
   const { accountname } = useParams();
-
   const currentUserData = useRecoilValue(recoilData);
   const myAccountName = currentUserData.accountname;
-
   const { products } = useGetProducts(accountname);
   const { profile } = useGetProfile(accountname);
   const { posts, fetchNextPosts, hasNextPosts } = useGetInfinitePosts(
@@ -174,6 +172,7 @@ export default function Profile() {
                         postId={post.id}
                         postDate={post.createdAt}
                         postImg={post.image}
+                        postHearted={post.hearted}
                         postLike={post.heartCount}
                         postMessage={post.commentCount}
                         postText={post.content}
