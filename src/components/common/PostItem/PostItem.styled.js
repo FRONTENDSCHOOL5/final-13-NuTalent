@@ -2,8 +2,6 @@ import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import moreImg from '../../../assets/img/s-icon-more-vertical.svg';
-import likeImg from '../../../assets/img/icon-heart.svg';
-import ActiveLikeImg from '../../../assets/img/Active-icon-heart.svg';
 import messageImg from '../../../assets/img/icon-message-circle.svg';
 
 export const PostArticle = styled.article`
@@ -21,14 +19,7 @@ export const PostText = styled.p`
   line-height: 1.8rem;
   font-weight: 400;
   word-break: break-all;
-`;
-
-export const PostImage = styled.img`
-  display: block;
-  width: 100%;
-  aspect-ratio: 4/3;
-  margin-bottom: 1.2rem;
-  border-radius: 1rem;
+  white-space: pre-wrap;
 `;
 
 export const PostButtons = styled.div`
@@ -42,14 +33,7 @@ export const PostLike = styled.button`
   //기본 버튼 스타일
   width: 2rem;
   height: 2rem;
-  background: url(${likeImg}) no-repeat center / cover;
   cursor: pointer;
-
-  //활성화 버튼 스타일
-  //'&&' : false가 있으면 아무 값도 반환하지 않음, 둘 다 true면 뒤에 있는 값을 반환
-  ${(props) =>
-    props.isLiked &&
-    `background: url(${ActiveLikeImg}) no-repeat center / cover;`};
 `;
 
 export const PostMessage = styled(PostLike)`

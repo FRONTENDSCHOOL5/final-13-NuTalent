@@ -3,13 +3,9 @@ import React from 'react';
 import {
   IntroBtnBox,
   IntroWrapper,
-  IntroBtnKakao,
+  IntroBtnLogin,
   IntroLogoBox,
-  IntroBtnGoogle,
-  IntroBtnFacebook,
-  IntroLoginBox,
-  EmailLoginBtn,
-  JoinBtn,
+  IntroBtnSignUp,
 } from './intro.styled';
 
 export default function Intro() {
@@ -18,17 +14,12 @@ export default function Intro() {
       <IntroWrapper>
         <IntroLogoBox></IntroLogoBox>
         <IntroBtnBox>
-          <IntroBtnKakao color="#F2C94C">
-            카카오톡 계정으로 로그인
-          </IntroBtnKakao>
-          <IntroBtnGoogle color="#767676">구글 계정으로 로그인</IntroBtnGoogle>
-          <IntroBtnFacebook color="#2D9CDB">
-            페이스북 계정으로 로그인
-          </IntroBtnFacebook>
-          <IntroLoginBox>
-            <EmailLoginBtn to="/login">이메일로 로그인</EmailLoginBtn>
-            <JoinBtn to="/signUp">회원가입</JoinBtn>
-          </IntroLoginBox>
+          <IntroBtnLogin to="/login" color="#8232AC">
+            로그인
+          </IntroBtnLogin>
+          <IntroBtnSignUp to="/signUp" color="#8232AC">
+            회원가입
+          </IntroBtnSignUp>
         </IntroBtnBox>
       </IntroWrapper>
     </>

@@ -2,14 +2,16 @@ import { styled } from 'styled-components';
 import fileButton from '../../../assets/img/upload-file.svg';
 import xbtn from '../../../assets/img/x.svg';
 
-export const Section = styled.section`
-  width: 100%;
-  min-height: calc(100vh - 4.8rem);
-  position: relative;
+export const TagBarContainer = styled.div`
   margin-top: 4.8rem;
-  padding: 3.2rem 1.6rem 2rem 7rem;
 `;
 
+export const Section = styled.section`
+  width: 100%;
+  min-height: calc(100vh - 8.8rem);
+  position: relative;
+  padding: 3.2rem 1.6rem 2rem 7rem;
+`;
 export const ProfileImg = styled.img`
   width: 4.2rem;
   height: 4.2rem;
@@ -42,6 +44,7 @@ export const PostImage = styled.img`
   aspect-ratio: 4/3;
   margin-bottom: 1.2rem;
   border-radius: 1rem;
+  object-fit: contain;
 `;
 
 export const FileLabel = styled.label`
