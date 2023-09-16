@@ -169,16 +169,7 @@ export default function Profile() {
                   return view === 'list' ? (
                     <li key={post.id}>
                       <PostItem
-                        postId={post.id}
-                        postDate={post.createdAt}
-                        postImg={post.image}
-                        postHearted={post.hearted}
-                        postLike={post.heartCount}
-                        postMessage={post.commentCount}
-                        postText={post.content}
-                        userId={post.author.accountname}
-                        userImg={profile.image}
-                        userName={post.author.username}
+                        postData={post}
                         onDeletePost={() => deletePostMutate(post.id)}
                       />
                     </li>

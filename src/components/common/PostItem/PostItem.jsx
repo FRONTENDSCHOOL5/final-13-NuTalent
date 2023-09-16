@@ -13,64 +13,49 @@ import useTag from '../../../hooks/useTag';
 import * as S from './PostItem.styled';
 import { useDeleteLike, useLike } from '../../../hooks/react-query/useLike';
 
-export default function PostItem({
-  userName,
-  userId,
-  userImg,
-  postText,
-  postImg,
-  postHearted,
-  postLike,
-  postDate,
-  postMessage,
-  user_id,
-  onDeletePost,
-  postId,
-}) {
+export default function PostItem({ postData, onDeletePost }) {
   const currentUserData = useRecoilValue(recoilData);
-  const { reportPostMutate } = useReportPost(postId);
-  const { likeMutate } = useLike(postId);
-  const { deleteLikeMutate } = useDeleteLike(postId);
+  const { reportPostMutate } = useReportPost(postData.id);
+  const { likeMutate } = useLike();
+  const { deleteLikeMutate } = useDeleteLike();
   const { openAlert } = useAlert();
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { contentWithoutTag } = useTag();
-  const date = postDate.slice(0, 10).split('-');
-  const isMyPost = currentUserData.accountname === userId;
+  const date = postData.createdAt.slice(0, 10).split('-');
+  const isMyPost = currentUserData.accountname === postData.author.accountname;
 
   return (
     <>
       <S.PostArticle>
         <User
           size="small"
-          userName={userName}
-          userId={userId}
-          userImg={userImg}
-          to={`/profile/${userId}`}
-          state={{ userId, user_id }}
-          user_id={user_id}
+          userName={postData.author.username}
+          userAccountname={postData.author.accountname}
+          userImg={postData.author.image}
+          to={`/profile/${postData.author.accountname}`}
         />
         <S.PostContainer>
-          <S.PostLink to={`/post/${postId}`} state={{ userId, user_id }}>
-            <S.PostText>{contentWithoutTag(postText)}</S.PostText>
+          <S.PostLink to={`/post/${postData.id}`}>
+            <S.PostText>{contentWithoutTag(postData.content)}</S.PostText>
           </S.PostLink>
-          {postImg && <Carousel images={postImg} />}
+          {postData.image && <Carousel images={postData.image} />}
           <S.PostButtons>
             <S.PostLike
               onClick={
-                postHearted
-                  ? () => deleteLikeMutate(postId)
-                  : () => likeMutate(postId)
+                postData.hearted
+                  ? () => deleteLikeMutate(postData.id)
+                  : () => likeMutate(postData.id)
               }
             >
               <img
-                src={postHearted ? ActiveLikeImg : likeImg}
+                src={postData.hearted ? ActiveLikeImg : likeImg}
                 alt="좋아요 이미지"
               />
             </S.PostLike>
-            <S.PostSpan>{postLike}</S.PostSpan>
-            <Link to={`/post/${postId}`} state={{ userId, user_id }}>
+            <S.PostSpan>{postData.heartCount}</S.PostSpan>
+            <Link to={`/post/${postData.id}`}>
               <S.PostMessage />
-              <S.PostSpan>{postMessage}</S.PostSpan>
+              <S.PostSpan>{postData.commentCount}</S.PostSpan>
             </Link>
           </S.PostButtons>
           <S.PostDate>{`${date[0]}년 ${date[1]}월 ${date[2]}일`}</S.PostDate>
@@ -92,7 +77,10 @@ export default function PostItem({
                   >
                     삭제
                   </button>
-                  <Link onClick={closeBottomSheet} to={`/post/edit/${postId}`}>
+                  <Link
+                    onClick={closeBottomSheet}
+                    to={`/post/edit/${postData.id}`}
+                  >
                     수정
                   </Link>
                 </>

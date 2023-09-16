@@ -6,15 +6,14 @@ import handleImageError from '../../../util/handleImageError';
 export default function User({
   size,
   userName,
-  userId,
+  userAccountname,
   userImg,
   type,
   to,
-  state,
 }) {
   return (
     <S.UserStyled>
-      <Link style={{ gap: '1.2rem' }} to={to} state={state}>
+      <Link style={{ gap: '1.2rem' }} to={to}>
         <S.UserImage
           size={size}
           src={userImg}
@@ -23,7 +22,7 @@ export default function User({
         />
         <S.UserDetails>
           <S.UserName>{userName}</S.UserName>
-          <S.UserId>@ {userId}</S.UserId>
+          <S.UserId>@ {userAccountname}</S.UserId>
         </S.UserDetails>
       </Link>
       {type === 'follow' && <button>팔로우</button>}

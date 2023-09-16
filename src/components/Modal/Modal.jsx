@@ -40,7 +40,7 @@ export default function Modal({
           $hasBackdrop={hasBackdrop}
         />
         <S.ModalContainer $position={position}>
-          <Transition isOpen={isOpen} transitionStyle={transitionStyle}>
+          <Transition $isOpen={isOpen} transitionStyle={transitionStyle}>
             {children}
           </Transition>
         </S.ModalContainer>

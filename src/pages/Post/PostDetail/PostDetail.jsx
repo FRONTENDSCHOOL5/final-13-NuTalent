@@ -59,17 +59,7 @@ export default function PostDetail() {
         <>
           <PostItemWrapper>
             <PostItem
-              postDate={post.createdAt}
-              postImg={post.image}
-              postHearted={post.hearted}
-              postLike={post.heartCount}
-              postMessage={post.commentCount}
-              postText={post.content}
-              postId={post.id}
-              userId={post.author.accountname}
-              user_id={post.author.id}
-              userImg={post.author.image}
-              userName={post.author.username}
+              postData={post}
               isLink={false}
               onDeletePost={() => {
                 deletePostMutate(post.id);
