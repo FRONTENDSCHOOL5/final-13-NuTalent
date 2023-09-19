@@ -4,6 +4,8 @@ import { useMutation } from '@tanstack/react-query';
 import { instance } from '../../util/api/axiosInstance';
 import imageValidation from '../../util/validation/imageValidation';
 
+import { handleImageUpload } from '../../util/imageCompression';
+
 const uploadImage = async (imageFile) => {
   const formData = new FormData();
   formData.append('image', imageFile);
@@ -22,9 +24,10 @@ export const useUploadImage = () => {
     onSuccess: (uploadedImage) => setImage(uploadedImage),
   });
 
-  const handleImageChange = useCallback((e) => {
-    const file = e.target.files[0];
-
+  const handleImageChange = useCallback(async (e) => {
+    const file = await handleImageUpload(e);
+    // const file = e.target.files[0];
+ 
     if (!file) return;
     if (!imageValidation(file)) return;
 
