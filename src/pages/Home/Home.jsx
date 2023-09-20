@@ -1,41 +1,33 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 
 import TopNav from '../../components/common/Top/TopNav';
-import PostItem from '../../components/common/PostItem/PostItem';
 import TabMenu from '../../components/common/Tabmenu/TabMenu';
 import StyledBtn from '../../components/common/Button/Button';
 import TagBar from '../../components/common/TagBar/TagBar';
+import PostList from '../../components/PostList/PostList';
 
 import NoFollowerImg from '../../assets/img/smile.svg';
-import useScrollBottom from '../../hooks/useScrollBottom';
 import useTag from '../../hooks/useTag';
 import { recoilData } from '../../recoil/atoms/dataState';
 import { useGetInfinitePosts } from '../../hooks/react-query/usePost';
 
-import {
-  Container,
-  ContainerUl,
-  ContainerLi,
-  NoFollowerWrap,
-} from './Home.styled';
+import { Container, NoFollowerWrap } from './Home.styled';
 
 export default function Home() {
   const currentUserData = useRecoilValue(recoilData);
   const accountname = currentUserData.accountname;
   const { tagList, selectedTag, selectTag, checkTagInContent } = useTag();
-  const { posts, fetchNextPosts, hasNextPosts } = useGetInfinitePosts(
-    accountname,
-    'feed',
-  );
+  const { posts, fetchNextPosts } = useGetInfinitePosts(accountname, 'feed');
 
-  const isBottom = useScrollBottom();
-
-  useEffect(() => {
-    if (isBottom && hasNextPosts) {
-      fetchNextPosts();
-    }
-  }, [isBottom]);
+  const filteredPosts = posts?.pages?.map((post) => {
+    return post.filter((post) => {
+      if (selectedTag === null) {
+        return true;
+      }
+      return checkTagInContent(post.content, selectedTag);
+    });
+  });
 
   return (
     <>
@@ -54,24 +46,11 @@ export default function Home() {
         ) : (
           <>
             {posts?.pages?.length > 0 ? (
-              <ContainerUl>
-                {posts.pages.map((postData) => {
-                  return postData
-                    .filter((post) => {
-                      if (selectedTag === null) {
-                        return true;
-                      }
-                      return checkTagInContent(post.content, selectedTag);
-                    })
-                    .map((post) => {
-                      return (
-                        <ContainerLi key={post.id}>
-                          {<PostItem postData={post} isLink={true} />}
-                        </ContainerLi>
-                      );
-                    });
-                })}
-              </ContainerUl>
+              <PostList
+                posts={filteredPosts}
+                fetchNextPosts={fetchNextPosts}
+                deletePost={() => {}}
+              />
             ) : (
               <NoFollowerWrap>
                 <img src={NoFollowerImg} alt="팔로워가 없습니다 이미지" />

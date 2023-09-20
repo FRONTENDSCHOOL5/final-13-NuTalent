@@ -6,16 +6,6 @@ const Container = styled.div`
   line-height: 1.2;
 `;
 
-const ContainerUl = styled.ul`
-  min-width: 32rem;
-  max-width: 64rem;
-  margin: 0 auto;
-  padding: 2rem 1.6rem;
-`;
-const ContainerLi = styled.li`
-  list-style: none;
-  margin-bottom: 2.4rem;
-`;
 const NoFollowerWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,4 +22,4 @@ const NoFollowerWrap = styled.div`
     color: #767676;
   }
 `;
-export { Container, ContainerUl, ContainerLi, NoFollowerWrap };
+export { Container, NoFollowerWrap };
