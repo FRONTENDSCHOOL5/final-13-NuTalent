@@ -80,6 +80,7 @@ export const useDeleteComment = (id) => {
   const { mutate: deleteCommentMutate } = useMutation({
     mutationFn: (commentId) => deleteComment(id, commentId),
     onSuccess: (_, commentId) => {
+      queryClient.invalidateQueries(['post', id]);
       queryClient.setQueryData(['comments', id], (oldData) => {
         const oldPages = oldData.pages;
         const newPages = oldPages.map((page) =>

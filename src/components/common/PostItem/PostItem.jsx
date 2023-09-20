@@ -15,6 +15,7 @@ import { useDeleteLike, useLike } from '../../../hooks/react-query/useLike';
 
 export default function PostItem({ postData, onDeletePost }) {
   const currentUserData = useRecoilValue(recoilData);
+  console.log(postData);
   const { reportPostMutate } = useReportPost(postData.id);
   const { likeMutate } = useLike();
   const { deleteLikeMutate } = useDeleteLike();
