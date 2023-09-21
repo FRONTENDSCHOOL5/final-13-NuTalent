@@ -4,6 +4,8 @@
  * @returns {boolean} - 파일의 크기가 10MB이하, 이미지면 'true', 아니면 'false'를 반환
  */
 export default function imageValidation(image) {
+
+  // console.log(image, 121212)
   if (image.size > 10 * 1024 * 1024) {
     alert('10MB를 초과하는 이미지는 업로드 할 수 없습니다.');
     return false;
