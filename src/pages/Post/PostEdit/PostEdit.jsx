@@ -34,12 +34,12 @@ export default function PostEdit() {
   } = useTag();
 
   useEffect(() => {
-    if (post.image) {
-      setImages(post.image);
-    }
-    if (post.content) {
+    if (post?.content) {
       setContent(contentWithoutTag(post.content));
       selectTag(getTagInContent(post.content));
+    }
+    if (post?.image) {
+      setImages(post.image.split(','));
     }
   }, [post]);
 
